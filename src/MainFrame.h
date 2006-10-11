@@ -39,6 +39,7 @@ public:
 	void OnAbout(wxCommandEvent& event);
 	void OnNewGame (wxCommandEvent& event);
 	void OnShowHighscore (wxCommandEvent& event);
+	void OnSettings (wxCommandEvent& event);
 
 	void OnRollButton (wxCommandEvent& event);
 	void OnUpperButtons (wxCommandEvent& event);

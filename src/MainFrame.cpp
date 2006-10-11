@@ -30,7 +30,9 @@
 #include "MainFrame.h"
 #include "ObjectsID.h"
 #include "HighScoreDialog.h"
+#include "SettingsDialog.h"
 #include <iostream>
+#include <cstdlib>
 
 //include the images for the dice
 #include "one.xpm"
@@ -71,7 +73,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 
 	//insert menu items into menu File
 	gameMenu->Append(ID_NEWGAME,wxT("&New Game\tF2"),wxT("Start a new game"));
-	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show highscores table"));
+	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
+	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
 	gameMenu->Append(wxID_EXIT, wxT("E&xit\tAlt-X"),
 			wxT("Quit this program"));
 
@@ -185,7 +188,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnAbout));
 	Connect(ID_NEWGAME, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
-	
+	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
 	Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
 
 	for (int i=ID_ACES; i<=ID_SIXES; i++)
@@ -244,6 +247,19 @@ void MainFrame::OnShowHighscore(wxCommandEvent& event)
 {
 	HighScoreDialog *dialog = new HighScoreDialog(this,wxID_ANY,m_highscoredb);
 	dialog->ShowModal();
+}
+
+void MainFrame::OnSettings( wxCommandEvent& event)
+{
+	SettingsDialog *dialog = new SettingsDialog(this,wxID_ANY);
+	SettingsDialogData data;
+	
+	data.highscoresize = atoi((m_settingsdb->GetKey("highscoresize")).c_str());
+	
+	//dialog->SetData(data);
+	if(dialog->ShowModal()==wxID_OK) { //user saved Changes
+		//dialog->GetData();
+	}
 }
 
 void MainFrame::OnRollButton (wxCommandEvent& event)

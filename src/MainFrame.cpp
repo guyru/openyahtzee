@@ -32,6 +32,7 @@
 #include "HighScoreDialog.h"
 #include "SettingsDialog.h"
 #include <iostream>
+#include <sstream>
 #include <cstdlib>
 
 //include the images for the dice
@@ -48,7 +49,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 {
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
-	m_highscoredb->SetSize( 20 );
+	int highscoresize = atoi((m_settingsdb->GetKey("highscoresize")).c_str());
+	m_highscoredb->SetSize( (highscoresize>0)?highscoresize:20 );
 
 	bitmap_dices[0] = new wxBitmap(one_xpm);
 	bitmap_dices[1] = new wxBitmap(two_xpm);
@@ -253,12 +255,21 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 {
 	SettingsDialog *dialog = new SettingsDialog(this,wxID_ANY);
 	SettingsDialogData data;
+	std::ostringstream sstr;
 	
 	data.highscoresize = atoi((m_settingsdb->GetKey("highscoresize")).c_str());
 	
-	//dialog->SetData(data);
+	dialog->SetData(data);
 	if(dialog->ShowModal()==wxID_OK) { //user saved Changes
-		//dialog->GetData();
+		data = dialog->GetData();
+
+		if(data.reset)
+			m_highscoredb->SetSize(0);
+		
+		sstr<<data.highscoresize<<std::flush;
+		m_settingsdb->SetKey("highscoresize",sstr.str());
+				
+		m_highscoredb->SetSize(data.highscoresize);
 	}
 }
 

@@ -22,6 +22,7 @@
 //this file was originally base on the output of wxGlades but i had to make many changes - Guy
 
 #include "SettingsDialog.h"
+#include "MainFrame.h"
 
 
 SettingsDialog::SettingsDialog(wxWindow* parent, int id):
@@ -30,16 +31,18 @@ SettingsDialog::SettingsDialog(wxWindow* parent, int id):
     // begin wxGlade: SettingsDialog::SettingsDialog
     label_1 = new wxStaticText(this, -1, wxT("High-score table size:"));
     spin_ctrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,0,1024,20);
-    button_3 = new wxButton(this, ID_RESETHIGHSCORE, wxT("reset high-score table"));
+    button_3 = new wxToggleButton(this, ID_RESETHIGHSCORE, wxT("reset high-score table"));
     button_1 = new wxButton(this, wxID_OK);
     button_2 = new wxButton(this, wxID_CANCEL);
 
     set_properties();
     do_layout();
     // end wxGlade
-	ConnectEventTable();
 }
 
+BEGIN_EVENT_TABLE( SettingsDialog, wxDialog)
+	EVT_TOGGLEBUTTON(ID_RESETHIGHSCORE, SettingsDialog::OnResetHighScore)
+END_EVENT_TABLE();
 
 void SettingsDialog::set_properties()
 {
@@ -71,13 +74,28 @@ void SettingsDialog::do_layout()
     // end wxGlade
 }
 
-void SettingsDialog::ConnectEventTable()
-{
-	Connect(ID_RESETHIGHSCORE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (SettingsDialog::OnResetHighScore));
-	
-}
 
 void SettingsDialog::OnResetHighScore(wxCommandEvent& event)
 {
+	if(!button_3->GetValue()){
+		button_3->SetValue(0);
+		return;
+	}
+	
+	int answer = wxMessageBox(wxT("Are you sure you want to reset the high-score table? After reseting the high score table, you won't be able to restore it!\nThe new high-score table size will be as specified in this dialog."),wxT("High-score table reset"),wxYES_NO|wxICON_EXCLAMATION);
 
+	if(answer==wxNO)
+		button_3->SetValue(0);
+}
+
+void SettingsDialog::SetData(SettingsDialogData data)
+{
+	spin_ctrl->SetValue(data.highscoresize);
+}
+
+SettingsDialogData SettingsDialog::GetData()
+{
+	SettingsDialogData data;
+	data.highscoresize = spin_ctrl->GetValue();
+	return data;
 }

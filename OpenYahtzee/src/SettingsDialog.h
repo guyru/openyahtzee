@@ -25,6 +25,7 @@
 // begin wxGlade: ::dependencies
 // end wxGlade
 #include <wx/spinctrl.h>
+#include <wx/tglbtn.h>
 #include "ObjectsID.h"
 
 
@@ -33,6 +34,7 @@
 
 struct SettingsDialogData {
 	int highscoresize;
+	bool reset;
 };
 
 class SettingsDialog: public wxDialog {
@@ -52,15 +54,20 @@ private:
     void do_layout();
     // end wxGlade
 	void ConnectEventTable();
+	
+
 
 protected:
     // begin wxGlade: SettingsDialog::attributes
     wxStaticText* label_1;
     wxSpinCtrl* spin_ctrl;
-    wxButton* button_3;
+    wxToggleButton* button_3; //the reset button
     wxButton* button_1;
     wxButton* button_2;
+
+	DECLARE_EVENT_TABLE();
     // end wxGlade
+	
 }; // wxGlade: end class
 
 

@@ -44,6 +44,7 @@
 #include "five.xpm"
 #include "six.xpm"
 
+#define SPACE_SIZE 1
 
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
@@ -106,46 +107,46 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	wxFlexGridSizer* lowergrid = new wxFlexGridSizer(9, 2, 0, 0);
 
 	
-	uppergrid->Add(new wxButton(panel,ID_ACES,wxT("Aces")),0,wxALL,3);
-	uppergrid->Add(new wxTextCtrl(panel, ID_ACESTEXT),1,wxALL,3);
-	uppergrid->Add(new wxButton(panel,ID_TWOS,wxT("Twos")),0,wxALL,3);
-	uppergrid->Add(new wxTextCtrl(panel, ID_TWOSTEXT),1,wxALL,3);
-	uppergrid->Add(new wxButton(panel,ID_THREES,wxT("Threes")),0,wxALL,3);
-	uppergrid->Add(new wxTextCtrl(panel, ID_THREESTEXT),1,wxALL,3);
-	uppergrid->Add(new wxButton(panel,ID_FOURS,wxT("Fours")),0,wxALL,3);
-	uppergrid->Add(new wxTextCtrl(panel, ID_FOURSTEXT),1,wxALL,3);
-	uppergrid->Add(new wxButton(panel,ID_FIVES,wxT("Fives")),0,wxALL,3);
-	uppergrid->Add(new wxTextCtrl(panel, ID_FIVESTEXT),1,wxALL,3);
-	uppergrid->Add(new wxButton(panel,ID_SIXES,wxT("Sixes")),0,wxALL,3);
-	uppergrid->Add(new wxTextCtrl(panel, ID_SIXESTEXT),1,wxALL,3);
-	uppergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Total score:")),0,wxALL,3);
-	uppergrid->Add(new wxTextCtrl(panel, ID_UPPERSECTIONTOTAL),1,wxALL,3);
-	uppergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Bonus:")),0,wxALL,3);
-	uppergrid->Add(new wxTextCtrl(panel, ID_BONUS),1,wxALL,3);
-	uppergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Total of upper section:")),0,wxALL,3);
-	uppergrid->Add(new wxTextCtrl(panel, ID_UPPERTOTAL),1,wxALL,3);
+	uppergrid->Add(new wxButton(panel,ID_ACES,wxT("Aces")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxTextCtrl(panel, ID_ACESTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxButton(panel,ID_TWOS,wxT("Twos")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxTextCtrl(panel, ID_TWOSTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxButton(panel,ID_THREES,wxT("Threes")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxTextCtrl(panel, ID_THREESTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxButton(panel,ID_FOURS,wxT("Fours")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxTextCtrl(panel, ID_FOURSTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxButton(panel,ID_FIVES,wxT("Fives")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxTextCtrl(panel, ID_FIVESTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxButton(panel,ID_SIXES,wxT("Sixes")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxTextCtrl(panel, ID_SIXESTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Total score:")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxTextCtrl(panel, ID_UPPERSECTIONTOTAL),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Bonus:")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxTextCtrl(panel, ID_BONUS),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Total of upper section:")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxTextCtrl(panel, ID_UPPERTOTAL),1,wxALL,SPACE_SIZE);
 
 
-	lowergrid->Add(new wxButton(panel,ID_THREEOFAKIND,wxT("3 of a kind")),0,wxALL,3);
-	lowergrid->Add(new wxTextCtrl(panel, ID_THREEOFAKINDTEXT),1,wxALL,3);
-	lowergrid->Add(new wxButton(panel,ID_FOUROFAKIND,wxT("4 of a kind")),0,wxALL,3);
-	lowergrid->Add(new wxTextCtrl(panel, ID_FOUROFAKINDTEXT),1,wxALL,3);
-	lowergrid->Add(new wxButton(panel,ID_FULLHOUSE,wxT("Full House")),0,wxALL,3);
-	lowergrid->Add(new wxTextCtrl(panel, ID_FULLHOUSETEXT),1,wxALL,3);
-	lowergrid->Add(new wxButton(panel,ID_SMALLSEQUENCE,wxT("Sequence of 4")),0,wxALL,3);
-	lowergrid->Add(new wxTextCtrl(panel, ID_SMALLSEQUENCETEXT),1,wxALL,3);
-	lowergrid->Add(new wxButton(panel,ID_LARGESEQUENCE,wxT("Sequence of 5")),0,wxALL,3);
-	lowergrid->Add(new wxTextCtrl(panel, ID_LARGESEQUENCETEXT),1,wxALL,3);
-	lowergrid->Add(new wxButton(panel,ID_YAHTZEE,wxT("Yahtzee")),0,wxALL,3);
-	lowergrid->Add(new wxTextCtrl(panel, ID_YAHTZEETEXT),1,wxALL,3);
-	lowergrid->Add(new wxButton(panel,ID_CHANCE,wxT("Chance")),0,wxALL,3);
-	lowergrid->Add(new wxTextCtrl(panel, ID_CHANCETEXT),1,wxALL,3);
-	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Yahtzee Bonus")),0,wxALL,3);
+	lowergrid->Add(new wxButton(panel,ID_THREEOFAKIND,wxT("3 of a kind")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(panel, ID_THREEOFAKINDTEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(panel,ID_FOUROFAKIND,wxT("4 of a kind")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(panel, ID_FOUROFAKINDTEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(panel,ID_FULLHOUSE,wxT("Full House")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(panel, ID_FULLHOUSETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(panel,ID_SMALLSEQUENCE,wxT("Sequence of 4")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(panel, ID_SMALLSEQUENCETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(panel,ID_LARGESEQUENCE,wxT("Sequence of 5")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(panel, ID_LARGESEQUENCETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(panel,ID_YAHTZEE,wxT("Yahtzee")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(panel, ID_YAHTZEETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(panel,ID_CHANCE,wxT("Chance")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(panel, ID_CHANCETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Yahtzee Bonus")),0,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxTextCtrl(panel, ID_YAHTZEEBONUSTEXT),1,wxALL,3);
-	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Total of lower section:")),0,wxALL,3);
-	lowergrid->Add(new wxTextCtrl(panel, ID_LOWERTOTAL),1,wxALL,3);
-	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Grand Total:")),0,wxALL,3);
-	lowergrid->Add(new wxTextCtrl(panel, ID_GRANDTOTAL),1,wxALL,3);
+	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Total of lower section:")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(panel, ID_LOWERTOTAL),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Grand Total:")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(panel, ID_GRANDTOTAL),1,wxALL,SPACE_SIZE);
 
 	uppersection->Add(uppergrid);
 	lowersection->Add(lowergrid);

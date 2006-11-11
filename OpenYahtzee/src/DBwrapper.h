@@ -1,3 +1,4 @@
+// $Header$
 /***************************************************************************
  *   Copyright (C) 2006 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *

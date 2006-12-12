@@ -1,7 +1,7 @@
 // $Header$
 /***************************************************************************
  *   Copyright (C) 2006 by Guy Rutenberg   *
- *   guy@Guy_Computer   *
+ *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -120,8 +120,8 @@ int HighScoreTableDB::SendHighScore(std::string name, std::string date, int scor
 	int place;
 	std::ostringstream sstr;
 	
-	std::string tmp_date, tmpswap_date, tmp_name,tmpswap_name;
-	int tmp_score, tmpswap_score;
+	std::string tmp_date, tmpswap_date="", tmp_name,tmpswap_name="";
+	int tmp_score, tmpswap_score=0;
 
 	place = IsHighScore(score);
 	if(!place) //the score doesn't qualify
@@ -133,7 +133,7 @@ int HighScoreTableDB::SendHighScore(std::string name, std::string date, int scor
 
 		
 	//first move all the rows starting at 'place' one row down
-	for (int i = place;i<m_size;i++){
+	for (int i = place; i <= m_size ; i++){
 		sstr.str("");
 		//Get the current score and details of the row and then move them one row below;
 		tmp_query="SELECT name,date,score FROM highscore WHERE place=";
@@ -142,8 +142,8 @@ int HighScoreTableDB::SendHighScore(std::string name, std::string date, int scor
 		result = Query(tmp_query);
 		p = result.begin();
 		tmp_name=*(p);
-		tmp_date=*(p++);
-		tmp_score= atoi((p++)->c_str());
+		tmp_date=*(++p);
+		tmp_score= atoi((++p)->c_str());
 
 		sstr.str("");
 		tmp_query="REPLACE INTO highscore (place,name,date,score) VALUES(";
@@ -157,27 +157,10 @@ int HighScoreTableDB::SendHighScore(std::string name, std::string date, int scor
 		tmp_query += sstr.str()+")"; 
 		result = Query(tmp_query);
 
-		sstr.str("");
-		tmp_query="SELECT name,date,score FROM highscore WHERE place=";
-		sstr<<i+1<<flush; //make sure the number realiy gets into the stream
-		tmp_query += sstr.str(); 
-		result = Query(tmp_query);
-		p = result.begin();
-		tmpswap_name=*(p);
-		tmpswap_date=*(p++);
-		tmpswap_score= atoi((p++)->c_str());
-
-		sstr.str("");
-		tmp_query="REPLACE INTO highscore (place,name,date,score) VALUES(";
-		sstr<<i+1<<flush; //make sure the number realiy gets into the stream
-		tmp_query += sstr.str(); 
-		tmp_query += ",";
-		tmp_query +="\""+tmp_name+"\"" +", " + "\""+tmp_date+"\"" + ", ";
-		
-		sstr.str("");
-		sstr<<tmp_score<<flush; //make sure the number realiy gets into the stream
-		tmp_query += sstr.str()+")"; 
-		result = Query(tmp_query);
+		//pass the info to the next item
+		tmpswap_score = tmp_score;
+		tmpswap_name = tmp_name;
+		tmpswap_date = tmp_date;
 	}
 	//now replace the row at 'place'
 	sstr.str("");

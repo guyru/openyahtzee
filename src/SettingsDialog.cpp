@@ -98,5 +98,6 @@ SettingsDialogData SettingsDialog::GetData()
 {
 	SettingsDialogData data;
 	data.highscoresize = spin_ctrl->GetValue();
+	data.reset = button_3->GetValue();
 	return data;
 }

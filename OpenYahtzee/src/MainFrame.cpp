@@ -80,7 +80,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	//insert menu items into menu File
 	gameMenu->Append(ID_NEWGAME,wxT("&New Game\tF2"),wxT("Start a new game"));
 	//create the undo button and make it disabled
-	(gameMenu->Append(ID_UNDO,wxT("&Undo"),wxT("Undo the last move")))->Enable(false);
+	gameMenu->Append(ID_UNDO,wxT("&Undo"),wxT("Undo the last move"));
 	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
 	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
 	gameMenu->Append(wxID_EXIT, wxT("E&xit\tAlt-X"),
@@ -182,6 +182,10 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 		textctrl = (wxTextCtrl*) FindWindow(i);
 		textctrl->SetEditable(false);
 	}
+	
+	//disable the undo button
+	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
+
 
 	
 
@@ -253,24 +257,30 @@ void MainFrame::OnNewGame(wxCommandEvent& event)
 ///This function handles the undo events
 void MainFrame::OnUndo(wxCommandEvent& event)
 {
-	std::cout<<"in undo"<<std::endl;
 	m_rolls = m_rollsundo;
 
-	//enable the roll button if neccessary
-	if (m_rolls > 0) //we still have remaining rolls 
-		((wxButton*) FindWindow(ID_ROLL)) -> Enable(true);
+	//after the user scored the button was enabled, check if it should be disabled
+	if (m_rolls <= 0) //we don't have remaining rolls 
+		((wxButton*) FindWindow(ID_ROLL)) -> Enable(false);
 
+	//restore the 'keep' checkboxes
+	for (int i=0; i<5; i++)
+		((wxCheckBox*) FindWindow(i + ID_DICE1KEEP)) -> Enable(true);
+	
 	//reset the users last choice
 	FindWindow(m_lastmove)->Enable(true);
+
 	//clear the score;
 	((wxTextCtrl*)FindWindow(ID_ACESTEXT + (m_lastmove - ID_ACES)))->SetValue(wxT(""));
-	FindWindow(ID_UNDO)->Enable(false);
-	m_numofplaysleft--;
+
+	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
+	//cancel the counting for the choice that was canceled
+	m_numofplaysleft++;
 }
 ///This function enables the undo button and stores the last move
 inline void MainFrame::EnableUndo(int id)
 {
-		FindWindow(ID_UNDO)->Enable(true);
+		(GetMenuBar()->FindItem(ID_UNDO))->Enable(true);
 		m_lastmove = id;
 }
 
@@ -327,6 +337,9 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	//enable the keep checkboxes
 	for (int i=0; i<5; i++)
 		((wxCheckBox*) FindWindow(i + ID_DICE1KEEP)) -> Enable(true);
+	
+	//we rolled the dices so undoing isn't allowed
+	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
 
 }
 
@@ -346,6 +359,7 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 		//and disable the button
 		FindWindow(event.GetId())->Enable(false);
 		m_numofplaysleft--;
+		EnableUndo(event.GetId());
 		EndofGame();
 	}
 	else 
@@ -381,6 +395,7 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 	//and disable the button
 	FindWindow(event.GetId())->Enable(false);
 	m_numofplaysleft--;
+	EnableUndo(event.GetId());
 	EndofGame();
 }
 
@@ -413,6 +428,7 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 	//and disable the button
 	FindWindow(event.GetId())->Enable(false);
 	m_numofplaysleft--;
+	EnableUndo(event.GetId());
 	EndofGame();
 }
 
@@ -443,6 +459,7 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 	//and disable the button
 	FindWindow(event.GetId())->Enable(false);
 	m_numofplaysleft--;
+	EnableUndo(event.GetId());
 	EndofGame();
 }
 
@@ -470,6 +487,7 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 	//and disable the button
 	FindWindow(event.GetId())->Enable(false);
 	m_numofplaysleft--;
+	EnableUndo(event.GetId());
 	EndofGame();
 }
 
@@ -496,6 +514,7 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 	//and disable the button
 	FindWindow(event.GetId())->Enable(false);
 	m_numofplaysleft--;
+	EnableUndo(event.GetId());
 	EndofGame();
 }
 
@@ -515,6 +534,7 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 	FindWindow(event.GetId())->Enable(false);
 	m_numofplaysleft--;
 	ResetRolls();
+	EnableUndo(event.GetId());
 	EndofGame();
 }
 
@@ -535,6 +555,7 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 		//and disable the button
 		FindWindow(event.GetId())->Enable(false);
 		m_numofplaysleft--;
+		EnableUndo(event.GetId());
 		EndofGame();
 	}
 	else 

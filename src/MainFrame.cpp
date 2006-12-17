@@ -72,22 +72,23 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	wxMenu *gameMenu = new wxMenu;	//create File menu
 	wxMenu *helpMenu = new wxMenu;	//create Help menu
 	
+	
 	//insert menu items into menu Help
 	helpMenu->Append(wxID_ABOUT, wxT("&About...\tF1"),
 			wxT("Show about dialog"));
 
 	//insert menu items into menu File
 	gameMenu->Append(ID_NEWGAME,wxT("&New Game\tF2"),wxT("Start a new game"));
+	//create the undo button and make it disabled
+	(gameMenu->Append(ID_UNDO,wxT("&Undo"),wxT("Undo the last move")))->Enable(false);
 	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
 	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
 	gameMenu->Append(wxID_EXIT, wxT("E&xit\tAlt-X"),
 			wxT("Quit this program"));
-
 	
 	// Declare the menu-bar and append the freshly created menus to the menu bar...
 	wxMenuBar *menuBar = new wxMenuBar();
 	menuBar->Append(gameMenu, wxT("&Game"));
-	
 	menuBar->Append(helpMenu, wxT("&Help"));
 	
 	// ... and attach this menu bar to the frame
@@ -192,6 +193,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnQuit));
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnAbout));
 	Connect(ID_NEWGAME, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
+	Connect(ID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
 	Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
@@ -212,8 +214,6 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	ClearDiceHash();
 	m_yahtzee = false;
 	m_numofplaysleft = 13;
-
-
 
  }
 
@@ -248,6 +248,30 @@ void MainFrame::OnNewGame(wxCommandEvent& event)
 		((wxTextCtrl*) FindWindow(i))->Clear();
 	for (int i = ID_ACES; i<= ID_CHANCE; i++)
 		((wxButton*) FindWindow(i))->Enable(true);
+}
+
+///This function handles the undo events
+void MainFrame::OnUndo(wxCommandEvent& event)
+{
+	std::cout<<"in undo"<<std::endl;
+	m_rolls = m_rollsundo;
+
+	//enable the roll button if neccessary
+	if (m_rolls > 0) //we still have remaining rolls 
+		((wxButton*) FindWindow(ID_ROLL)) -> Enable(true);
+
+	//reset the users last choice
+	FindWindow(m_lastmove)->Enable(true);
+	//clear the score;
+	((wxTextCtrl*)FindWindow(ID_ACESTEXT + (m_lastmove - ID_ACES)))->SetValue(wxT(""));
+	FindWindow(ID_UNDO)->Enable(false);
+	m_numofplaysleft--;
+}
+///This function enables the undo button and stores the last move
+inline void MainFrame::EnableUndo(int id)
+{
+		FindWindow(ID_UNDO)->Enable(true);
+		m_lastmove = id;
 }
 
 void MainFrame::OnShowHighscore(wxCommandEvent& event)
@@ -530,6 +554,7 @@ void MainFrame::ClearDiceHash()
 
 void MainFrame::ResetRolls()
 {
+	m_rollsundo = m_rolls;
 	m_rolls = 3;
 	((wxButton*) FindWindow(ID_ROLL)) -> Enable(true);
 	for (int i=0; i<5; i++){ 

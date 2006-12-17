@@ -18,17 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+/**\file MainFrame.h
+ *\brief Header file for MainFrame class.
+ *
+ * This File contains the declaration of the class MainFrame
+*/
 
- /***********************************************
- *	This File contains the declaration	*
- *	of the class MainFrame			*
- ***********************************************/
 #include "SettingsDB.h"
 #include "HighScoreTableDB.h"
 #ifndef MAINFRAME_INC
 #define MAINFRAME_INC
 
-// Declare our main frame class
+/// MainFrame class - the main window
+/**
+The Main Frame class is a derieved class from wxFrame which is responsible to 
+the main window of the application. This class also hold all the functions 
+that process the dice and handles the gameplay. This function are called as
+event handlers.
+*/
 class MainFrame : public wxFrame
 {
 public:
@@ -39,6 +46,7 @@ public:
 	void OnQuit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	void OnNewGame (wxCommandEvent& event);
+	void OnUndo (wxCommandEvent& event);
 	void OnShowHighscore (wxCommandEvent& event);
 	void OnSettings (wxCommandEvent& event);
 
@@ -60,6 +68,7 @@ private:
 	void YahtzeeBonus();
 	void EndofGame();
 	void HighScoreHandler(int score);
+	inline void EnableUndo(int id);
 
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dices[6];
@@ -70,8 +79,11 @@ private:
 	short int m_numofplaysleft; //holds how many times the user got to score untill the end of the game
 	bool m_yahtzee;
 
-	SettingsDB *m_settingsdb; ///handles the settings database
-	HighScoreTableDB *m_highscoredb; ///handles the highscore database managment
+	short int m_lastmove; //stores the ID of the last button pressed.
+	short int m_rollsundo; //holds the number of remaining rolls for use with the undo option
+
+	SettingsDB *m_settingsdb; //handles the settings database
+	HighScoreTableDB *m_highscoredb; //handles the highscore database managment
 
 };
 #endif

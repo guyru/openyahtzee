@@ -20,6 +20,9 @@
  ***************************************************************************/
 #include "DBwrapper.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 using namespace std;
 
@@ -101,8 +104,11 @@ list<string> DBwrapper::Query (std::string query, const int maxbusy)
 					cerr << "Busy-counter has reached maximum. Aborting this sql statement!\n";
 					break;
 				}
-				
+#ifdef WIN32
+				Sleep(100);
+#else
 				::usleep( 100000 ); // Sleep 100 msec
+#endif
 				cerr << "sqlite3_step: BUSY counter: " << busyCnt << endl;
 			}
 			

@@ -30,7 +30,7 @@
 using namespace std;
 
 HighScoreDialog::HighScoreDialog(wxWindow* parent,wxWindowID id,HighScoreTableDB *highscoredb) :
-	wxDialog(parent, id, wxT("High-Score Table"), wxDefaultPosition, wxDefaultSize,wxCLOSE_BOX)
+	wxDialog(parent, id, wxT("High-Score Table"), wxDefaultPosition, wxDefaultSize,wxCLOSE_BOX | wxCAPTION)
 {
 	list<string> table;
 

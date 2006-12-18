@@ -27,7 +27,7 @@
 
 
 SettingsDialog::SettingsDialog(wxWindow* parent, int id):
-    wxDialog(parent, wxID_ANY, wxT("Settins Dialog"), wxDefaultPosition, wxDefaultSize, wxCLOSE_BOX)
+    wxDialog(parent, wxID_ANY, wxT("Settins Dialog"), wxDefaultPosition, wxDefaultSize, wxCLOSE_BOX | wxCAPTION)
 {
     // begin wxGlade: SettingsDialog::SettingsDialog
     label_1 = new wxStaticText(this, -1, wxT("High-score table size:"));

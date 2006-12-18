@@ -23,6 +23,7 @@
 #include <wx/dialog.h>
 #include <wx/button.h>
 #include <wx/sizer.h>
+#include <wx/listctrl.h>
 
 #include "ObjectsID.h"
 #include "HighScoreDialog.h"

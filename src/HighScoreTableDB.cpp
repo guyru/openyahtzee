@@ -67,6 +67,10 @@ void HighScoreTableDB::CreateTable()
 	Query("CREATE UNIQUE INDEX IF NOT EXISTS place ON highscore ( place )");	
 }
 
+int HighScoreTableDB::GetSize()
+{
+	return m_size;
+}
 void HighScoreTableDB::SetSize(int size)
 {
 	string tmp_query;

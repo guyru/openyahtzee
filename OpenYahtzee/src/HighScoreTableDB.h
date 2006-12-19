@@ -47,6 +47,7 @@ public:
 	int IsHighScore(int score); //return the place or return zero if outside the table.
 	int SendHighScore(std::string name, std::string date, int score);
 	void SetSize(int size);
+	int GetSize();
 
 	std::list<std::string> GetHighScoreTable();
 private:

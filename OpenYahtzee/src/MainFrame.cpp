@@ -45,15 +45,29 @@
 #include "five.xpm"
 #include "six.xpm"
 
+//default values
 #define SPACE_SIZE 1
+#define DEF_HIGHSCORESIZE 16
 
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
 {
+
+	std::ostringstream sstr;
+
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
-	int highscoresize = atoi((m_settingsdb->GetKey("highscoresize")).c_str());
-	m_highscoredb->SetSize( (highscoresize>0)?highscoresize:20 );
+
+
+	if (m_settingsdb->GetKey("highscoresize") == "") { //check if we need to create a newdatabase
+		m_highscoredb->SetSize(DEF_HIGHSCORESIZE);
+		sstr<<DEF_HIGHSCORESIZE<<std::flush;
+		m_settingsdb->SetKey("highscoresize", sstr.str());
+	} else {
+		int highscoresize = atoi((m_settingsdb->GetKey("highscoresize")).c_str());
+		//m_highscoredb->SetSize((highscoresize>0)?highscoresize:DEF_HIGHSCORESIZE);
+		m_highscoredb->SetSize(highscoresize);
+	}
 
 	bitmap_dices[0] = new wxBitmap(one_xpm);
 	bitmap_dices[1] = new wxBitmap(two_xpm);
@@ -296,7 +310,7 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 	SettingsDialogData data;
 	std::ostringstream sstr;
 	
-	data.highscoresize = atoi((m_settingsdb->GetKey("highscoresize")).c_str());
+	data.highscoresize = m_highscoredb->GetSize();
 	
 	dialog->SetData(data);
 	if(dialog->ShowModal()==wxID_OK) { //user saved Changes

@@ -6,8 +6,15 @@
 ; 
 ;--------------------------------
 
+;--------------------------------
+;Include Modern UI
+
+  !include "MUI.nsh"
+
+;--------------------------------
+
 ; The name of the installer
-Name "Open Yahtzee 1.5.1"
+Name "OpenYahtzee 1.5.1"
 
 ; The file to write
 OutFile "OpenYahtzee-1.5.1.exe"
@@ -23,28 +30,26 @@ ShowUninstDetails hide
 ; overwrite the old one automatically)
 InstallDirRegKey HKLM "Software\OpenYahtzee" "Install_Dir"
 
-;make the installer controls use the new XP style when running on Windows XP
-XPStyle on
+;--------------------------------
+;Interface Settings
 
-;set the license
-LicenseData COPYING.txt
+  !define MUI_ABORTWARNING
 
 ;--------------------------------
+;Pages
 
-; Pages
-
-Page license
-Page components
-Page directory
-Page instfiles
-UninstPage uninstConfirm
-UninstPage instfiles
-
-
+  !insertmacro MUI_PAGE_LICENSE "COPYING.txt"
+  !insertmacro MUI_PAGE_COMPONENTS
+  !insertmacro MUI_PAGE_DIRECTORY
+  !insertmacro MUI_PAGE_INSTFILES
+  
+  !insertmacro MUI_UNPAGE_CONFIRM
+  !insertmacro MUI_UNPAGE_INSTFILES
+  
 ;--------------------------------
 
 ; The stuff to install
-Section "OpenYahtzee-1.5.1 (required)"
+Section "OpenYahtzee-1.5.1 (required)" SecOpenYahtzee
 
   SectionIn RO
   
@@ -72,13 +77,30 @@ Section "OpenYahtzee-1.5.1 (required)"
 SectionEnd
 
 ; Optional section (can be disabled by the user)
-Section "Start Menu Shortcuts"
+Section "Start Menu Shortcuts" SecStartMenu
 
   CreateDirectory "$SMPROGRAMS\OpenYahtzee"
   CreateShortCut "$SMPROGRAMS\OpenYahtzee\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\OpenYahtzee\OpenYahtzee.lnk" "$INSTDIR\openyahtzee.exe" "" "$INSTDIR\openyahtzee.exe" 0
   
 SectionEnd
+;--------------------------------
+;Languages
+ 
+  !insertmacro MUI_LANGUAGE "English"
+
+;--------------------------------
+;Descriptions
+
+  ;Language strings
+  LangString DESC_SecOpenYahtzee ${LANG_ENGLISH} "The OpenYahtzee game files and the required libraries."
+  LangString DESC_SecStartMenu ${LANG_ENGLISH} "Create shortcuts in the Start menu"
+
+  ;Assign language strings to sections
+  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecOpenYahtzee} $(DESC_SecOpenYahtzee)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecStartMenu} $(DESC_SecStartMenu)
+  !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
 

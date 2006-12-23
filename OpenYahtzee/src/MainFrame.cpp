@@ -45,6 +45,9 @@
 #include "five.xpm"
 #include "six.xpm"
 
+//include the icon file
+#include "icon.xpm"
+
 //default values
 #define SPACE_SIZE 1
 #define DEF_HIGHSCORESIZE 16
@@ -52,7 +55,8 @@
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
 {
-
+	//give the frame an icon
+	SetIcon(wxIcon(icon_xpm));
 	std::ostringstream sstr;
 
 	m_settingsdb = new SettingsDB(); //Get the settings database connection

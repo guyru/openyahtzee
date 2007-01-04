@@ -10,3 +10,4 @@ Open Yahtzee 1.6:
 -Added database initialization, so when the game doesn't find the data 
  it needs in the database it just goes back to default values.
 -Code refactoring and some code cleanup.
+-fixed some typos in one of the high-score related dialogs.

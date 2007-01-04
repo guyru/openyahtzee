@@ -114,7 +114,7 @@ HighScoreInfo::HighScoreInfo(wxWindow* parent,int place) :
 
 	wxString msg;
 
-	msg.Printf(wxT("Your score made it to the high-score table. your place is %i.\nPlease enter your name below and press OK."),place);
+	msg.Printf(wxT("Your score made it to the high-score table. Your place is number %i.\nPlease enter your name below and press OK."),place);
 	//Now create the dialog
 	//Create The top-level sizer
 	wxBoxSizer *topSizer = new wxBoxSizer( wxVERTICAL );

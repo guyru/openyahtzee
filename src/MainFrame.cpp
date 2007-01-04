@@ -48,6 +48,7 @@
 //include the icon file
 #include "icon.xpm"
 
+
 //default values
 #define SPACE_SIZE 1
 #define DEF_HIGHSCORESIZE 16
@@ -56,6 +57,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
 {
 	//give the frame an icon
+	//SetIcon(wxIcon(icon_xpm));
 	SetIcon(wxIcon(icon_xpm));
 	std::ostringstream sstr;
 

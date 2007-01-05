@@ -24,23 +24,15 @@
 
 #include "SettingsDialog.h"
 #include "MainFrame.h"
-//include the icon file
-#ifdef WIN32
-	#include "icon32.xpm"
-#else
-	#include "icon.xpm"
-#endif
 
+#include "Icon.h"
 
 SettingsDialog::SettingsDialog(wxWindow* parent, int id):
-    wxDialog(parent, wxID_ANY, wxT("Settins Dialog"), wxDefaultPosition, wxDefaultSize, wxCLOSE_BOX | wxCAPTION)
+    wxDialog(parent, wxID_ANY, wxT("Settins Dialog"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
 {
-		//set the icon
-#ifdef WIN32
-	SetIcon(wxIcon(icon32_xpm));
-#else
-	SetIcon(wxIcon(icon_xpm));
-#endif
+
+	SetIcon(wxIcon(ICON));
+
 	// begin wxGlade: SettingsDialog::SettingsDialog
 	label_1 = new wxStaticText(this, -1, wxT("High-score table size:"));
 	spin_ctrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,0,1024,20);

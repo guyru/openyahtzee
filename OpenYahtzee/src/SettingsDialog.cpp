@@ -24,21 +24,33 @@
 
 #include "SettingsDialog.h"
 #include "MainFrame.h"
+//include the icon file
+#ifdef WIN32
+	#include "icon32.xpm"
+#else
+	#include "icon.xpm"
+#endif
 
 
 SettingsDialog::SettingsDialog(wxWindow* parent, int id):
     wxDialog(parent, wxID_ANY, wxT("Settins Dialog"), wxDefaultPosition, wxDefaultSize, wxCLOSE_BOX | wxCAPTION)
 {
-    // begin wxGlade: SettingsDialog::SettingsDialog
-    label_1 = new wxStaticText(this, -1, wxT("High-score table size:"));
-    spin_ctrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,0,1024,20);
-    button_3 = new wxToggleButton(this, ID_RESETHIGHSCORE, wxT("reset high-score table"));
-    button_1 = new wxButton(this, wxID_OK);
-    button_2 = new wxButton(this, wxID_CANCEL);
+		//set the icon
+#ifdef WIN32
+	SetIcon(wxIcon(icon32_xpm));
+#else
+	SetIcon(wxIcon(icon_xpm));
+#endif
+	// begin wxGlade: SettingsDialog::SettingsDialog
+	label_1 = new wxStaticText(this, -1, wxT("High-score table size:"));
+	spin_ctrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,0,1024,20);
+	button_3 = new wxToggleButton(this, ID_RESETHIGHSCORE, wxT("reset high-score table"));
+	button_1 = new wxButton(this, wxID_OK);
+	button_2 = new wxButton(this, wxID_CANCEL);
 
-    set_properties();
-    do_layout();
-    // end wxGlade
+	set_properties();
+	do_layout();
+	// end wxGlade
 }
 
 BEGIN_EVENT_TABLE( SettingsDialog, wxDialog)

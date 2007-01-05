@@ -1,7 +1,7 @@
 bin_PROGRAMS = openyahtzee
 openyahtzee_SOURCES = openyahtzee.cpp MainFrame.cpp five.xpm four.xpm one.xpm \
-		six.xpm three.xpm two.xpm DBwrapper.cpp DBwrapper.h SettingsDB.cpp \
-		HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp icon.xpm
+			six.xpm three.xpm two.xpm DBwrapper.cpp DBwrapper.h SettingsDB.cpp \
+			HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp icon.xpm icon32.xpm
 
 # set the include path found by configure
 INCLUDES = $(all_includes)

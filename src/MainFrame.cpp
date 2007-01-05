@@ -46,8 +46,11 @@
 #include "six.xpm"
 
 //include the icon file
-#include "icon.xpm"
-
+#ifdef WIN32
+	#include "icon32.xpm"
+#else
+	#include "icon.xpm"
+#endif
 
 //default values
 #define SPACE_SIZE 1
@@ -57,8 +60,12 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
 {
 	//give the frame an icon
-	//SetIcon(wxIcon(icon_xpm));
+#ifdef WIN32
+	SetIcon(wxIcon(icon32_xpm));
+#else
 	SetIcon(wxIcon(icon_xpm));
+#endif
+
 	std::ostringstream sstr;
 
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
@@ -248,7 +255,7 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 {
 	wxString msg;
 	wxString sqliteversion = wxString(sqlite3_version,wxConvUTF8);
-	msg.Printf(wxT("OpenYahtzee 1.5.1\nCopyright (C) 2006 by Guy Rutenberg\n\nThis program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nOpenYahtzee was built against:\nwxWidgets %i.%i\n"),wxMAJOR_VERSION,wxMINOR_VERSION);
+	msg.Printf(wxT("OpenYahtzee 1.6\nCopyright (C) 2006 by Guy Rutenberg\n\nThis program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nOpenYahtzee was built against:\nwxWidgets %i.%i\n"),wxMAJOR_VERSION,wxMINOR_VERSION);
 	msg += wxT("SQLite ") + sqliteversion;
 		
 	wxMessageBox(msg, wxT("About Yahtzee"), wxOK | wxICON_INFORMATION, this);

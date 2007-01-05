@@ -118,6 +118,8 @@ HighScoreDialog::HighScoreDialog(wxWindow* parent,wxWindowID id,HighScoreTableDB
 HighScoreInfo::HighScoreInfo(wxWindow* parent,int place) :
 	wxDialog(parent, wxID_ANY, wxT("High-Score Table"), wxDefaultPosition, wxDefaultSize)
 {
+	
+	SetIcon(wxIcon(ICON));
 
 	wxString msg;
 

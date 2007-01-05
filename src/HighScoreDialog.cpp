@@ -27,11 +27,24 @@
 
 #include "ObjectsID.h"
 #include "HighScoreDialog.h"
+//include the icon file
+#ifdef WIN32
+	#include "icon32.xpm"
+#else
+	#include "icon.xpm"
+#endif
 using namespace std;
 
 HighScoreDialog::HighScoreDialog(wxWindow* parent,wxWindowID id,HighScoreTableDB *highscoredb) :
 	wxDialog(parent, id, wxT("High-Score Table"), wxDefaultPosition, wxDefaultSize,wxCLOSE_BOX | wxCAPTION)
 {
+	//set the icon
+#ifdef WIN32
+	SetIcon(wxIcon(icon32_xpm));
+#else
+	SetIcon(wxIcon(icon_xpm));
+#endif
+
 	list<string> table;
 
 	table = highscoredb->GetHighScoreTable();	

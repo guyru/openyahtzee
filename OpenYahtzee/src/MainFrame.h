@@ -69,6 +69,7 @@ private:
 	void EndofGame();
 	void HighScoreHandler(int score);
 	inline void EnableUndo(int id);
+	void PostScore(int id);
 
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dices[6];

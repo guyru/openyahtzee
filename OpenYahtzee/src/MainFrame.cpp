@@ -381,13 +381,7 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 		out.Printf(wxT("%i"),temp);
 		((wxTextCtrl*) FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT))->SetValue(out);
 		
-		//now after the scoring reset the rolls
-		ResetRolls();
-		//and disable the button
-		FindWindow(event.GetId())->Enable(false);
-		m_numofplaysleft--;
-		EnableUndo(event.GetId());
-		EndofGame();
+		PostScore(event.GetId());
 	}
 	else 
 		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
@@ -417,13 +411,7 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 	} else
 		((wxTextCtrl*) FindWindow(ID_THREEOFAKINDTEXT))->SetValue(wxT("0"));
 	
-	//now after the scoring reset the rolls
-	ResetRolls();
-	//and disable the button
-	FindWindow(event.GetId())->Enable(false);
-	m_numofplaysleft--;
-	EnableUndo(event.GetId());
-	EndofGame();
+	PostScore(event.GetId());
 }
 
 void MainFrame::On4ofakindButton(wxCommandEvent& event)
@@ -450,13 +438,7 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 	} else
 		((wxTextCtrl*) FindWindow(ID_FOUROFAKINDTEXT))->SetValue(wxT("0"));
 	
-	//now after the scoring reset the rolls
-	ResetRolls();
-	//and disable the button
-	FindWindow(event.GetId())->Enable(false);
-	m_numofplaysleft--;
-	EnableUndo(event.GetId());
-	EndofGame();
+	PostScore(event.GetId());
 }
 
 void MainFrame::OnFullHouseButton(wxCommandEvent& event)
@@ -481,13 +463,7 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 	else
 		((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetValue(wxT("0"));
 	
-	//now after the scoring reset the rolls
-	ResetRolls();
-	//and disable the button
-	FindWindow(event.GetId())->Enable(false);
-	m_numofplaysleft--;
-	EnableUndo(event.GetId());
-	EndofGame();
+	PostScore(event.GetId());
 }
 
 void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
@@ -509,13 +485,7 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 	else
 		((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetValue(wxT("0"));
 	
-	//now after the scoring reset the rolls
-	ResetRolls();
-	//and disable the button
-	FindWindow(event.GetId())->Enable(false);
-	m_numofplaysleft--;
-	EnableUndo(event.GetId());
-	EndofGame();
+	PostScore(event.GetId());
 }
 
 void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
@@ -536,13 +506,7 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 	else
 		((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetValue(wxT("0"));
 	
-	//now after the scoring reset the rolls
-	ResetRolls();
-	//and disable the button
-	FindWindow(event.GetId())->Enable(false);
-	m_numofplaysleft--;
-	EnableUndo(event.GetId());
-	EndofGame();
+	PostScore(event.GetId());
 }
 
 void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
@@ -558,11 +522,7 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 	} else
 		((wxTextCtrl*) FindWindow(ID_YAHTZEETEXT))->SetValue(wxT("0"));
 
-	FindWindow(event.GetId())->Enable(false);
-	m_numofplaysleft--;
-	ResetRolls();
-	EnableUndo(event.GetId());
-	EndofGame();
+	PostScore(event.GetId());
 }
 
 void MainFrame::OnChanceButton (wxCommandEvent& event)
@@ -577,13 +537,7 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 		out.Printf(wxT("%i"),temp);
 		((wxTextCtrl*) FindWindow(ID_CHANCETEXT))->SetValue(out);
 		
-		//now after the scoring reset the rolls
-		ResetRolls();
-		//and disable the button
-		FindWindow(event.GetId())->Enable(false);
-		m_numofplaysleft--;
-		EnableUndo(event.GetId());
-		EndofGame();
+		PostScore(event.GetId());
 	}
 	else 
 		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
@@ -710,4 +664,17 @@ void MainFrame::HighScoreHandler(int score)
 	newevent.SetEventType(wxEVT_COMMAND_MENU_SELECTED);
 	ProcessEvent(newevent);
 
+}
+
+///this function handles all the post scoring stuff such as disabling the right button.
+void MainFrame::PostScore(int id)
+{
+	//now after the scoring reset the rolls
+	ResetRolls();
+
+	//and disable the button
+	FindWindow(id)->Enable(false);
+	m_numofplaysleft--;
+	EnableUndo(id);
+	EndofGame();
 }

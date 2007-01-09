@@ -46,25 +46,19 @@
 #include "six.xpm"
 
 //include the icon file
-#ifdef WIN32
-	#include "icon32.xpm"
-#else
-	#include "icon.xpm"
-#endif
+#include "Icon.h"
 
 //default values
 #define SPACE_SIZE 1
 #define DEF_HIGHSCORESIZE 16
+#define OY_VERSION "1.6.0"
 
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
 {
 	//give the frame an icon
-#ifdef WIN32
-	SetIcon(wxIcon(icon32_xpm));
-#else
-	SetIcon(wxIcon(icon_xpm));
-#endif
+	SetIcon(wxIcon(ICON));
+
 
 	std::ostringstream sstr;
 
@@ -101,6 +95,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	
 	
 	//insert menu items into menu Help
+	helpMenu->Append(ID_CHECK_FOR_UPDATES, wxT("&Check for Updates"),
+			wxT("Check for new version of the game via the web"));
 	helpMenu->Append(wxID_ABOUT, wxT("&About...\tF1"),
 			wxT("Show about dialog"));
 
@@ -223,6 +219,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	/***Connect Menu items***/
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnQuit));
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnAbout));
+	Connect(ID_CHECK_FOR_UPDATES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnCheckForUpdates));
 	Connect(ID_NEWGAME, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
 	Connect(ID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
@@ -255,10 +252,65 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 {
 	wxString msg;
 	wxString sqliteversion = wxString(sqlite3_version,wxConvUTF8);
-	msg.Printf(wxT("OpenYahtzee 1.6\nCopyright (C) 2006 by Guy Rutenberg\n\nThis program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nOpenYahtzee was built against:\nwxWidgets %i.%i\n"),wxMAJOR_VERSION,wxMINOR_VERSION);
+	msg.Printf(wxT("OpenYahtzee %s\nCopyright (C) 2006 by Guy Rutenberg\n\nThis program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nOpenYahtzee was built against:\nwxWidgets %i.%i\n"),wxT(OY_VERSION),wxMAJOR_VERSION,wxMINOR_VERSION);
 	msg += wxT("SQLite ") + sqliteversion;
 		
 	wxMessageBox(msg, wxT("About Yahtzee"), wxOK | wxICON_INFORMATION, this);
+}
+
+void MainFrame::OnCheckForUpdates (wxCommandEvent& event){
+	
+	wxString path;
+	wxPathList path_list;
+	wxString link = wxT("http://openyahtzee.sourceforge.net/update.php?version=");
+	
+	link += wxT(OY_VERSION);
+
+	if (!wxLaunchDefaultBrowser(link)){
+		 //if builtin function doesn't work search for couple of browsers manually. see
+		 //http://linux-consulting.buanzo.com.ar/2006/05/wxwidgets-code-to-launch-browser.html
+
+		// variable declarations
+		wxArrayString browsers;
+		wxPathList path_list;
+		bool BrowserWasFound = false;
+		unsigned int i = 0;
+		wxString path;
+
+		// Add directories to wxPathList's search path from PATH environment variable
+		path_list.AddEnvList(wxT("PATH"));
+		
+		// Add browsers filenames. First item = most priority
+		browsers.Add(wxT("firefox"));
+		browsers.Add(wxT("firefox-bin"));
+		browsers.Add(wxT("mozilla"));
+		browsers.Add(wxT("mozilla-bin"));
+		browsers.Add(wxT("opera"));
+		browsers.Add(wxT("konqueror"));
+		browsers.Add(wxT("epiphany"));
+		
+		for (i = 0; i < browsers.GetCount(); i++) {
+			path = path_list.FindAbsoluteValidPath(browsers[i]);
+			if (path.IsEmpty()) {
+				continue;
+			} else {
+				BrowserWasFound = true;
+				break;
+			}
+		}
+		
+		browsers.Clear();
+		
+		if (BrowserWasFound) {
+			path += wxT(" ");
+			path += link;
+			::wxExecute(path);
+		} else {
+			wxMessageBox(wxT("No browser has been found."),wxT("OpenYahtzee"));
+		}
+	}
+
+
 }
 
 void MainFrame::OnQuit(wxCommandEvent& event)

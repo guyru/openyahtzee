@@ -26,6 +26,9 @@
 
 #include "wx/wx.h"
 #include "MainFrame.h"
+// #ifdef WIN32 
+// 	#include openyahtzee.rc
+// #endif
 
 
 

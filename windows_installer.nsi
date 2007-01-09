@@ -5,7 +5,7 @@
 ;
 ; 
 ;--------------------------------
-
+!define version 1.6.0
 ;--------------------------------
 ;Include Modern UI
 
@@ -14,10 +14,10 @@
 ;--------------------------------
 
 ; The name of the installer
-Name "OpenYahtzee 1.5.1"
+Name "OpenYahtzee ${version}"
 
 ; The file to write
-OutFile "OpenYahtzee-1.5.1.exe"
+OutFile "OpenYahtzee-${version}.exe"
 
 ; The default installation directory
 InstallDir $PROGRAMFILES\OpenYahtzee
@@ -30,6 +30,8 @@ ShowUninstDetails hide
 ; overwrite the old one automatically)
 InstallDirRegKey HKLM "Software\OpenYahtzee" "Install_Dir"
 
+; set the icon for installer
+Icon "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
 ;--------------------------------
 ;Interface Settings
 
@@ -49,7 +51,7 @@ InstallDirRegKey HKLM "Software\OpenYahtzee" "Install_Dir"
 ;--------------------------------
 
 ; The stuff to install
-Section "OpenYahtzee-1.5.1 (required)" SecOpenYahtzee
+Section "OpenYahtzee-${version} (required)" SecOpenYahtzee
 
   SectionIn RO
   
@@ -63,6 +65,7 @@ Section "OpenYahtzee-1.5.1 (required)" SecOpenYahtzee
   File "wxmsw28_core_gcc_custom.dll"
   File "README.txt"
   File "COPYING.txt"
+  File "icon32.ico"
   
   ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\OpenYahtzee "Install_Dir" "$INSTDIR"
@@ -81,7 +84,7 @@ Section "Start Menu Shortcuts" SecStartMenu
 
   CreateDirectory "$SMPROGRAMS\OpenYahtzee"
   CreateShortCut "$SMPROGRAMS\OpenYahtzee\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\OpenYahtzee\OpenYahtzee.lnk" "$INSTDIR\openyahtzee.exe" "" "$INSTDIR\openyahtzee.exe" 0
+  CreateShortCut "$SMPROGRAMS\OpenYahtzee\OpenYahtzee.lnk" "$INSTDIR\openyahtzee.exe" "" "$INSTDIR\icon32.ico" 0
   
 SectionEnd
 ;--------------------------------
@@ -118,6 +121,7 @@ Section "Uninstall"
   Delete "wxmsw28_core_gcc_custom.dll"
   Delete "COPYING.txt"
   Delete "README.txt"
+  Delete "icon32.ico"
   Delete $INSTDIR\uninstall.exe
 
   ; Remove shortcuts, if any

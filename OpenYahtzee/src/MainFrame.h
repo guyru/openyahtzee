@@ -49,6 +49,7 @@ public:
 	void OnUndo (wxCommandEvent& event);
 	void OnShowHighscore (wxCommandEvent& event);
 	void OnSettings (wxCommandEvent& event);
+	void OnCheckForUpdates (wxCommandEvent& event);
 
 	void OnRollButton (wxCommandEvent& event);
 	void OnUpperButtons (wxCommandEvent& event);

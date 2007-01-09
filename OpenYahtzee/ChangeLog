@@ -1,4 +1,7 @@
+$Header$
+
 OPEN YAHTZEE CHANGELOG
+
 This changelog was started only during the development of Open Yahtzee 1.6
 so if you are interested in the changelog of older versions, take a look 
 at the CVS log or the changelog attached to the file releases at 
@@ -7,6 +10,8 @@ SourceForge.
 Open Yahtzee 1.6:
 -Added an undo button.
 -Improved Windows portability.
+-New icons for the program.
+-Ability to check for updates via the web.
 -Added database initialization, so when the game doesn't find the data 
  it needs in the database it just goes back to default values.
 -Code refactoring and some code cleanup.

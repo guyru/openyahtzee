@@ -1,8 +1,10 @@
 $Header$
 
-TODO FILE
+Open Yahtzee - TODO FILE
+========================
 
 - Set a better icon for the windows installer
+- Disable the ability to undo the last move of the game.
 
 DONE:
 -cleanup code at the end of every scoring button

@@ -5,6 +5,7 @@ Open Yahtzee - TODO FILE
 
 - Set a better icon for the windows installer
 - Disable the ability to undo the last move of the game.
+- Make the dice roll a couple of times before they stop.
 
 DONE:
 -cleanup code at the end of every scoring button

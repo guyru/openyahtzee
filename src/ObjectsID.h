@@ -81,6 +81,7 @@ enum {
 
 	//SettingsDialog
 	ID_RESETHIGHSCORE,
+	ID_ANIMATECHECKBOX,
 };
 
 

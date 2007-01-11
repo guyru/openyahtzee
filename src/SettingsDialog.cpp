@@ -33,12 +33,12 @@ SettingsDialog::SettingsDialog(wxWindow* parent, int id):
 
 	SetIcon(wxIcon(ICON));
 
-	// begin wxGlade: SettingsDialog::SettingsDialog
 	label_1 = new wxStaticText(this, -1, wxT("High-score table size:"));
 	spin_ctrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,0,1024,20);
 	button_3 = new wxToggleButton(this, ID_RESETHIGHSCORE, wxT("reset high-score table"));
 	button_1 = new wxButton(this, wxID_OK);
 	button_2 = new wxButton(this, wxID_CANCEL);
+	animate_checkbox = new wxCheckBox(this, ID_ANIMATECHECKBOX, wxT("Animate dices"));
 
 	set_properties();
 	do_layout();
@@ -60,23 +60,24 @@ void SettingsDialog::set_properties()
 
 void SettingsDialog::do_layout()
 {
-    // begin wxGlade: SettingsDialog::do_layout
-    wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
-    wxBoxSizer* sizer_2 = new wxBoxSizer(wxHORIZONTAL);
-    wxBoxSizer* highscoresizer = new wxBoxSizer(wxHORIZONTAL);
-    highscoresizer->Add(label_1, 0, wxALL|wxADJUST_MINSIZE, 10);
-    highscoresizer->Add(spin_ctrl, 0, wxALL|wxADJUST_MINSIZE, 10);
-    top_sizer->Add(highscoresizer, 0, 0, 0);
-    top_sizer->Add(button_3, 0,wxALL|wxALIGN_RIGHT|wxADJUST_MINSIZE, 10);
-    sizer_2->Add(button_1, 0, wxALL|wxADJUST_MINSIZE, 10);
-    sizer_2->Add(button_2, 0, wxALL|wxADJUST_MINSIZE, 10);
-    top_sizer->Add(sizer_2, 1, 0, 0);
-    SetAutoLayout(true);
-    SetSizer(top_sizer);
-    top_sizer->Fit(this);
-    top_sizer->SetSizeHints(this);
-    Layout();
-    // end wxGlade
+	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer* sizer_2 = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer* highscoresizer = new wxBoxSizer(wxHORIZONTAL);
+	highscoresizer->Add(label_1, 0, wxALL|wxADJUST_MINSIZE, 10);
+	highscoresizer->Add(spin_ctrl, 0, wxALL|wxADJUST_MINSIZE, 10);
+	top_sizer->Add(highscoresizer, 0, 0, 0);
+	top_sizer->Add(button_3, 0,wxALL|wxALIGN_RIGHT|wxADJUST_MINSIZE, 10);
+
+	top_sizer->Add(animate_checkbox,0,wxALL,10);
+
+	sizer_2->Add(button_1, 0, wxALL|wxADJUST_MINSIZE, 10);
+	sizer_2->Add(button_2, 0, wxALL|wxADJUST_MINSIZE, 10);
+	top_sizer->Add(sizer_2, 1, 0, 0);
+	SetAutoLayout(true);
+	SetSizer(top_sizer);
+	top_sizer->Fit(this);
+	top_sizer->SetSizeHints(this);
+	Layout();
 }
 
 
@@ -96,6 +97,7 @@ void SettingsDialog::OnResetHighScore(wxCommandEvent& event)
 void SettingsDialog::SetData(SettingsDialogData data)
 {
 	spin_ctrl->SetValue(data.highscoresize);
+	animate_checkbox->SetValue(data.animate);
 }
 
 SettingsDialogData SettingsDialog::GetData()
@@ -103,5 +105,6 @@ SettingsDialogData SettingsDialog::GetData()
 	SettingsDialogData data;
 	data.highscoresize = spin_ctrl->GetValue();
 	data.reset = button_3->GetValue();
+	data.animate = animate_checkbox->GetValue();
 	return data;
 }

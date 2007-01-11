@@ -36,6 +36,7 @@
 struct SettingsDialogData {
 	int highscoresize;
 	bool reset;
+	bool animate;
 };
 
 class SettingsDialog: public wxDialog {
@@ -59,17 +60,17 @@ private:
 
 
 protected:
-    // begin wxGlade: SettingsDialog::attributes
-    wxStaticText* label_1;
-    wxSpinCtrl* spin_ctrl;
-    wxToggleButton* button_3; //the reset button
-    wxButton* button_1;
-    wxButton* button_2;
+	wxStaticText* label_1;
+	wxSpinCtrl* spin_ctrl;
+	wxToggleButton* button_3; //the reset button
+	wxButton* button_1;
+	wxButton* button_2;
+	
+	wxCheckBox* animate_checkbox;
 
 	DECLARE_EVENT_TABLE();
-    // end wxGlade
 	
-}; // wxGlade: end class
+};
 
 
 #endif // SETTINGSDIALOG_H

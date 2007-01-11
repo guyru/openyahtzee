@@ -51,7 +51,7 @@
 //default values
 #define SPACE_SIZE 1
 #define DEF_HIGHSCORESIZE 20
-#define OY_VERSION "1.6.0"
+#define OY_VERSION "1.7.0"
 
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
@@ -65,8 +65,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
 
-
-	if (m_settingsdb->GetKey("highscoresize") == "") { //check if we need to create a newdatabase
+	//DATABASE initialization
+	if (m_settingsdb->GetKey("highscoresize") == "") { //check if we need to create a new high score table
 		m_highscoredb->SetSize(DEF_HIGHSCORESIZE);
 		sstr<<DEF_HIGHSCORESIZE<<std::flush;
 		m_settingsdb->SetKey("highscoresize", sstr.str());
@@ -75,6 +75,17 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 		//m_highscoredb->SetSize((highscoresize>0)?highscoresize:DEF_HIGHSCORESIZE);
 		m_highscoredb->SetSize(highscoresize);
 	}
+	
+	if (m_settingsdb->GetKey("animate") == "Yes") {
+		m_animate = true;
+	} else if (m_settingsdb->GetKey("animate") == "No") {
+		m_animate = false;
+	} else {
+		m_settingsdb->SetKey("animate", "Yes");
+		m_animate = true;
+	}
+
+	// END Database initialization
 
 	bitmap_dices[0] = new wxBitmap(one_xpm);
 	bitmap_dices[1] = new wxBitmap(two_xpm);
@@ -376,6 +387,8 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 	std::ostringstream sstr;
 	
 	data.highscoresize = m_highscoredb->GetSize();
+
+	data.animate = (m_settingsdb->GetKey("animate")=="Yes")?true:false;
 	
 	dialog->SetData(data);
 	if(dialog->ShowModal()==wxID_OK) { //user saved Changes
@@ -388,6 +401,14 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 		m_settingsdb->SetKey("highscoresize",sstr.str());
 				
 		m_highscoredb->SetSize(data.highscoresize);
+		
+		if (data.animate){
+			m_settingsdb->SetKey("animate","Yes");
+			
+		} else {
+			m_settingsdb->SetKey("animate","No");
+		}
+
 	}
 }
 

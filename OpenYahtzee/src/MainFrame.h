@@ -87,5 +87,7 @@ private:
 	SettingsDB *m_settingsdb; //handles the settings database
 	HighScoreTableDB *m_highscoredb; //handles the highscore database managment
 
+	bool m_animate; //sets whether to animate the dice.
+
 };
 #endif

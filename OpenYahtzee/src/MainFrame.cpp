@@ -29,6 +29,7 @@
 #include <wx/wx.h>
 
 #include "MainFrame.h"
+#include "wxDynamicBitmap.h"
 #include "ObjectsID.h"
 #include "HighScoreDialog.h"
 #include "SettingsDialog.h"
@@ -189,16 +190,16 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	sectionsSizer->Add(uppersection,0,wxALL,5);
 	sectionsSizer->Add(lowersection,0,wxALL,5);
 
-	diceSizer->Add(new wxStaticBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxALL,3);
-	diceSizer->Add(new wxStaticBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP, wxT("Keep")),0,wxALL,3);
-	diceSizer->Add(new wxStaticBitmap(panel,ID_DICE3,*bitmap_dices[2]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP, wxT("Keep")),0,wxALL,3);
-	diceSizer->Add(new wxStaticBitmap(panel,ID_DICE4,*bitmap_dices[3]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP, wxT("Keep")),0,wxALL,3);
-	diceSizer->Add(new wxStaticBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxALL,3);
+	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,3);
+	diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxBOTTOM,10);
+	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,3);
+	diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP, wxT("Keep")),0,wxBOTTOM,10);
+	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE3,*bitmap_dices[2]),0,wxALL,3);
+	diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP, wxT("Keep")),0,wxBOTTOM,10);
+	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE4,*bitmap_dices[3]),0,wxALL,3);
+	diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP, wxT("Keep")),0,wxBOTTOM,10);
+	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,3);
+	diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxBOTTOM,10);
 	diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll")),0,wxALL,3);
 
 	
@@ -414,11 +415,30 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 
 void MainFrame::OnRollButton (wxCommandEvent& event)
 {
-	//roll the dices...
-	for (int i=0; i<5; i++) {
-		if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
-			dice[i] = rand()%6;
-			((wxStaticBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
+	//roll the dice...
+	if (m_animate) {
+		int dice_throws[5] = {0,0,0,0,0};
+		for (int i=0; i<5; i++) { //set the number of rolls for each dice
+			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
+				dice_throws[i] = (rand()%20)+2; //ensures the number is at least one.
+			}
+		}
+		while (dice_throws[0] || dice_throws[1] || dice_throws[2] || dice_throws[3] || dice_throws[4]) {
+			for (int i=0 ; i<5; i++){
+				if(dice_throws[i]){
+					dice_throws[i]--;
+					dice[i] = rand()%6;
+					((wxDynamicBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
+					::wxMilliSleep(100);
+				}
+			}
+		}
+	} else {
+		for (int i=0; i<5; i++) {
+			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
+				dice[i] = rand()%6;
+				((wxStaticBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
+			}
 		}
 	}
 	

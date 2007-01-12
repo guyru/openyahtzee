@@ -38,7 +38,7 @@ SettingsDialog::SettingsDialog(wxWindow* parent, int id):
 	button_3 = new wxToggleButton(this, ID_RESETHIGHSCORE, wxT("reset high-score table"));
 	button_1 = new wxButton(this, wxID_OK);
 	button_2 = new wxButton(this, wxID_CANCEL);
-	animate_checkbox = new wxCheckBox(this, ID_ANIMATECHECKBOX, wxT("Animate dices"));
+	animate_checkbox = new wxCheckBox(this, ID_ANIMATECHECKBOX, wxT("Animate dice"));
 
 	set_properties();
 	do_layout();

@@ -54,7 +54,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_openyahtzee_OBJECTS = openyahtzee.$(OBJEXT) MainFrame.$(OBJEXT) \
 	DBwrapper.$(OBJEXT) SettingsDB.$(OBJEXT) \
 	HighScoreTableDB.$(OBJEXT) HighScoreDialog.$(OBJEXT) \
-	SettingsDialog.$(OBJEXT)
+	SettingsDialog.$(OBJEXT) wxDynamicBitmap.$(OBJEXT)
 openyahtzee_OBJECTS = $(am_openyahtzee_OBJECTS)
 openyahtzee_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
@@ -184,9 +184,9 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 openyahtzee_SOURCES = openyahtzee.cpp MainFrame.cpp five.xpm four.xpm one.xpm \
-				six.xpm three.xpm two.xpm DBwrapper.cpp DBwrapper.h SettingsDB.cpp \
-				HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp icon.xpm icon32.xpm \
-	openyahtzee.rc
+					six.xpm three.xpm two.xpm DBwrapper.cpp DBwrapper.h SettingsDB.cpp \
+					HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp icon.xpm icon32.xpm \
+		openyahtzee.rc wxDynamicBitmap.cpp
 
 
 # set the include path found by configure
@@ -194,7 +194,7 @@ INCLUDES = $(all_includes)
 
 # the library search path.
 noinst_HEADERS = MainFrame.h ObjectsID.h SettingsDB.h HighScoreTableDB.h \
-				HighScoreDialog.h SettingsDialog.h Icon.h icon32.ico
+	HighScoreDialog.h SettingsDialog.h Icon.h icon32.ico wxDynamicBitmap.h
 
 openyahtzee_LDFLAGS = `wx-config --libs` -lsqlite3
 AM_CXXFLAGS = `wx-config --cxxflags`
@@ -276,6 +276,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SettingsDB.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SettingsDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/openyahtzee.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wxDynamicBitmap.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \

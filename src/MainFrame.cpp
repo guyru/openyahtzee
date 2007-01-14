@@ -24,7 +24,7 @@
  *	of MainFrame's functions                *
  ***********************************************/
 
-#define DEBUG
+//#define DEBUG
 
 #include <wx/wx.h>
 
@@ -433,7 +433,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 		int dice_throws[5] = {0,0,0,0,0};
 		for (int i=0; i<5; i++) { //set the number of rolls for each dice
 			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
-				dice_throws[i] = (rand()%20)+2; //ensures the number is at least one.
+				dice_throws[i] = (rand()%15)+3; //ensures the number is at least one.
 			}
 		}
 		while (dice_throws[0] || dice_throws[1] || dice_throws[2] || dice_throws[3] || dice_throws[4]) {
@@ -442,9 +442,9 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 					dice_throws[i]--;
 					dice[i] = rand()%6;
 					((wxDynamicBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
-					::wxMilliSleep(100);
 				}
 			}
+			::wxMilliSleep(200);
 		}
 	} else {
 		for (int i=0; i<5; i++) {

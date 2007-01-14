@@ -80,6 +80,7 @@ private:
 	short int m_rolls;	//holds how many rolls left
 	short int m_numofplaysleft; //holds how many times the user got to score untill the end of the game
 	bool m_yahtzee;
+	bool m_yahtzeebonus; //tells the undo if there is also an yahtzee bonus to undo
 
 	short int m_lastmove; //stores the ID of the last button pressed.
 	short int m_rollsundo; //holds the number of remaining rolls for use with the undo option

@@ -24,7 +24,7 @@
  *	of MainFrame's functions                *
  ***********************************************/
 
-//#define DEBUG
+#define DEBUG
 
 #include <wx/wx.h>
 
@@ -179,7 +179,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	lowergrid->Add(new wxButton(panel,ID_CHANCE,wxT("Chance")),0,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxTextCtrl(panel, ID_CHANCETEXT),1,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Yahtzee Bonus")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(panel, ID_YAHTZEEBONUSTEXT),1,wxALL,3);
+	lowergrid->Add(new wxTextCtrl(panel, ID_YAHTZEEBONUSTEXT),1,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Total of lower section:")),0,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxTextCtrl(panel, ID_LOWERTOTAL),1,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Grand Total:")),0,wxALL,SPACE_SIZE);
@@ -253,6 +253,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	ResetRolls();
 	ClearDiceHash();
 	m_yahtzee = false;
+	m_yahtzeebonus = false;
 	m_numofplaysleft = 13;
 
  }
@@ -364,6 +365,18 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 	//clear the score;
 	((wxTextCtrl*)FindWindow(ID_ACESTEXT + (m_lastmove - ID_ACES)))->SetValue(wxT(""));
 
+	//undo also the yahtzee bonus if needed
+	if (m_yahtzeebonus) {
+		long temp;
+		wxString tempstr;
+	
+		tempstr = ((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> GetValue();
+		tempstr.ToLong(&temp,10);
+		temp -= 100; //this line reduces the points given for the yahtzee bonus
+		tempstr.Printf(wxT("%i"),temp);
+		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
+	}
+
 	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
 	//cancel the counting for the choice that was canceled
 	m_numofplaysleft++;
@@ -460,6 +473,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	
 	//we rolled the dices so undoing isn't allowed
 	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
+	m_yahtzeebonus = false; //if we scored yahtzee bonus before we don't care anymore.
 
 }
 
@@ -672,7 +686,7 @@ void MainFrame::YahtzeeBonus()
 		temp += 100;
 		tempstr.Printf(wxT("%i"),temp);
 		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
-
+		m_yahtzeebonus = true;
 	}	
 }
 

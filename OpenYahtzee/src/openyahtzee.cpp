@@ -53,7 +53,7 @@ bool MyApp::OnInit()
 {
 
 	// Create the main application window
-	MainFrame *frame = new MainFrame(wxT("OpenYahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE);
+	MainFrame *frame = new MainFrame(wxT("OpenYahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE & (~wxRESIZE_BORDER));
 	
 	//Show it
 	frame->Show(true);	

@@ -9,6 +9,9 @@ Open Yahtzee 1.7:
 - Dice rolling animation.
 - Fixed bug #1634542 (undoing of scoring that involves Yahtzee Bonus).
 - Fixed minor misalignment in the UI.
+- Code refactoring and cleanup.
+- Redesigned the Settings Dialog.
+- The main window of the game is now unresizable (fixed size).
 
 Open Yahtzee 1.6:
 -----------------

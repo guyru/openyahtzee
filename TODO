@@ -6,7 +6,6 @@ Open Yahtzee - TODO FILE
 - Set a better icon for the windows installer
 - Disable the ability to undo the last move of the game.
 - Add abilliy to adjust how many times (avreage) will the dice roll before they stop.
-- Change the "reset high score" toggle button to a checkbox.
 - Multiplayer mode.
 
 DONE:
@@ -14,6 +13,7 @@ DONE:
 Open Yahtzee 1.7
 - Add a frame around the dices.
 - Make the dice roll a couple of times before they stop.
+- Change the "reset high score" toggle button to a checkbox.
 
 
 Open Yahtzee 1.6

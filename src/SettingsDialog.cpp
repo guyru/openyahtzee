@@ -28,51 +28,41 @@
 #include "Icon.h"
 
 SettingsDialog::SettingsDialog(wxWindow* parent, int id):
-    wxDialog(parent, wxID_ANY, wxT("Settins Dialog"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
+    wxDialog(parent, wxID_ANY, wxT("Settings Dialog"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
 {
 
 	SetIcon(wxIcon(ICON));
 
-	label_1 = new wxStaticText(this, -1, wxT("High-score table size:"));
+	label_1 = new wxStaticText(this, -1, wxT("High score table size:"));
 	spin_ctrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,0,1024,20);
-	button_3 = new wxToggleButton(this, ID_RESETHIGHSCORE, wxT("reset high-score table"));
-	button_1 = new wxButton(this, wxID_OK);
-	button_2 = new wxButton(this, wxID_CANCEL);
+	checkbox_reset = new wxCheckBox(this, ID_RESETHIGHSCORE, wxT("Reset high score table"));
 	animate_checkbox = new wxCheckBox(this, ID_ANIMATECHECKBOX, wxT("Animate dice"));
 
-	set_properties();
+	connect_event_table();
 	do_layout();
 	// end wxGlade
 }
 
-BEGIN_EVENT_TABLE( SettingsDialog, wxDialog)
-	EVT_TOGGLEBUTTON(ID_RESETHIGHSCORE, SettingsDialog::OnResetHighScore)
-END_EVENT_TABLE();
 
-void SettingsDialog::set_properties()
+void SettingsDialog::connect_event_table()
 {
-    // begin wxGlade: SettingsDialog::set_properties
-    //SetTitle(wxT("Settings Dialog")); /*unneeded anymore -guy*/
-    //button_1->SetDefault();/*unneeded anymore -guy*/
-    // end wxGlade
+   Connect(ID_RESETHIGHSCORE,wxEVT_COMMAND_CHECKBOX_CLICKED,wxCommandEventHandler(SettingsDialog::OnResetHighScore));
 }
 
 
 void SettingsDialog::do_layout()
 {
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
-	wxBoxSizer* sizer_2 = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* highscoresizer = new wxBoxSizer(wxHORIZONTAL);
-	highscoresizer->Add(label_1, 0, wxALL|wxADJUST_MINSIZE, 10);
-	highscoresizer->Add(spin_ctrl, 0, wxALL|wxADJUST_MINSIZE, 10);
+
+	highscoresizer->Add(label_1, 0, wxALL|wxADJUST_MINSIZE, 5);
+	highscoresizer->Add(spin_ctrl, 0, wxALL|wxADJUST_MINSIZE, 5);
 	top_sizer->Add(highscoresizer, 0, 0, 0);
-	top_sizer->Add(button_3, 0,wxALL|wxALIGN_RIGHT|wxADJUST_MINSIZE, 10);
+	top_sizer->Add(checkbox_reset, 0,wxALL, 5);
 
-	top_sizer->Add(animate_checkbox,0,wxALL,10);
+	top_sizer->Add(animate_checkbox,0,wxALL,5);
 
-	sizer_2->Add(button_1, 0, wxALL|wxADJUST_MINSIZE, 10);
-	sizer_2->Add(button_2, 0, wxALL|wxADJUST_MINSIZE, 10);
-	top_sizer->Add(sizer_2, 1, 0, 0);
+	top_sizer->Add(CreateButtonSizer(wxOK|wxCANCEL), 1, wxBOTTOM, 10);
 	SetAutoLayout(true);
 	SetSizer(top_sizer);
 	top_sizer->Fit(this);
@@ -83,15 +73,15 @@ void SettingsDialog::do_layout()
 
 void SettingsDialog::OnResetHighScore(wxCommandEvent& event)
 {
-	if(!button_3->GetValue()){
-		button_3->SetValue(0);
+	if(!checkbox_reset->GetValue()){
+		checkbox_reset->SetValue(0);
 		return;
 	}
 	
-	int answer = wxMessageBox(wxT("Are you sure you want to reset the high-score table? After reseting the high score table, you won't be able to restore it!\nThe new high-score table size will be as specified in this dialog."),wxT("High-score table reset"),wxYES_NO|wxICON_EXCLAMATION);
+	int answer = wxMessageBox(wxT("Are you sure you want to reset the high score table? After reseting the high score table, you won't be able to restore it!\n\nThe new high score table size will be as specified in this dialog."),wxT("High-score table reset"),wxYES_NO|wxICON_EXCLAMATION,this);
 
 	if(answer==wxNO)
-		button_3->SetValue(0);
+		checkbox_reset->SetValue(0);
 }
 
 void SettingsDialog::SetData(SettingsDialogData data)
@@ -104,7 +94,7 @@ SettingsDialogData SettingsDialog::GetData()
 {
 	SettingsDialogData data;
 	data.highscoresize = spin_ctrl->GetValue();
-	data.reset = button_3->GetValue();
+	data.reset = checkbox_reset->GetValue();
 	data.animate = animate_checkbox->GetValue();
 	return data;
 }

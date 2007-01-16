@@ -52,7 +52,7 @@ public:
 	void OnResetHighScore(wxCommandEvent& event);
 private:
     // begin wxGlade: SettingsDialog::methods
-    void set_properties();
+    void connect_event_table();
     void do_layout();
     // end wxGlade
 	void ConnectEventTable();
@@ -62,13 +62,9 @@ private:
 protected:
 	wxStaticText* label_1;
 	wxSpinCtrl* spin_ctrl;
-	wxToggleButton* button_3; //the reset button
-	wxButton* button_1;
-	wxButton* button_2;
+	wxCheckBox* checkbox_reset; //the reset button
 	
 	wxCheckBox* animate_checkbox;
-
-	DECLARE_EVENT_TABLE();
 	
 };
 

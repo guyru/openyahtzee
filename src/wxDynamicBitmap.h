@@ -40,7 +40,7 @@ class wxDynamicBitmap : public wxControl {
 public:
 	wxDynamicBitmap (wxWindow* parent, wxWindowID id, wxBitmap&  bitmap,
 		 const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
-		 long style = 0, const wxString& name = wxPanelNameStr);
+		 long style = wxNO_BORDER, const wxString& name = wxPanelNameStr);
 	virtual void SetBitmap(wxBitmap&  bitmap);
 	wxBitmap GetBitmap();
 	void OnPaint(wxPaintEvent& event);

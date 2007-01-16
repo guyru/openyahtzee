@@ -238,8 +238,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
 	Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
 
-	for (int i=ID_ACES; i<=ID_SIXES; i++)
-		Connect(i, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnUpperButtons));
+	Connect(ID_ACES,ID_SIXES, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnUpperButtons));
 	Connect(ID_THREEOFAKIND, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::On3ofakindButton));
 	Connect(ID_FOUROFAKIND, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::On4ofakindButton));
 	Connect(ID_FULLHOUSE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnFullHouseButton));

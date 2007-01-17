@@ -24,7 +24,7 @@
  *	of MainFrame's functions                *
  ***********************************************/
 
-//#define DEBUG
+#define DEBUG
 
 #include <wx/wx.h>
 
@@ -566,7 +566,7 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 	for (int i=0; i<6; i++)
 		if (dicehash[i] == 3)
 			three = true;
-	if (two && three)
+	if ((two && three) || YahtzeeJoker())
 		((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetValue(wxT("25"));
 	else
 		((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetValue(wxT("0"));
@@ -588,7 +588,7 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 		(dicehash[1]>=1 && dicehash[2]>=1 && dicehash[3]>=1 && dicehash[4]>=1) ||
 		(dicehash[2]>=1 && dicehash[3]>=1 && dicehash[4]>=1 && dicehash[5]>=1))
 			sequence = true;
-	if (sequence)
+	if (sequence || YahtzeeJoker())
 		((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetValue(wxT("30"));
 	else
 		((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetValue(wxT("0"));
@@ -609,7 +609,7 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 	if ( (dicehash[0]==1 && dicehash[1]==1 && dicehash[2]==1 && dicehash[3]==1 && dicehash[4]==1) ||
 		(dicehash[1]==1 && dicehash[2]==1 && dicehash[3]==1 && dicehash[4]==1 && dicehash[5]==1))
 			sequence = true;
-	if (sequence)
+	if (sequence || YahtzeeJoker())
 		((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetValue(wxT("40"));
 	else
 		((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetValue(wxT("0"));
@@ -689,6 +689,14 @@ void MainFrame::YahtzeeBonus()
 		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
 		m_yahtzeebonus = true;
 	}	
+}
+
+bool MainFrame::YahtzeeJoker()
+{
+	if ((dice[0]==dice[1]) && (dice[1]==dice[2]) && (dice[1]==dice[3]) && (dice[1]==dice[4]) && !(FindWindow(ID_ACES+dice[0])->IsEnabled()) && !(FindWindow(ID_YAHTZEE)->IsEnabled())) {
+		return true;
+	}
+	return false;
 }
 
 void MainFrame::EndofGame()

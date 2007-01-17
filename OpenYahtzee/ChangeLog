@@ -12,6 +12,9 @@ Open Yahtzee 1.7:
 - Code refactoring and cleanup.
 - Redesigned the Settings Dialog.
 - The main window of the game is now unresizable (fixed size).
+- Disabled the ability to undo the last move of the game (this allowed people 
+  to re-enter their score to the high score table over and over again).
+- Implemented the Yahtzee Joker scoring rules.
 
 Open Yahtzee 1.6:
 -----------------

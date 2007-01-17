@@ -67,6 +67,7 @@ private:
 	void ClearDiceHash();
 	void ResetRolls();
 	void YahtzeeBonus();
+	bool YahtzeeJoker();
 	void EndofGame();
 	void HighScoreHandler(int score);
 	inline void EnableUndo(int id);

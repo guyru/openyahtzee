@@ -383,8 +383,10 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 ///This function enables the undo button and stores the last move
 inline void MainFrame::EnableUndo(int id)
 {
+	if (m_numofplaysleft) {
 		(GetMenuBar()->FindItem(ID_UNDO))->Enable(true);
 		m_lastmove = id;
+	}
 }
 
 void MainFrame::OnShowHighscore(wxCommandEvent& event)

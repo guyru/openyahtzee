@@ -24,7 +24,7 @@
  *	of MainFrame's functions                *
  ***********************************************/
 
-#define DEBUG
+// #define DEBUG
 
 #include <wx/wx.h>
 
@@ -419,9 +419,11 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 		
 		if (data.animate){
 			m_settingsdb->SetKey("animate","Yes");
+			m_animate = true;
 			
 		} else {
 			m_settingsdb->SetKey("animate","No");
+			m_animate = false;
 		}
 
 	}
@@ -451,7 +453,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 		for (int i=0; i<5; i++) {
 			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
 				dice[i] = rand()%6;
-				((wxStaticBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
+				((wxDynamicBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
 			}
 		}
 	}

@@ -50,6 +50,7 @@ public:
 	void OnShowHighscore (wxCommandEvent& event);
 	void OnSettings (wxCommandEvent& event);
 	void OnCheckForUpdates (wxCommandEvent& event);
+	void OnSendComment (wxCommandEvent& event);
 
 	void OnRollButton (wxCommandEvent& event);
 	void OnUpperButtons (wxCommandEvent& event);
@@ -72,6 +73,7 @@ private:
 	void HighScoreHandler(int score);
 	inline void EnableUndo(int id);
 	void PostScore(int id);
+	void LaunchBrowser (wxString link);
 
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dices[6];

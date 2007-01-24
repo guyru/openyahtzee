@@ -109,13 +109,17 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	//insert menu items into menu Help
 	helpMenu->Append(ID_CHECK_FOR_UPDATES, wxT("&Check for Updates"),
 			wxT("Check for new version of the game via the web"));
+	helpMenu->AppendSeparator();
+	helpMenu->Append(ID_SENDCOMMENT, wxT("&Send a Comment to Developers"),
+			wxT("Send a comment to the developers of the game"));
+	helpMenu->AppendSeparator();
 	helpMenu->Append(wxID_ABOUT, wxT("&About...\tF1"),
 			wxT("Show about dialog"));
 
 	//insert menu items into menu File
 	gameMenu->Append(ID_NEWGAME,wxT("&New Game\tF2"),wxT("Start a new game"));
 	//create the undo button and make it disabled
-	gameMenu->Append(ID_UNDO,wxT("&Undo"),wxT("Undo the last move"));
+	gameMenu->Append(ID_UNDO,wxT("&Undo\tCTRL+Z"),wxT("Undo the last move"));
 	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
 	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
 	gameMenu->Append(wxID_EXIT, wxT("E&xit\tAlt-X"),
@@ -232,6 +236,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnQuit));
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnAbout));
 	Connect(ID_CHECK_FOR_UPDATES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnCheckForUpdates));
+	Connect(ID_SENDCOMMENT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSendComment));
 	Connect(ID_NEWGAME, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
 	Connect(ID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
@@ -272,57 +277,18 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 
 void MainFrame::OnCheckForUpdates (wxCommandEvent& event){
 	
-	wxString path;
-	wxPathList path_list;
 	wxString link = wxT("http://openyahtzee.sourceforge.net/update.php?version=");
 	
 	link += wxT(OY_VERSION);
 
-	if (!wxLaunchDefaultBrowser(link)){
-		 //if builtin function doesn't work search for couple of browsers manually. see
-		 //http://linux-consulting.buanzo.com.ar/2006/05/wxwidgets-code-to-launch-browser.html
+	LaunchBrowser(link);
+}
 
-		// variable declarations
-		wxArrayString browsers;
-		wxPathList path_list;
-		bool BrowserWasFound = false;
-		unsigned int i = 0;
-		wxString path;
-
-		// Add directories to wxPathList's search path from PATH environment variable
-		path_list.AddEnvList(wxT("PATH"));
-		
-		// Add browsers filenames. First item = most priority
-		browsers.Add(wxT("firefox"));
-		browsers.Add(wxT("firefox-bin"));
-		browsers.Add(wxT("mozilla"));
-		browsers.Add(wxT("mozilla-bin"));
-		browsers.Add(wxT("opera"));
-		browsers.Add(wxT("konqueror"));
-		browsers.Add(wxT("epiphany"));
-		
-		for (i = 0; i < browsers.GetCount(); i++) {
-			path = path_list.FindAbsoluteValidPath(browsers[i]);
-			if (path.IsEmpty()) {
-				continue;
-			} else {
-				BrowserWasFound = true;
-				break;
-			}
-		}
-		
-		browsers.Clear();
-		
-		if (BrowserWasFound) {
-			path += wxT(" ");
-			path += link;
-			::wxExecute(path);
-		} else {
-			wxMessageBox(wxT("No browser has been found."),wxT("OpenYahtzee"));
-		}
-	}
-
-
+void MainFrame::OnSendComment (wxCommandEvent& event){
+	
+	wxString link = wxT("http://openyahtzee.sourceforge.net/feedback.php");
+	
+	LaunchBrowser(link);
 }
 
 void MainFrame::OnQuit(wxCommandEvent& event)
@@ -447,7 +413,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 					((wxDynamicBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
 				}
 			}
-			::wxMilliSleep(200);
+			::wxMilliSleep(100);
 		}
 	} else {
 		for (int i=0; i<5; i++) {
@@ -795,4 +761,50 @@ void MainFrame::PostScore(int id)
 	m_numofplaysleft--;
 	EnableUndo(id);
 	EndofGame();
+}
+
+void MainFrame::LaunchBrowser (wxString link){
+	if (!wxLaunchDefaultBrowser(link)){
+		 //if builtin function doesn't work search for couple of browsers manually. see
+		 //http://linux-consulting.buanzo.com.ar/2006/05/wxwidgets-code-to-launch-browser.html
+
+		// variable declarations
+		wxArrayString browsers;
+		wxPathList path_list;
+		bool BrowserWasFound = false;
+		unsigned int i = 0;
+		wxString path;
+
+		// Add directories to wxPathList's search path from PATH environment variable
+		path_list.AddEnvList(wxT("PATH"));
+		
+		// Add browsers filenames. First item = most priority
+		browsers.Add(wxT("firefox"));
+		browsers.Add(wxT("firefox-bin"));
+		browsers.Add(wxT("mozilla"));
+		browsers.Add(wxT("mozilla-bin"));
+		browsers.Add(wxT("opera"));
+		browsers.Add(wxT("konqueror"));
+		browsers.Add(wxT("epiphany"));
+		
+		for (i = 0; i < browsers.GetCount(); i++) {
+			path = path_list.FindAbsoluteValidPath(browsers[i]);
+			if (path.IsEmpty()) {
+				continue;
+			} else {
+				BrowserWasFound = true;
+				break;
+			}
+		}
+		
+		browsers.Clear();
+		
+		if (BrowserWasFound) {
+			path += wxT(" ");
+			path += link;
+			::wxExecute(path);
+		} else {
+			wxMessageBox(wxT("No browser has been found."),wxT("OpenYahtzee"));
+		}
+	}
 }

@@ -73,6 +73,7 @@ private:
 	void HighScoreHandler(int score);
 	inline void EnableUndo(int id);
 	void PostScore(int id);
+	void CalculateSubTotal();
 	void LaunchBrowser (wxString link);
 
 	//pointers to hold bitmap data for the dices
@@ -92,6 +93,7 @@ private:
 	HighScoreTableDB *m_highscoredb; //handles the highscore database managment
 
 	bool m_animate; //sets whether to animate the dice.
+	bool m_calculatesubtotal; //sets whether to calculate the subtotal after every score or not
 
 };
 #endif

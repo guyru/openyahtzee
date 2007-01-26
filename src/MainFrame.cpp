@@ -85,6 +85,14 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 		m_settingsdb->SetKey("animate", "Yes");
 		m_animate = true;
 	}
+	if (m_settingsdb->GetKey("calculatesubtotal") == "Yes") {
+		m_calculatesubtotal = true;
+	} else if (m_settingsdb->GetKey("calculatesubtotal") == "No") {
+		m_calculatesubtotal = false;
+	} else {
+		m_settingsdb->SetKey("calculatesubtotal", "Yes");
+		m_calculatesubtotal = true;
+	}
 
 	// END Database initialization
 
@@ -144,8 +152,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	wxSizer *uppersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Upper Section") ), wxVERTICAL);
 	wxSizer *lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lower Section") ), wxVERTICAL);
 	
-	wxFlexGridSizer* uppergrid = new wxFlexGridSizer(9, 2, 0, 0);
-	wxFlexGridSizer* lowergrid = new wxFlexGridSizer(9, 2, 0, 0);
+	wxFlexGridSizer* uppergrid = new wxFlexGridSizer(2, 0, 10);
+	wxFlexGridSizer* lowergrid = new wxFlexGridSizer(2, 0, 10);
 
 	
 	uppergrid->Add(new wxButton(panel,ID_ACES,wxT("Aces")),0,wxALL,SPACE_SIZE);
@@ -342,6 +350,9 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
 	}
 
+	//recalculate the subtotals
+	CalculateSubTotal();
+
 	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
 	//cancel the counting for the choice that was canceled
 	m_numofplaysleft++;
@@ -370,6 +381,7 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 	data.highscoresize = m_highscoredb->GetSize();
 
 	data.animate = (m_settingsdb->GetKey("animate")=="Yes")?true:false;
+	data.subtotal = (m_settingsdb->GetKey("calculatesubtotal")=="Yes")?true:false;
 	
 	dialog->SetData(data);
 	if(dialog->ShowModal()==wxID_OK) { //user saved Changes
@@ -390,6 +402,14 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 		} else {
 			m_settingsdb->SetKey("animate","No");
 			m_animate = false;
+		}
+		if (data.subtotal){
+			m_settingsdb->SetKey("calculatesubtotal","Yes");
+			m_calculatesubtotal = true;
+			
+		} else {
+			m_settingsdb->SetKey("calculatesubtotal","No");
+			m_calculatesubtotal = false;
 		}
 
 	}
@@ -756,11 +776,42 @@ void MainFrame::PostScore(int id)
 	//now after the scoring reset the rolls
 	ResetRolls();
 
+	CalculateSubTotal();
+
 	//and disable the button
 	FindWindow(id)->Enable(false);
 	m_numofplaysleft--;
 	EnableUndo(id);
 	EndofGame();
+}
+
+void MainFrame::CalculateSubTotal()
+{
+	if (!m_calculatesubtotal)
+		return;
+	long upperscore = 0;
+	long lowerscore = 0;
+	wxString tempstr;
+	long temp;
+
+
+	for (int i = ID_ACESTEXT; i<=ID_SIXESTEXT; i++){
+		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
+		tempstr.ToLong(&temp,10);
+		upperscore +=temp;
+	}
+	
+	tempstr.Printf(wxT("%i"),upperscore);
+	((wxTextCtrl*) FindWindow(ID_UPPERSECTIONTOTAL)) -> SetValue(tempstr);
+
+	for (int i = ID_THREEOFAKINDTEXT; i<=ID_YAHTZEEBONUSTEXT; i++) {
+		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
+		tempstr.ToLong(&temp,10);
+		lowerscore +=temp;
+	}
+	
+	tempstr.Printf(wxT("%i"),lowerscore);
+	((wxTextCtrl*) FindWindow(ID_LOWERTOTAL)) -> SetValue(tempstr);
 }
 
 void MainFrame::LaunchBrowser (wxString link){

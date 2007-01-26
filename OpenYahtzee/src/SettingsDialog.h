@@ -37,6 +37,7 @@ struct SettingsDialogData {
 	int highscoresize;
 	bool reset;
 	bool animate;
+	bool subtotal;
 };
 
 class SettingsDialog: public wxDialog {
@@ -65,6 +66,7 @@ protected:
 	wxCheckBox* checkbox_reset; //the reset button
 	
 	wxCheckBox* animate_checkbox;
+	wxCheckBox* subtotal_checkbox;
 	
 };
 

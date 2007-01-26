@@ -37,6 +37,8 @@ SettingsDialog::SettingsDialog(wxWindow* parent, int id):
 	spin_ctrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,0,1024,20);
 	checkbox_reset = new wxCheckBox(this, ID_RESETHIGHSCORE, wxT("Reset high score table"));
 	animate_checkbox = new wxCheckBox(this, ID_ANIMATECHECKBOX, wxT("Animate dice"));
+	subtotal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Calculate sub-total score for the upper and lower sections"));
+
 
 	connect_event_table();
 	do_layout();
@@ -55,12 +57,13 @@ void SettingsDialog::do_layout()
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
 	wxBoxSizer* highscoresizer = new wxBoxSizer(wxHORIZONTAL);
 
-	highscoresizer->Add(label_1, 0, wxALL|wxADJUST_MINSIZE, 5);
-	highscoresizer->Add(spin_ctrl, 0, wxALL|wxADJUST_MINSIZE, 5);
+	highscoresizer->Add(label_1, 0, wxALL, 5);
+	highscoresizer->Add(spin_ctrl, 0, wxALL, 5);
 	top_sizer->Add(highscoresizer, 0, 0, 0);
 	top_sizer->Add(checkbox_reset, 0,wxALL, 5);
 
 	top_sizer->Add(animate_checkbox,0,wxALL,5);
+	top_sizer->Add(subtotal_checkbox,0,wxALL,5);
 
 	top_sizer->Add(CreateButtonSizer(wxOK|wxCANCEL), 1, wxBOTTOM, 10);
 	SetAutoLayout(true);
@@ -88,6 +91,7 @@ void SettingsDialog::SetData(SettingsDialogData data)
 {
 	spin_ctrl->SetValue(data.highscoresize);
 	animate_checkbox->SetValue(data.animate);
+	subtotal_checkbox->SetValue(data.subtotal);
 }
 
 SettingsDialogData SettingsDialog::GetData()
@@ -96,5 +100,6 @@ SettingsDialogData SettingsDialog::GetData()
 	data.highscoresize = spin_ctrl->GetValue();
 	data.reset = checkbox_reset->GetValue();
 	data.animate = animate_checkbox->GetValue();
+	data.subtotal = subtotal_checkbox->GetValue();
 	return data;
 }

@@ -277,7 +277,7 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 {
 	wxString msg;
 	wxString sqliteversion = wxString(sqlite3_version,wxConvUTF8);
-	msg.Printf(wxT("Open Yahtzee %s\nCopyright (C) 2006 by Guy Rutenberg\n\nThis program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nOpen Yahtzee was built against:\nwxWidgets %i.%i\n"),wxT(OY_VERSION),wxMAJOR_VERSION,wxMINOR_VERSION);
+	msg.Printf(wxT("Open Yahtzee %s\nCopyright (C) 2006 by Guy Rutenberg.\nDice design by Seamus McGill\n\nThis program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nOpen Yahtzee was built against:\nwxWidgets %i.%i\n"),wxT(OY_VERSION),wxMAJOR_VERSION,wxMINOR_VERSION);
 	msg += wxT("SQLite ") + sqliteversion;
 		
 	wxMessageBox(msg, wxT("About Open Yahtzee"), wxOK | wxICON_INFORMATION, this);

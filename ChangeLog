@@ -17,6 +17,7 @@ Open Yahtzee 1.7:
 - Implemented the Yahtzee Joker scoring rules.
 - Added accelerator key for the Undo button (CTRL+Z).
 - Added ability to send comments to the developer (via the Open Yahtzee website).
+- Calculates the sub-total score after every score (can be disabled).
 
 Open Yahtzee 1.6:
 -----------------

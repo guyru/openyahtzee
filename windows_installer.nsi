@@ -5,7 +5,7 @@
 ;
 ; 
 ;--------------------------------
-!define version 1.6.0
+!define version 1.7
 ;--------------------------------
 ;Include Modern UI
 
@@ -31,7 +31,10 @@ ShowUninstDetails hide
 InstallDirRegKey HKLM "Software\OpenYahtzee" "Install_Dir"
 
 ; set the icon for installer
-Icon "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
+;Icon "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
+!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
+!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
+
 ;--------------------------------
 ;Interface Settings
 
@@ -81,10 +84,12 @@ SectionEnd
 
 ; Optional section (can be disabled by the user)
 Section "Start Menu Shortcuts" SecStartMenu
+  ; Remove old shortcuts, if any
+  Delete "$SMPROGRAMS\OpenYahtzee\*.*"
 
   CreateDirectory "$SMPROGRAMS\OpenYahtzee"
-  CreateShortCut "$SMPROGRAMS\OpenYahtzee\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\OpenYahtzee\OpenYahtzee.lnk" "$INSTDIR\openyahtzee.exe" "" "$INSTDIR\icon32.ico" 0
+  CreateShortCut "$SMPROGRAMS\OpenYahtzee\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   
 SectionEnd
 ;--------------------------------

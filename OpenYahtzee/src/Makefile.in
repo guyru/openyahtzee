@@ -54,7 +54,8 @@ PROGRAMS = $(bin_PROGRAMS)
 am_openyahtzee_OBJECTS = openyahtzee.$(OBJEXT) MainFrame.$(OBJEXT) \
 	DBwrapper.$(OBJEXT) SettingsDB.$(OBJEXT) \
 	HighScoreTableDB.$(OBJEXT) HighScoreDialog.$(OBJEXT) \
-	SettingsDialog.$(OBJEXT) wxDynamicBitmap.$(OBJEXT)
+	SettingsDialog.$(OBJEXT) wxDynamicBitmap.$(OBJEXT) \
+	About.$(OBJEXT)
 openyahtzee_OBJECTS = $(am_openyahtzee_OBJECTS)
 openyahtzee_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
@@ -184,9 +185,9 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 openyahtzee_SOURCES = openyahtzee.cpp MainFrame.cpp five.xpm four.xpm one.xpm \
-					six.xpm three.xpm two.xpm DBwrapper.cpp DBwrapper.h SettingsDB.cpp \
-					HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp icon.xpm icon32.xpm \
-		openyahtzee.rc wxDynamicBitmap.cpp
+						six.xpm three.xpm two.xpm DBwrapper.cpp DBwrapper.h SettingsDB.cpp \
+						HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp icon.xpm icon32.xpm \
+			openyahtzee.rc wxDynamicBitmap.cpp About.cpp
 
 
 # set the include path found by configure
@@ -269,6 +270,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/About.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/DBwrapper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HighScoreDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HighScoreTableDB.Po@am__quote@

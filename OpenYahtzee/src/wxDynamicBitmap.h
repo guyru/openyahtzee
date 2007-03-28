@@ -44,6 +44,7 @@ public:
 	virtual void SetBitmap(wxBitmap&  bitmap);
 	wxBitmap GetBitmap();
 	void OnPaint(wxPaintEvent& event);
+	void OnClick(wxMouseEvent& event);
 	wxSize DoGetBestSize() const;
 private:
 	void PaintBitmap(wxDC& dc);

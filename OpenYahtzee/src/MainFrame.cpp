@@ -33,6 +33,7 @@
 #include "ObjectsID.h"
 #include "HighScoreDialog.h"
 #include "SettingsDialog.h"
+#include "About.h"
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -259,6 +260,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	Connect(ID_LARGESEQUENCE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnLargeSequenceButton));
 	Connect(ID_YAHTZEE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnYahtzeeButton));
 	Connect(ID_CHANCE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnChanceButton));
+	Connect(ID_DICE1,ID_DICE5, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnDiceClick));
 	
 	/*** End of Event Table ***/
 
@@ -275,12 +277,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
-	wxString msg;
-	wxString sqliteversion = wxString(sqlite3_version,wxConvUTF8);
-	msg.Printf(wxT("Open Yahtzee %s\nCopyright (C) 2006 by Guy Rutenberg.\nDice design by Seamus McGill\n\nThis program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nOpen Yahtzee was built against:\nwxWidgets %i.%i\n"),wxT(OY_VERSION),wxMAJOR_VERSION,wxMINOR_VERSION);
-	msg += wxT("SQLite ") + sqliteversion;
-		
-	wxMessageBox(msg, wxT("About Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+	AboutDialog *about = new AboutDialog(this,wxID_ANY,wxT("About Open Yahtzee"));
+	about->ShowModal();
 }
 
 void MainFrame::OnCheckForUpdates (wxCommandEvent& event){
@@ -638,6 +636,14 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 	else 
 		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
 
+}
+
+void MainFrame::OnDiceClick (wxCommandEvent& event)
+{
+	if (((wxCheckBox*) FindWindow(event.GetId()-ID_DICE1 + ID_DICE1KEEP))->IsEnabled()){
+		bool newvalue = (((wxCheckBox*) FindWindow(event.GetId()-ID_DICE1 + ID_DICE1KEEP))->GetValue())?false:true;
+		((wxCheckBox*) FindWindow(event.GetId()-ID_DICE1 + ID_DICE1KEEP)) -> SetValue(newvalue);
+	}
 }
 
 //********************************************

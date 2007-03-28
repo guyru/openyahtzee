@@ -61,6 +61,7 @@ public:
 	void OnLargeSequenceButton (wxCommandEvent& event);
 	void OnYahtzeeButton (wxCommandEvent& event);
 	void OnChanceButton (wxCommandEvent& event);
+	void OnDiceClick (wxCommandEvent& event);
 
 	
 

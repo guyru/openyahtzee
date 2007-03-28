@@ -21,6 +21,7 @@
 
 #include "wxDynamicBitmap.h"
 #include <wx/wx.h>
+#include "ObjectsID.h"
 
 #include <iostream>
 
@@ -31,6 +32,7 @@ wxDynamicBitmap::wxDynamicBitmap(wxWindow* parent, wxWindowID id, wxBitmap&  bit
 	wxControl::Create(parent,id,pos,size,style,wxDefaultValidator,name);
 	Connect(id, wxEVT_PAINT, wxPaintEventHandler(wxDynamicBitmap::OnPaint));
 	SetBitmap( bitmap);
+	Connect(id, wxEVT_LEFT_UP,wxMouseEventHandler(wxDynamicBitmap::OnClick));
 }
 
 void wxDynamicBitmap::OnPaint(wxPaintEvent& event)
@@ -69,4 +71,12 @@ wxSize wxDynamicBitmap::DoGetBestSize() const
 {
 	
 	return wxSize(m_bitmap.GetHeight(),m_bitmap.GetWidth());
+}
+
+void wxDynamicBitmap::OnClick(wxMouseEvent& event)
+{
+	//A hack that makes propogates wxEVT_COMMAND_BUTTON_CLICKED events to the parent of this control
+	wxCommandEvent newevent( wxEVT_COMMAND_BUTTON_CLICKED, GetId() );
+	newevent.SetEventObject( this );
+	GetEventHandler()->ProcessEvent( newevent );
 }

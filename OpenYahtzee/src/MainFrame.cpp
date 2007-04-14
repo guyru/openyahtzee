@@ -156,7 +156,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	wxFlexGridSizer* uppergrid = new wxFlexGridSizer(2, 0, 10);
 	wxFlexGridSizer* lowergrid = new wxFlexGridSizer(2, 0, 10);
 
-	
+	//BEGIN layout for the upper section of the score board
 	uppergrid->Add(new wxButton(panel,ID_ACES,wxT("Aces")),0,wxALL,SPACE_SIZE);
 	uppergrid->Add(new wxTextCtrl(panel, ID_ACESTEXT),1,wxALL,SPACE_SIZE);
 	uppergrid->Add(new wxButton(panel,ID_TWOS,wxT("Twos")),0,wxALL,SPACE_SIZE);
@@ -175,8 +175,9 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	uppergrid->Add(new wxTextCtrl(panel, ID_BONUS),1,wxALL,SPACE_SIZE);
 	uppergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Total of upper section:")),0,wxALL,SPACE_SIZE);
 	uppergrid->Add(new wxTextCtrl(panel, ID_UPPERTOTAL),1,wxALL,SPACE_SIZE);
+	//END layout for the upper section of the score board
 
-
+	//BEGIN layout for the lower section of the score board
 	lowergrid->Add(new wxButton(panel,ID_THREEOFAKIND,wxT("3 of a kind")),0,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxTextCtrl(panel, ID_THREEOFAKINDTEXT),1,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxButton(panel,ID_FOUROFAKIND,wxT("4 of a kind")),0,wxALL,SPACE_SIZE);
@@ -197,12 +198,14 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	lowergrid->Add(new wxTextCtrl(panel, ID_LOWERTOTAL),1,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxStaticText(panel, wxID_ANY, wxT("Grand Total:")),0,wxALL,SPACE_SIZE);
 	lowergrid->Add(new wxTextCtrl(panel, ID_GRANDTOTAL),1,wxALL,SPACE_SIZE);
+	//END layout for the lower section of the score board
 
 	uppersection->Add(uppergrid);
 	lowersection->Add(lowergrid);
 	sectionsSizer->Add(uppersection,0,wxALL,5);
 	sectionsSizer->Add(lowersection,0,wxALL,5);
 
+	//BEGIN layout for the dice section of the score board
 	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,3);
 	diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxBOTTOM,10);
 	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,3);
@@ -214,6 +217,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,3);
 	diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxBOTTOM,10);
 	diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll")),0,wxALL,3);
+	/*===> END layout for the dice section of the score board *******/
 
 	
 	topSizer->Add(sectionsSizer);
@@ -241,7 +245,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	/********* Declare Event Table *********/
 	/***************************************/
 	
-	/***Connect Menu items***/
+	//BEGIN connecting the menu items' events
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnQuit));
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnAbout));
 	Connect(ID_CHECK_FOR_UPDATES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnCheckForUpdates));
@@ -250,8 +254,11 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	Connect(ID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
+	//END connecting the menu items' events
+
 	Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
 
+	//BEGIN connecting the scoreboard buttons to the events
 	Connect(ID_ACES,ID_SIXES, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnUpperButtons));
 	Connect(ID_THREEOFAKIND, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::On3ofakindButton));
 	Connect(ID_FOUROFAKIND, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::On4ofakindButton));
@@ -261,7 +268,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	Connect(ID_YAHTZEE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnYahtzeeButton));
 	Connect(ID_CHANCE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnChanceButton));
 	Connect(ID_DICE1,ID_DICE5, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnDiceClick));
-	
+	//END connecting the scoreboard buttons to the event
+
 	/*** End of Event Table ***/
 
 	ResetRolls();
@@ -281,7 +289,13 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 	about->ShowModal();
 }
 
-void MainFrame::OnCheckForUpdates (wxCommandEvent& event){
+/**
+ * Connects to the Open Yahtzee website on sourceforge.net and checks for 
+ * updates to the game.
+ * \param event 
+ */
+void MainFrame::OnCheckForUpdates (wxCommandEvent& event)
+{
 	
 	wxString link = wxT("http://openyahtzee.sourceforge.net/update.php?version=");
 	
@@ -290,8 +304,14 @@ void MainFrame::OnCheckForUpdates (wxCommandEvent& event){
 	LaunchBrowser(link);
 }
 
-void MainFrame::OnSendComment (wxCommandEvent& event){
-	
+
+/**
+ * Starts up the user browser and connects to the Open Yahtzee website's
+ * feedback page.
+ * \param event 
+ */
+void MainFrame::OnSendComment (wxCommandEvent& event)
+{
 	wxString link = wxT("http://openyahtzee.sourceforge.net/feedback.php");
 	
 	LaunchBrowser(link);
@@ -303,6 +323,11 @@ void MainFrame::OnQuit(wxCommandEvent& event)
 	Close();
 }
 
+/**
+ * This is the event handler of the New Game menu item. It starts a new 
+ * game and clears the board from the last game.
+ * \param event 
+ */
 void MainFrame::OnNewGame(wxCommandEvent& event)
 {
 
@@ -317,7 +342,15 @@ void MainFrame::OnNewGame(wxCommandEvent& event)
 		((wxButton*) FindWindow(i))->Enable(true);
 }
 
-///This function handles the undo events
+/**
+ * This function handles the undo events. It's connected to the Undo menu item.
+ *
+ * Note that the function only allows undoing of scoring actions and not dice
+ * rolls. Also it won't allow the undoing of the last move of the game because
+ * of a technical problem relating to the case an high-score was made and then
+ * the user undo the last move and rescore another high-score and so on.
+ * @param event 
+ */
 void MainFrame::OnUndo(wxCommandEvent& event)
 {
 	m_rolls = m_rollsundo;

@@ -349,7 +349,7 @@ void MainFrame::OnNewGame(wxCommandEvent& event)
  * rolls. Also it won't allow the undoing of the last move of the game because
  * of a technical problem relating to the case an high-score was made and then
  * the user undo the last move and rescore another high-score and so on.
- * @param event 
+ * \param event 
  */
 void MainFrame::OnUndo(wxCommandEvent& event)
 {
@@ -388,7 +388,11 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 	//cancel the counting for the choice that was canceled
 	m_numofplaysleft++;
 }
-///This function enables the undo button and stores the last move
+
+/**
+ * This function enables the undo button and stores the last move
+ * \param id 
+ */
 inline void MainFrame::EnableUndo(int id)
 {
 	if (m_numofplaysleft) {
@@ -397,12 +401,21 @@ inline void MainFrame::EnableUndo(int id)
 	}
 }
 
+/**
+ * Shows the high-score dialog. Connected to the Game->"Show High Score" menu item.
+ * \param event 
+ */
 void MainFrame::OnShowHighscore(wxCommandEvent& event)
 {
 	HighScoreDialog *dialog = new HighScoreDialog(this,wxID_ANY,m_highscoredb);
 	dialog->ShowModal();
 }
 
+/**
+ * Shows the settings dialog. This event-handler is connected to Game->Settings
+ * menu item.
+ * \param event 
+ */
 void MainFrame::OnSettings( wxCommandEvent& event)
 {
 	SettingsDialog *dialog = new SettingsDialog(this,wxID_ANY);
@@ -446,6 +459,12 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 	}
 }
 
+/**
+ * Event handler for the Roll button. It checks the settings if it should
+ * animate the dice and then rolls them accordingly. It also checks for the
+ * status of the "keep" checkboxes.
+ * \param event 
+ */
 void MainFrame::OnRollButton (wxCommandEvent& event)
 {
 	//roll the dice...
@@ -497,6 +516,15 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 
 }
 
+/**
+ * This is the event-handler for all of the scoring buttons of the upper section.
+ *
+ * It gets the id of the button that called the event handler by comparing it 
+ * to the id of the aces button it figures what button was pressed, And updates
+ * the suiting score textbox (again by comparing the id to the one of the aces
+ * checbox).
+ * \param event 
+ */
 void MainFrame::OnUpperButtons (wxCommandEvent& event)
 {
 	wxString out;
@@ -514,6 +542,10 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
 }
 
+/**
+ * Event handler for the "3 of a kind" score button.
+ * \param event 
+ */
 void MainFrame::On3ofakindButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
@@ -541,6 +573,10 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 	PostScore(event.GetId());
 }
 
+/**
+ * Event handler for the "4 of a kind" score button.
+ * \param event 
+ */
 void MainFrame::On4ofakindButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
@@ -568,6 +604,10 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 	PostScore(event.GetId());
 }
 
+/**
+ * Event handler for the full-house score button.
+ * \param event 
+ */
 void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
@@ -593,6 +633,10 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 	PostScore(event.GetId());
 }
 
+/**
+ * Event handler for the small-sequence score button.
+ * \param event 
+ */
 void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
@@ -615,6 +659,10 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 	PostScore(event.GetId());
 }
 
+/**
+ * Event handler for the large-sequence score button.
+ * \param event 
+ */
 void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
@@ -636,6 +684,10 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 	PostScore(event.GetId());
 }
 
+/**
+ * Event handler for the yahtzee score button.
+ * \param event 
+ */
 void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
@@ -652,6 +704,10 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 	PostScore(event.GetId());
 }
 
+/**
+ * Evnet handler for the chance score button.
+ * \param event 
+ */
 void MainFrame::OnChanceButton (wxCommandEvent& event)
 {
 	wxString out;
@@ -671,6 +727,12 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 
 }
 
+/**
+ * Event handler for mouse clicks on the dice.
+ *
+ * When clicking on the dice this event-handler ticks the appropriate "keep" checkbox.
+ * \param event 
+ */
 void MainFrame::OnDiceClick (wxCommandEvent& event)
 {
 	if (((wxCheckBox*) FindWindow(event.GetId()-ID_DICE1 + ID_DICE1KEEP))->IsEnabled()){
@@ -683,12 +745,20 @@ void MainFrame::OnDiceClick (wxCommandEvent& event)
 //******	General Functions	******
 //********************************************
 
+/**
+ * This function clears the dice hash.
+ *
+ * The dice hash is just an array that holds how many dices have each value.
+ */
 void MainFrame::ClearDiceHash()
 {
 	for (int i=0; i<6; i++)
 		dicehash[i] = 0;
 }
 
+/**
+ * This function handles everything related to reseting the dice rolls after scoring.
+ */
 void MainFrame::ResetRolls()
 {
 	m_rollsundo = m_rolls;
@@ -700,6 +770,9 @@ void MainFrame::ResetRolls()
 	}
 }
 
+/**
+ * This function checks for a Yahtzee Bonus situation and if one exists it scores accordingly.
+ */
 void MainFrame::YahtzeeBonus()
 {
 	long temp;
@@ -718,6 +791,10 @@ void MainFrame::YahtzeeBonus()
 	}	
 }
 
+/**
+ * This function checks whether we have a Yahtzee Joker situation.
+ * \return true if there is Yahtzee Joker, false otherwise.
+ */
 bool MainFrame::YahtzeeJoker()
 {
 	if ((dice[0]==dice[1]) && (dice[1]==dice[2]) && (dice[1]==dice[3]) && (dice[1]==dice[4]) && !(FindWindow(ID_ACES+dice[0])->IsEnabled()) && !(FindWindow(ID_YAHTZEE)->IsEnabled())) {
@@ -726,6 +803,12 @@ bool MainFrame::YahtzeeJoker()
 	return false;
 }
 
+/**
+ * This function handles the end of game.
+ *
+ * When a game ends it calculates the total score and submit it to the high
+ * score list.
+ */
 void MainFrame::EndofGame()
 {
 	if(m_numofplaysleft>0)
@@ -778,6 +861,11 @@ void MainFrame::EndofGame()
 	
 }
 
+/**
+ * This function checks if a given score qualifies for the high score list and
+ * adds it to the list if it does.
+ * @param score The score submitted to the high score list.
+ */
 void MainFrame::HighScoreHandler(int score)
 {
 	int place;
@@ -810,6 +898,12 @@ void MainFrame::HighScoreHandler(int score)
 }
 
 ///this function handles all the post scoring stuff such as disabling the right button.
+/**
+ * This function is always called after scoring and it handles all the post-score
+ * stuff such as reseting the dice rolls, enabling the undo button, calculating
+ * the sub-total scores and ending the game if necessary.
+ * \param id 
+ */
 void MainFrame::PostScore(int id)
 {
 	//now after the scoring reset the rolls
@@ -824,6 +918,11 @@ void MainFrame::PostScore(int id)
 	EndofGame();
 }
 
+/**
+ * This function calculates the sub-total scores and should be called after
+ * every score. It does so only if this feature is requested in the settings
+ * dialog.
+ */
 void MainFrame::CalculateSubTotal()
 {
 	if (!m_calculatesubtotal)
@@ -853,6 +952,14 @@ void MainFrame::CalculateSubTotal()
 	((wxTextCtrl*) FindWindow(ID_LOWERTOTAL)) -> SetValue(tempstr);
 }
 
+/**
+ * This function launches the default browser and directs it to a given url.
+ *
+ * This function extends the wxWidgets default function for this job by checking manually for
+ * different browsers if the wxWidgets' function doesn't find one. This is usually necessary 
+ * under linux when epiphany isn't installed for some unknown reason.
+ * @param link The url that the browser will go to when it stats.
+ */
 void MainFrame::LaunchBrowser (wxString link){
 	if (!wxLaunchDefaultBrowser(link)){
 		 //if builtin function doesn't work search for couple of browsers manually. see

@@ -330,7 +330,9 @@ void MainFrame::OnQuit(wxCommandEvent& event)
  */
 void MainFrame::OnNewGame(wxCommandEvent& event)
 {
-
+	//disable the undo button so it won't be enabled when a new game is started.
+	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
+	
 	ResetRolls();
 	ClearDiceHash();
 	m_yahtzee = false;

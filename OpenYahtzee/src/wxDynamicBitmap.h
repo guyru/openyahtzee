@@ -46,9 +46,13 @@ public:
 	void OnPaint(wxPaintEvent& event);
 	void OnClick(wxMouseEvent& event);
 	wxSize DoGetBestSize() const;
+	void SetGrayScale(bool grayscale=true);
+	void ConvertToGrayScale(wxImage& image) const;
 private:
 	void PaintBitmap(wxDC& dc);
 	wxBitmap m_bitmap;
+	wxBitmap m_graybitmap;
+	bool m_grayscale;
 };
 
 #endif //WXDYNAMICBITMAP

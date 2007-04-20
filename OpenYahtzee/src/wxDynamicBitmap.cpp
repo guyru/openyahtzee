@@ -31,8 +31,10 @@ wxDynamicBitmap::wxDynamicBitmap(wxWindow* parent, wxWindowID id, wxBitmap&  bit
 {
 	wxControl::Create(parent,id,pos,size,style,wxDefaultValidator,name);
 	Connect(id, wxEVT_PAINT, wxPaintEventHandler(wxDynamicBitmap::OnPaint));
-	SetBitmap( bitmap);
 	Connect(id, wxEVT_LEFT_UP,wxMouseEventHandler(wxDynamicBitmap::OnClick));
+	SetBitmap( bitmap);
+	m_grayscale=false;
+	
 }
 
 void wxDynamicBitmap::OnPaint(wxPaintEvent& event)
@@ -49,6 +51,7 @@ wxBitmap wxDynamicBitmap::GetBitmap()
 void wxDynamicBitmap::SetBitmap( wxBitmap& bitmap)
 {
 	m_bitmap = bitmap;
+	SetGrayScale(m_grayscale);
 	wxWindow::Refresh();
 	wxWindow::Update();
 }
@@ -64,7 +67,8 @@ void wxDynamicBitmap::PaintBitmap(wxDC& dc)
 
 	dc.DrawRectangle(windowRect);
 
-	dc.DrawBitmap(m_bitmap , 0 , 0, true);
+	dc.DrawBitmap((m_grayscale?m_graybitmap:m_bitmap) , 0 , 0, true);
+	
 }
 
 wxSize wxDynamicBitmap::DoGetBestSize() const
@@ -80,3 +84,38 @@ void wxDynamicBitmap::OnClick(wxMouseEvent& event)
 	newevent.SetEventObject( this );
 	GetEventHandler()->ProcessEvent( newevent );
 }
+
+void wxDynamicBitmap::SetGrayScale(bool grayscale)
+{
+	m_grayscale = grayscale;
+	
+	//regenerate the grayscale bitmap;
+	if (grayscale) {
+		wxImage tempimage;
+		tempimage = m_bitmap.ConvertToImage();
+		ConvertToGrayScale(tempimage);
+		m_graybitmap = wxBitmap(tempimage);
+	}
+	wxWindow::Refresh();
+	wxWindow::Update();
+}
+
+void wxDynamicBitmap::ConvertToGrayScale(wxImage& image) const
+{
+	double red2Gray    = 0.297;
+	double green2Gray = 0.589;
+	double blue2Gray = 0.114;
+	int w = image.GetWidth(), h = image.GetHeight();
+	unsigned char *data = image.GetData();
+	int x,y;
+	for (y = 0; y < h; y++)
+		for (x = 0; x < w; x++)
+		{
+			long pos = (y * w + x) * 3;
+			char g = (char) (data[pos]*red2Gray +
+				data[pos+1]*green2Gray +
+				data[pos+2]*blue2Gray);
+			data[pos] = data[pos+1] = data[pos+2] = g;
+		}
+}
+

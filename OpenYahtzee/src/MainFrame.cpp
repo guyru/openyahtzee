@@ -268,6 +268,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	Connect(ID_YAHTZEE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnYahtzeeButton));
 	Connect(ID_CHANCE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnChanceButton));
 	Connect(ID_DICE1,ID_DICE5, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnDiceClick));
+	Connect(ID_DICE1KEEP,ID_DICE5KEEP, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (MainFrame::OnKeepClick));
 	//END connecting the scoreboard buttons to the event
 
 	/*** End of Event Table ***/
@@ -737,10 +738,23 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
  */
 void MainFrame::OnDiceClick (wxCommandEvent& event)
 {
+	//tick the checkbox
 	if (((wxCheckBox*) FindWindow(event.GetId()-ID_DICE1 + ID_DICE1KEEP))->IsEnabled()){
 		bool newvalue = (((wxCheckBox*) FindWindow(event.GetId()-ID_DICE1 + ID_DICE1KEEP))->GetValue())?false:true;
 		((wxCheckBox*) FindWindow(event.GetId()-ID_DICE1 + ID_DICE1KEEP)) -> SetValue(newvalue);
 	}
+
+	//dispatch a click event on the checkbox
+	wxCommandEvent clickevent((event.GetId()-ID_DICE1 + ID_DICE1KEEP),wxEVT_COMMAND_CHECKBOX_CLICKED);
+	clickevent.SetEventObject( this );
+	clickevent.SetId(event.GetId()-ID_DICE1 + ID_DICE1KEEP);
+	this->OnKeepClick(clickevent); ///\todo find a better way to call the event handler.
+}
+
+void MainFrame::OnKeepClick (wxCommandEvent& event)
+{
+	wxCheckBox *temp = (wxCheckBox*) FindWindow(event.GetId());
+	((wxDynamicBitmap*) FindWindow(event.GetId()-ID_DICE1KEEP + ID_DICE1))->SetGrayScale(temp->GetValue());
 }
 
 //********************************************
@@ -769,6 +783,7 @@ void MainFrame::ResetRolls()
 	for (int i=0; i<5; i++){ 
 		((wxCheckBox*) FindWindow(i + ID_DICE1KEEP)) -> SetValue(false);
 		((wxCheckBox*) FindWindow(i + ID_DICE1KEEP)) -> Enable(false);
+		((wxDynamicBitmap*) FindWindow(i+ID_DICE1)) -> SetGrayScale(false);
 	}
 }
 

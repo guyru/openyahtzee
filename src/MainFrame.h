@@ -62,8 +62,7 @@ public:
 	void OnYahtzeeButton (wxCommandEvent& event);
 	void OnChanceButton (wxCommandEvent& event);
 	void OnDiceClick (wxCommandEvent& event);
-
-	
+	void OnKeepClick (wxCommandEvent& event);	
 
 private:
 	void ClearDiceHash();

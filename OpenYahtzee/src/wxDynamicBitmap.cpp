@@ -74,7 +74,7 @@ void wxDynamicBitmap::PaintBitmap(wxDC& dc)
 wxSize wxDynamicBitmap::DoGetBestSize() const
 {
 	
-	return wxSize(m_bitmap.GetHeight(),m_bitmap.GetWidth());
+	return wxSize(m_bitmap.GetWidth(),m_bitmap.GetHeight());
 }
 
 void wxDynamicBitmap::OnClick(wxMouseEvent& event)

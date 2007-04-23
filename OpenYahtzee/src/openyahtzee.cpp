@@ -23,14 +23,16 @@
 // This is the main source file for the project. It includes the creation of the main window
 // but all other stuff is done on other files.
 
+/*
+PREFIX and DATADIR are passed by the make file to the program and hold the the
+path prefix and datadir path accordingly.
+*/
 
 #include "wx/wx.h"
 #include "MainFrame.h"
 // #ifdef WIN32 
 // 	#include openyahtzee.rc
 // #endif
-
-
 
 
 // Declare the application class
@@ -51,6 +53,8 @@ public:
 
 bool MyApp::OnInit()
 {
+	//load all image handlers
+	::wxInitAllImageHandlers();
 
 	// Create the main application window
 	MainFrame *frame = new MainFrame(wxT("OpenYahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE & (~wxRESIZE_BORDER));

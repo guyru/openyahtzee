@@ -26,7 +26,14 @@
 AboutDialog::AboutDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxMINIMIZE_BOX)
 {
-	wxBitmap *logo = new wxBitmap(wxT("logo.png"), wxBITMAP_TYPE_PNG); //TODO: not working
+	wxString temp= wxT(DATADIR);
+	temp += wxT("/OpenYahtzee/logo.gif");
+
+	wxBitmap *logo = new wxBitmap(temp, wxBITMAP_TYPE_GIF); 
+
+	//scale logo
+	wxImage tempimage = logo->ConvertToImage();
+	*logo = wxBitmap(tempimage.Scale(219,64));
 	
 	notebook_main = new wxNotebook(this, -1, wxDefaultPosition, wxDefaultSize, 0);
 	
@@ -38,7 +45,7 @@ AboutDialog::AboutDialog(wxWindow* parent, int id, const wxString& title, const 
 	
 	notebook_main_pane_about = new wxPanel(notebook_main, -1);
 	
-	bitmap_1 = new wxDynamicBitmap((wxWindow*)this, (wxWindowID)wxID_ANY,*logo );
+	bitmap_1 = new wxDynamicBitmap((wxWindow*)this, (wxWindowID)wxID_ANY,*logo);
 	
 	app_label = new wxStaticText(this, -1, wxT("Open Yahtzee 1.8.0"));
 	label_desc = new wxStaticText(notebook_main_pane_about, -1, wxT("A full-featured wxWidgets version of\nthe classic dice game Yahtzee."));

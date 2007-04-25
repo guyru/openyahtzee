@@ -33,8 +33,8 @@ using namespace std;
 
 /**
  * This constructor takes the filename of the database and opens it.
- * @param[in] filename a pointer a UNICODE string which make the filename of the sqllite database file
- * @return none
+ * \param[in] filename a pointer a UNICODE string which make the filename of the sqllite database file
+ * \return none
  */
 
 DBwrapper::DBwrapper(std::string filename)
@@ -59,7 +59,7 @@ DBwrapper::DBwrapper(){
 
 /**
  * The destructor for DBwrapper. The destructor is marked as virtual so derieved classes will be able to use it easily/
- * @return none
+ * \return none
  */
 DBwrapper::~DBwrapper()
 {
@@ -67,10 +67,11 @@ DBwrapper::~DBwrapper()
 }
 
 /**
- * 
- * @param[in] query a unicode string which holds the SQL query 
- * @param[in] maxbusy the number of 0.1 seconds to wait for the database in case it is busy. after this time expires the query will stop excute. defualts to 20.
- * @return a std::list of std::string holding the database query results.
+ * This function queries the database
+ *
+ * \param[in] query a unicode string which holds the SQL query 
+ * \param[in] maxbusy the number of 0.1 seconds to wait for the database in case it is busy. after this time expires the query will stop excute. defualts to 20.
+ * \return a std::list of std::string holding the database query results.
  */
 list<string> DBwrapper::Query (std::string query, const int maxbusy)
 {
@@ -141,8 +142,8 @@ list<string> DBwrapper::Query (std::string query, const int maxbusy)
 
 /**
  * Opens a new connection to database file
- * @param filename filename a pointer a UNICODE string which make the filename of the SQLite database file
- * @return The error code returned by sqlite3_open. On success should be SQLITE_OK
+ * \param filename filename a pointer a UNICODE string which make the filename of the SQLite database file
+ * \return The error code returned by sqlite3_open. On success should be SQLITE_OK
  */
 int DBwrapper::Open( std::string filename )
 {

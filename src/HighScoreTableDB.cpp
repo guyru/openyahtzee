@@ -67,10 +67,18 @@ void HighScoreTableDB::CreateTable()
 	Query("CREATE UNIQUE INDEX IF NOT EXISTS place ON highscore ( place )");	
 }
 
+/**
+ * Returns the size of the high-score table stored in the database.
+ * \return high-score table size
+ */
 int HighScoreTableDB::GetSize()
 {
 	return m_size;
 }
+/**
+ * Set the size of the high-score table stored in the database.
+ * \param size the desired size for the high-score table.
+ */
 void HighScoreTableDB::SetSize(int size)
 {
 	string tmp_query;
@@ -119,6 +127,17 @@ int HighScoreTableDB::IsHighScore(int score)
 	return 0; // the score doesn't qualifiy
 }
 
+/**
+ * Submits a score to the high-score table.
+ *
+ * The function checks if the scores qualifies using (IsHighScore())and then adds
+ * the score to the high-score table stored in the database.
+ * \see IsHighScore()
+ * \param name the name of the submitted score's holder.
+ * \param date the date and time of the game in which the submited score was scored.
+ * \param score the actual submited score that was scored.
+ * \return the place in the high score table of the submited score. 0 if the score didn't qualify.
+ */
 int HighScoreTableDB::SendHighScore(std::string name, std::string date, int score)
 {
 	int place;
@@ -182,6 +201,10 @@ int HighScoreTableDB::SendHighScore(std::string name, std::string date, int scor
 }
 
 
+/**
+ * Return the entire high-score table.
+ * @return a list of strings where each three strings represent an entire column.
+ */
 std::list<std::string> HighScoreTableDB::GetHighScoreTable()
 {
 	std::ostringstream sstr;

@@ -44,7 +44,7 @@ class Template
 <li><a href="download.php">Download</a></li>
 <li><a href="news.php">News</a></li>
 <li><a href="index.php#features">Features</a></li>
-<li><a href="http://sourceforge.net/project/screenshots.php?group_id=175453">Screenshots</a></li>
+<li><a href="screenshots.php">Screenshots</a></li>
 <li><a href="http://sourceforge.net/projects/openyahtzee">SF Project Page</a></li>
 </ul>
 

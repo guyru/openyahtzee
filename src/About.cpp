@@ -52,7 +52,7 @@ AboutDialog::AboutDialog(wxWindow* parent, int id, const wxString& title, const 
 	label_copyright = new wxStaticText(notebook_main_pane_about, -1, wxT("(c) 2006-2007 Guy Rutenberg"));
 	label_1 = new wxStaticText(notebook_main_pane_about, -1, wxT("http://openyahtzee.sourceforge.net/"));
 	label_7 = new wxStaticText(notebook_main_pane_authors, -1, wxT("Please report bugs to openyahtzee-users@lists.sourceforge.net.\n\nGuy Rutenberg\n\tguyrutenberg@gmail.com\n\tAuthor, maintainer"));
-	label_6 = new wxStaticText(notebook_main_pane_thanks, -1, wxT("Seamous McGill\n\tjohndoe@gmail.com\n\tLogo and dice design\n\nNeil Gierman\n\tNeil Gierman\n\tRPM packages\n\nJohn Doe3\n    email@john.com\n    Windows Installer"));
+	label_6 = new wxStaticText(notebook_main_pane_thanks, -1, wxT("Seamous McGill\n\tjohndoe@gmail.com\n\tLogo and dice design\n\nNeil Gierman\n\tngierman@roadrunn.com\n\tRPM packages"));
     label_15 = new wxStaticText(notebook_main_pane_license, -1, wxT("This program is free software; you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by \nthe Free Software Foundation; either version 2 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of \nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details. \n\nYou should have received a copy of the GNU General Public License \nalong with this program; if not, write to the\nFree Software Foundation, Inc.,\n59 Temple Place - Suite 330, Boston, MA  02111-1307, USA."));
     close_button = new wxButton(this, wxID_OK, wxT("Close"));
 

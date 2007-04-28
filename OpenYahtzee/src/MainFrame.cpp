@@ -66,36 +66,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
-
-	//DATABASE initialization
-	if (m_settingsdb->GetKey("highscoresize") == "") { //check if we need to create a new high score table
-		m_highscoredb->SetSize(DEF_HIGHSCORESIZE);
-		sstr<<DEF_HIGHSCORESIZE<<std::flush;
-		m_settingsdb->SetKey("highscoresize", sstr.str());
-	} else {
-		int highscoresize = atoi((m_settingsdb->GetKey("highscoresize")).c_str());
-		//m_highscoredb->SetSize((highscoresize>0)?highscoresize:DEF_HIGHSCORESIZE);
-		m_highscoredb->SetSize(highscoresize);
-	}
 	
-	if (m_settingsdb->GetKey("animate") == "Yes") {
-		m_animate = true;
-	} else if (m_settingsdb->GetKey("animate") == "No") {
-		m_animate = false;
-	} else {
-		m_settingsdb->SetKey("animate", "Yes");
-		m_animate = true;
-	}
-	if (m_settingsdb->GetKey("calculatesubtotal") == "Yes") {
-		m_calculatesubtotal = true;
-	} else if (m_settingsdb->GetKey("calculatesubtotal") == "No") {
-		m_calculatesubtotal = false;
-	} else {
-		m_settingsdb->SetKey("calculatesubtotal", "Yes");
-		m_calculatesubtotal = true;
-	}
-
-	// END Database initialization
+	InitializeDatabase();//this must come _after_ m_settingsdb and m_highscoredb are created
 
 	bitmap_dices[0] = new wxBitmap(one_xpm);
 	bitmap_dices[1] = new wxBitmap(two_xpm);
@@ -1021,4 +993,53 @@ void MainFrame::LaunchBrowser (wxString link){
 			wxMessageBox(wxT("No browser has been found."),wxT("OpenYahtzee"));
 		}
 	}
+}
+
+/**
+ * Initializes the database and stores default settings if needed.
+ * @return 0 if some error
+ */
+int MainFrame::InitializeDatabase()
+{
+	std::ostringstream sstr;
+
+
+	if (m_settingsdb->GetKey("highscoresize") == "") { //check if we need to create a new high score table
+		m_highscoredb->SetSize(DEF_HIGHSCORESIZE);
+		sstr<<DEF_HIGHSCORESIZE<<std::flush;
+		m_settingsdb->SetKey("highscoresize", sstr.str());
+	} else {
+		int highscoresize = atoi((m_settingsdb->GetKey("highscoresize")).c_str());
+		//m_highscoredb->SetSize((highscoresize>0)?highscoresize:DEF_HIGHSCORESIZE);
+		m_highscoredb->SetSize(highscoresize);
+	}
+	
+	if (m_settingsdb->GetKey("animate") == "Yes") {
+		m_animate = true;
+	} else if (m_settingsdb->GetKey("animate") == "No") {
+		m_animate = false;
+	} else {
+		m_settingsdb->SetKey("animate", "Yes");
+		m_animate = true;
+	}
+	if (m_settingsdb->GetKey("calculatesubtotal") == "Yes") {
+		m_calculatesubtotal = true;
+	} else if (m_settingsdb->GetKey("calculatesubtotal") == "No") {
+		m_calculatesubtotal = false;
+	} else {
+		m_settingsdb->SetKey("calculatesubtotal", "Yes");
+		m_calculatesubtotal = true;
+	}
+	
+	if (m_settingsdb->GetKey("openyahtzeehomepage") == "") {
+		m_settingsdb->SetKey("openyahtzeehomepage", "http://openyahtzee.sourceforge.net/");
+	}
+
+	if (m_settingsdb->GetKey("updateurl") == "") {
+		/*the version string will be appended in the end of the
+		  given url */
+		m_settingsdb->SetKey("updateurl", "http://openyahtzee.sourceforge.net/update.php?version=");
+	}
+	
+	return 1;
 }

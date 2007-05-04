@@ -1,49 +1,31 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="14" >
-  <Doc0 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/SettingsDB.h" >
-   <View0 Type="Source" />
+ <DocsAndViews NumberOfDocuments="8" >
+  <Doc0 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/About.cpp" >
+   <View0 line="54" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/openyahtzee.cpp" >
-   <View0 line="57" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/DBwrapper.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/MainFrame.cpp" >
-   <View0 line="63" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/DBwrapper.h" >
+   <View0 line="0" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/ObjectsID.h" >
-   <View0 Type="Source" />
+  <Doc3 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/HighScoreDialog.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/MainFrame.h" >
-   <View0 Type="Source" />
+  <Doc4 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/HighScoreTableDB.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/wxDynamicBitmap.cpp" >
-   <View0 Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/openyahtzee.cpp" >
+   <View0 line="0" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/wxDynamicBitmap.h" >
-   <View0 Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/MainFrame.cpp" >
+   <View0 line="69" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/SettingsDialog.cpp" >
-   <View0 line="50" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/MainFrame.h" >
+   <View0 line="77" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/About.cpp" >
-   <View0 Type="Source" />
-  </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/About.h" >
-   <View0 line="31" Type="Source" />
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/DBwrapper.cpp" >
-   <View0 line="89" Type="Source" />
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/SettingsDB.cpp" >
-   <View0 line="0" Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/HighScoreTableDB.cpp" >
-   <View0 line="70" Type="Source" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/guy/workspace/OpenYahtzee/src/HighScoreDialog.cpp" >
-   <View0 line="0" Type="Source" />
-  </Doc13>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

@@ -5,7 +5,9 @@ OPEN YAHTZEE CHANGELOG
 
 Open Yahtzee 1.8:
 -----------------
--Clicking on the dice sets the "keep" checkbox.
+- Clicking on the dice sets the "keep" checkbox.
+- Fixed bug #1700729 (undoing the first move of the game).
+- Redesigned "About" dialog box.
 
 Open Yahtzee 1.7:
 -----------------

@@ -32,11 +32,5 @@ private:
 
 };
 
-class HighScoreInfo : public wxDialog 
-{
-public:
-	HighScoreInfo(wxWindow* parent,int place);
-	wxString GetName();
-};
 
 #endif

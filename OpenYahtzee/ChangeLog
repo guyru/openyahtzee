@@ -7,6 +7,9 @@ Open Yahtzee 1.8:
 -----------------
 - Clicking on the dice sets the "keep" checkbox.
 - Fixed bug #1700729 (undoing the first move of the game).
+- Fixed bug #1719068 (UI behaivior of the dialog box asking for the user's name).
+- Refactored the code of the dialog box that asks the user for his name for
+  the high score table.
 - Redesigned "About" dialog box.
 
 Open Yahtzee 1.7:

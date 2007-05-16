@@ -866,10 +866,14 @@ void MainFrame::HighScoreHandler(int score)
 	
 	if(!place)  //if the score didn't make it to the highscore table do nothing
 		return;
-	HighScoreInfo *infodialog = new HighScoreInfo(this,place);
-	infodialog->ShowModal();
+	
+	wxString msg;
+	msg.Printf(wxT("Your score made it to the high score table. Your place is number %i.\nPlease enter your name below:"),place);
 
-	name = infodialog->GetName().mb_str();
+	wxTextEntryDialog infodialog(this,msg,wxT("Please enter your name"),wxT(""),wxOK | wxCENTRE);
+	infodialog.ShowModal();
+
+	name = infodialog.GetValue().mb_str();
 
 	//get the date
 	wxDateTime now = wxDateTime::Now();

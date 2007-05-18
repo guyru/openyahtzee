@@ -5,7 +5,7 @@ $template->siteTitle = "Open Yahtzee - News";
 
 $latestnews = '<div><strong>12 May 2007</strong> Open Yahtzee PE 
 (Portable Edition) was anounced today. for further details see:</br>
-http://sourceforge.net/forum/forum.php?forum_id=694892
+<a href="http://sourceforge.net/forum/forum.php?forum_id=694892">http://sourceforge.net/forum/forum.php?forum_id=694892</a>
 </div>
 <div><strong>09 Feb. 2007</strong> Open Yahtzee 1.7 was released today. You can read more about the release and the new features in:<br/><a href="https://sourceforge.net/forum/forum.php?forum_id=663217">https://sourceforge.net/forum/forum.php?forum_id=663217</a>
 </div>

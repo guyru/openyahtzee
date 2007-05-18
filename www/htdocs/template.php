@@ -84,21 +84,12 @@ width="88" height="31" alt="SourceForge.net Logo" /></a>
 <a href="http://validator.w3.org/check?uri=referer"><img
         src="http://www.w3.org/Icons/valid-xhtml10"
         alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
-<!-- phpmyvisites -->
-<a href="http://www.phpmyvisites.net/" title="Free web analytics, website statistics"
-onclick="window.open(this.href);return(false);"><script type="text/javascript">
-<!--
-var a_vars = Array();
-var pagename='';
-
-var phpmyvisitesSite = 3;
-var phpmyvisitesURL = "http://stats.sikumuna.com/phpmyvisites.php";
-//-->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
 </script>
-<script src="http://stats.sikumuna.com/phpmyvisites.js" type="text/javascript"></script>
-<img src="http://stats.sikumuna.com/phpmyvisites.php" style="border:0" alt="" />
-</a>
-<!-- /phpmyvisites --> 
+<script type="text/javascript">
+_uacct = "UA-1882923-1";
+urchinTracker();
+</script> 
 </div><!--End of footer div -->
 
 </div><!--End of wrapper div -->

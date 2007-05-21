@@ -66,4 +66,5 @@ protected:
 }; // wxGlade: end class
 
 
+
 #endif // ABOUT_H

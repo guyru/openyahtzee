@@ -29,6 +29,8 @@
 #ifndef MAINFRAME_INC
 #define MAINFRAME_INC
 
+DECLARE_EVENT_TYPE(wxEVT_ENABLE_ROLL, -1)
+
 /// MainFrame class - the main window
 /**
 The Main Frame class is a derieved class from wxFrame which is responsible to 

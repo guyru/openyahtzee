@@ -56,6 +56,9 @@
 #define DEF_HIGHSCORESIZE 20
 #define OY_VERSION "1.7.0"
 
+DEFINE_EVENT_TYPE(wxEVT_ENABLE_ROLL)
+
+
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
 {
@@ -230,6 +233,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	//END connecting the menu items' events
 
 	Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
+	Connect(ID_ROLL, wxEVT_ENABLE_ROLL, wxCommandEventHandler (MainFrame::OnRollButton));
 
 	//BEGIN connecting the scoreboard buttons to the events
 	Connect(ID_ACES,ID_SIXES, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnUpperButtons));
@@ -443,6 +447,15 @@ void MainFrame::OnSettings( wxCommandEvent& event)
  */
 void MainFrame::OnRollButton (wxCommandEvent& event)
 {
+	if (event.GetEventType() == wxEVT_ENABLE_ROLL) {
+		//here we reconnect the event handler. We should recieve this event only after 
+		//the dice stopped rolling and all other click events where skipped.
+		Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
+		return;
+	}
+	//Disconnect the button so we won't recieve new events untill we finish rolling the dice.
+	Disconnect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
+
 	//roll the dice...
 	if (m_animate) {
 		int dice_throws[5] = {0,0,0,0,0};
@@ -489,7 +502,10 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	//we rolled the dices so undoing isn't allowed
 	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
 	m_yahtzeebonus = false; //if we scored yahtzee bonus before we don't care anymore.
-
+	
+	//queue the event which will cause the event-handler for clicks to be reconnected.
+	event.SetEventType(wxEVT_ENABLE_ROLL);
+	wxEvtHandler::AddPendingEvent(event);
 }
 
 /**

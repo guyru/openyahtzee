@@ -34,6 +34,7 @@
 #include "HighScoreDialog.h"
 #include "SettingsDialog.h"
 #include "About.h"
+#include "UtilityFunctions.h"
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -945,59 +946,6 @@ void MainFrame::CalculateSubTotal()
 	((wxTextCtrl*) FindWindow(ID_LOWERTOTAL)) -> SetValue(tempstr);
 }
 
-/**
- * This function launches the default browser and directs it to a given url.
- *
- * This function extends the wxWidgets default function for this job by checking manually for
- * different browsers if the wxWidgets' function doesn't find one. This is usually necessary 
- * under linux when epiphany isn't installed for some unknown reason.
- * @param link The url that the browser will go to when it stats.
- */
-void MainFrame::LaunchBrowser (wxString link){
-	if (!wxLaunchDefaultBrowser(link)){
-		 //if builtin function doesn't work search for couple of browsers manually. see
-		 //http://linux-consulting.buanzo.com.ar/2006/05/wxwidgets-code-to-launch-browser.html
-
-		// variable declarations
-		wxArrayString browsers;
-		wxPathList path_list;
-		bool BrowserWasFound = false;
-		unsigned int i = 0;
-		wxString path;
-
-		// Add directories to wxPathList's search path from PATH environment variable
-		path_list.AddEnvList(wxT("PATH"));
-		
-		// Add browsers filenames. First item = most priority
-		browsers.Add(wxT("firefox"));
-		browsers.Add(wxT("firefox-bin"));
-		browsers.Add(wxT("mozilla"));
-		browsers.Add(wxT("mozilla-bin"));
-		browsers.Add(wxT("opera"));
-		browsers.Add(wxT("konqueror"));
-		browsers.Add(wxT("epiphany"));
-		
-		for (i = 0; i < browsers.GetCount(); i++) {
-			path = path_list.FindAbsoluteValidPath(browsers[i]);
-			if (path.IsEmpty()) {
-				continue;
-			} else {
-				BrowserWasFound = true;
-				break;
-			}
-		}
-		
-		browsers.Clear();
-		
-		if (BrowserWasFound) {
-			path += wxT(" ");
-			path += link;
-			::wxExecute(path);
-		} else {
-			wxMessageBox(wxT("No browser has been found."),wxT("OpenYahtzee"));
-		}
-	}
-}
 
 /**
  * Initializes the database and stores default settings if needed.

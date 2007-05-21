@@ -74,7 +74,6 @@ private:
 	inline void EnableUndo(int id);
 	void PostScore(int id);
 	void CalculateSubTotal();
-	void LaunchBrowser (wxString link);
 	int InitializeDatabase();
 
 	//pointers to hold bitmap data for the dices

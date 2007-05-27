@@ -97,5 +97,7 @@ private:
 	bool m_animate; //sets whether to animate the dice.
 	bool m_calculatesubtotal; //sets whether to calculate the subtotal after every score or not
 
+	bool m_horizontallayout;
+
 };
 #endif

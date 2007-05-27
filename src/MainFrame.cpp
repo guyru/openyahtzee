@@ -121,10 +121,19 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	/***End menu-bar ***/
 	wxPanel* panel = new wxPanel(this, ID_PANEL,
    		wxDefaultPosition, wxDefaultSize);
-
-	wxBoxSizer *topSizer = new wxBoxSizer( wxHORIZONTAL );
-	wxBoxSizer *sectionsSizer = new wxBoxSizer( wxVERTICAL );
-	wxBoxSizer *diceSizer = new wxBoxSizer( wxVERTICAL );
+	m_horizontallayout = 0; //TODO remove this line
+	wxBoxSizer *topSizer;
+	wxBoxSizer *sectionsSizer;
+	wxFlexGridSizer *diceSizer;
+	if (m_horizontallayout) {
+		topSizer = new wxBoxSizer( wxVERTICAL );
+		sectionsSizer = new wxBoxSizer( wxHORIZONTAL );
+		diceSizer = new wxFlexGridSizer(2, 0, 0, 0);
+	} else {
+		topSizer = new wxBoxSizer( wxHORIZONTAL );
+		sectionsSizer = new wxBoxSizer( wxVERTICAL );
+		diceSizer = new wxFlexGridSizer(1, 0, 0);;
+	}
 
 	wxSizer *uppersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Upper Section") ), wxVERTICAL);
 	wxSizer *lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lower Section") ), wxVERTICAL);
@@ -182,18 +191,32 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	sectionsSizer->Add(lowersection,0,wxALL,5);
 
 	//BEGIN layout for the dice section of the score board
-	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxBOTTOM,10);
-	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP, wxT("Keep")),0,wxBOTTOM,10);
-	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE3,*bitmap_dices[2]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP, wxT("Keep")),0,wxBOTTOM,10);
-	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE4,*bitmap_dices[3]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP, wxT("Keep")),0,wxBOTTOM,10);
-	diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,3);
-	diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxBOTTOM,10);
-	diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll")),0,wxALL,3);
-	/*===> END layout for the dice section of the score board *******/
+	if (m_horizontallayout) {
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,3);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,3);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE3,*bitmap_dices[2]),0,wxALL,3);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE4,*bitmap_dices[3]),0,wxALL,3);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,3);
+		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64)),0,wxALL,3);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxBOTTOM,10);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP, wxT("Keep")),0,wxBOTTOM,10);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP, wxT("Keep")),0,wxBOTTOM,10);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP, wxT("Keep")),0,wxBOTTOM,10);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxBOTTOM,10);
+	} else {
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,3);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxBOTTOM,10);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,3);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP, wxT("Keep")),0,wxBOTTOM,10);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE3,*bitmap_dices[2]),0,wxALL,3);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP, wxT("Keep")),0,wxBOTTOM,10);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE4,*bitmap_dices[3]),0,wxALL,3);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP, wxT("Keep")),0,wxBOTTOM,10);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,3);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxBOTTOM,10);
+		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64)),0,wxALL,3);
+	}
+	//END layout for the dice section of the score board *******/
 
 	
 	topSizer->Add(sectionsSizer);

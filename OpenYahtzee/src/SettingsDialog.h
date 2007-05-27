@@ -38,6 +38,7 @@ struct SettingsDialogData {
 	bool reset;
 	bool animate;
 	bool subtotal;
+	bool horizontal;
 };
 
 class SettingsDialog: public wxDialog {
@@ -67,6 +68,7 @@ protected:
 	
 	wxCheckBox* animate_checkbox;
 	wxCheckBox* subtotal_checkbox;
+	wxCheckBox* horizontal_checkbox;
 	
 };
 

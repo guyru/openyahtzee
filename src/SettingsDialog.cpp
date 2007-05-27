@@ -38,6 +38,7 @@ SettingsDialog::SettingsDialog(wxWindow* parent, int id):
 	checkbox_reset = new wxCheckBox(this, ID_RESETHIGHSCORE, wxT("Reset high score table"));
 	animate_checkbox = new wxCheckBox(this, ID_ANIMATECHECKBOX, wxT("Animate dice"));
 	subtotal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Calculate sub-total score for the upper and lower sections"));
+	horizontal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Enable horizontal layout for user interface \n(requires restart of the game)."));
 
 
 	connect_event_table();
@@ -64,6 +65,7 @@ void SettingsDialog::do_layout()
 
 	top_sizer->Add(animate_checkbox,0,wxALL,5);
 	top_sizer->Add(subtotal_checkbox,0,wxALL,5);
+	top_sizer->Add(horizontal_checkbox,0,wxALL,5);
 
 	top_sizer->Add(CreateButtonSizer(wxOK|wxCANCEL), 1, wxBOTTOM, 10);
 	SetAutoLayout(true);
@@ -92,6 +94,7 @@ void SettingsDialog::SetData(SettingsDialogData data)
 	spin_ctrl->SetValue(data.highscoresize);
 	animate_checkbox->SetValue(data.animate);
 	subtotal_checkbox->SetValue(data.subtotal);
+	horizontal_checkbox->SetValue(data.horizontal);
 }
 
 SettingsDialogData SettingsDialog::GetData()
@@ -101,5 +104,6 @@ SettingsDialogData SettingsDialog::GetData()
 	data.reset = checkbox_reset->GetValue();
 	data.animate = animate_checkbox->GetValue();
 	data.subtotal = subtotal_checkbox->GetValue();
+	data.horizontal = horizontal_checkbox->GetValue();
 	return data;
 }

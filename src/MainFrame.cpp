@@ -121,7 +121,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	/***End menu-bar ***/
 	wxPanel* panel = new wxPanel(this, ID_PANEL,
    		wxDefaultPosition, wxDefaultSize);
-	m_horizontallayout = 0; //TODO remove this line
+
 	wxBoxSizer *topSizer;
 	wxBoxSizer *sectionsSizer;
 	wxFlexGridSizer *diceSizer;
@@ -429,6 +429,7 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 
 	data.animate = (m_settingsdb->GetKey("animate")=="Yes")?true:false;
 	data.subtotal = (m_settingsdb->GetKey("calculatesubtotal")=="Yes")?true:false;
+	data.horizontal = (m_settingsdb->GetKey("horizontallayout")=="Yes")?true:false;
 	
 	dialog->SetData(data);
 	if(dialog->ShowModal()==wxID_OK) { //user saved Changes
@@ -457,6 +458,14 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 		} else {
 			m_settingsdb->SetKey("calculatesubtotal","No");
 			m_calculatesubtotal = false;
+		}
+		if (data.horizontal){
+			m_settingsdb->SetKey("horizontallayout","Yes");
+			m_horizontallayout = true;
+			
+		} else {
+			m_settingsdb->SetKey("horizontallayout","No");
+			m_horizontallayout = false;
 		}
 
 	}
@@ -1013,6 +1022,7 @@ int MainFrame::InitializeDatabase()
 		m_settingsdb->SetKey("animate", "Yes");
 		m_animate = true;
 	}
+
 	if (m_settingsdb->GetKey("calculatesubtotal") == "Yes") {
 		m_calculatesubtotal = true;
 	} else if (m_settingsdb->GetKey("calculatesubtotal") == "No") {
@@ -1021,7 +1031,15 @@ int MainFrame::InitializeDatabase()
 		m_settingsdb->SetKey("calculatesubtotal", "Yes");
 		m_calculatesubtotal = true;
 	}
-	
+
+	if (m_settingsdb->GetKey("horizontallayout") == "Yes") {
+		m_horizontallayout = true;
+	} else if (m_settingsdb->GetKey("horizontallayout") == "No") {
+		m_horizontallayout = false;
+	} else {
+		m_settingsdb->SetKey("horizontallayout", "No");
+		m_horizontallayout = false;
+	}
 	if (m_settingsdb->GetKey("openyahtzeehomepage") == "") {
 		m_settingsdb->SetKey("openyahtzeehomepage", "http://openyahtzee.sourceforge.net/");
 	}

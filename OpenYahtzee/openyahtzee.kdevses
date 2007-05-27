@@ -3,25 +3,25 @@
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="8" >
   <Doc0 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/About.cpp" >
-   <View0 line="106" Type="Source" />
+   <View0 Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/openyahtzee.cpp" >
-   <View0 line="0" Type="Source" />
+   <View0 Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/MainFrame.cpp" >
-   <View0 line="505" Type="Source" />
+   <View0 line="199" Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/MainFrame.h" >
-   <View0 line="31" Type="Source" />
+   <View0 line="99" Type="Source" />
   </Doc3>
   <Doc4 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/About.h" >
-   <View0 line="24" Type="Source" />
+   <View0 Type="Source" />
   </Doc4>
   <Doc5 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/UtilityFunctions.h" >
-   <View0 line="30" Type="Source" />
+   <View0 Type="Source" />
   </Doc5>
   <Doc6 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/UtilityFunctions.cpp" >
-   <View0 line="23" Type="Source" />
+   <View0 Type="Source" />
   </Doc6>
   <Doc7 NumberOfViews="1" URL="file:///home/guy/workspace/openyahtzee/trunk/OpenYahtzee/src/wxDynamicBitmap.cpp" >
    <View0 line="84" Type="Source" />

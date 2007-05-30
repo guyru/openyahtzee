@@ -16,7 +16,7 @@ $template->content = <<<EOF
 			<a href="images/openyahtzee1.7_linux2.png"><img src="images/openyahtzee1.7_linux2_thumb.png" alt="screenshot"/></a></div>
 			<div class="center">linux</div></td>
 		<td><div class="center">
-			<a href="images/openyahtzee1.7_windows.png"><img src="imgages/openyahtzee1.7_windows_thumb.png" alt="screenshot"/></a></div>
+			<a href="images/openyahtzee1.7_windows.png"><img src="images/openyahtzee1.7_windows_thumb.png" alt="screenshot"/></a></div>
 			<div class="center">windows</div></td>
 	</tr>
 </table>

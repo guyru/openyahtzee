@@ -26,7 +26,11 @@ $template->content.='
 </ul>
 <br />
 
-If you have any suggestions of feature-requests feel free to <a href="mailto://guy+openyahtzee@sikumuna.co.il">contact me</a> or post a feature-request in the <a href="http://sourceforge.net/tracker/?group_id=175453&amp;atid=873298">feature-requests page</a> in the project\'s SourceForge page. ';
+If you have any suggestions of feature-requests feel free to <a 
+href="mailto://guyrutenberg@gmail.com">contact me</a> or post a 
+feature-request in the 
+<a 
+href="http://sourceforge.net/tracker/?group_id=175453&amp;atid=873298">feature-requests page</a> in the project\'s SourceForge page. ';
 
 $template->out();
 ?>

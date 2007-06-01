@@ -51,10 +51,15 @@
 //include the icon file
 #include "Icon.h"
 
-//default values
+//default values - design
 #define SPACE_SIZE 1
+#define DICE_SPACE 3
+#define KEEP_SPACE 5
+#define VER_DICE_SPACER 10
+
+//default values - settings
 #define DEF_HIGHSCORESIZE 20
-#define OY_VERSION "1.7.0"
+#define OY_VERSION "1.8.0"
 
 DEFINE_EVENT_TYPE(wxEVT_ENABLE_ROLL)
 
@@ -192,34 +197,34 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 
 	//BEGIN layout for the dice section of the score board
 	if (m_horizontallayout) {
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,3);
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,3);
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE3,*bitmap_dices[2]),0,wxALL,3);
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE4,*bitmap_dices[3]),0,wxALL,3);
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,3);
-		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64)),0,wxALL,3);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,5);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,5);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,5);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,5);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,5);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE3,*bitmap_dices[2]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE4,*bitmap_dices[3]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64)),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
 	} else {
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,3);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxLEFT,5);
-		diceSizer->AddSpacer(10);
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,3);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP, wxT("Keep")),0,wxLEFT,5);
-		diceSizer->AddSpacer(10);
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE3,*bitmap_dices[2]),0,wxALL,3);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP, wxT("Keep")),0,wxLEFT,5);
-		diceSizer->AddSpacer(10);
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE4,*bitmap_dices[3]),0,wxALL,3);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP, wxT("Keep")),0,wxLEFT,5);
-		diceSizer->AddSpacer(10);
-		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,3);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxLEFT,5);
-		diceSizer->AddSpacer(10);
-		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64)),0,wxALL,3);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE1,*bitmap_dices[0]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP, wxT("Keep")),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,*bitmap_dices[1]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP, wxT("Keep")),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE3,*bitmap_dices[2]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP, wxT("Keep")),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE4,*bitmap_dices[3]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP, wxT("Keep")),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64)),0,wxALL,DICE_SPACE);
 	}
 	//END layout for the dice section of the score board *******/
 
@@ -293,6 +298,7 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 {
 	AboutDialog *about = new AboutDialog(this,wxID_ANY,wxT("About Open Yahtzee"));
 	about->ShowModal();
+	Relayout();
 }
 
 /**
@@ -1057,3 +1063,117 @@ int MainFrame::InitializeDatabase()
 	
 	return 1;
 }
+
+void MainFrame::Relayout()
+{
+	wxBoxSizer *topSizer;
+	wxBoxSizer *sectionsSizer;
+	wxFlexGridSizer *diceSizer;
+	if (m_horizontallayout) {
+		topSizer = new wxBoxSizer( wxVERTICAL );
+		sectionsSizer = new wxBoxSizer( wxHORIZONTAL );
+		diceSizer = new wxFlexGridSizer(2, 0, 0, 0);
+	} else {
+		topSizer = new wxBoxSizer( wxHORIZONTAL );
+		sectionsSizer = new wxBoxSizer( wxVERTICAL );
+		diceSizer = new wxFlexGridSizer(1, 0, 0);;
+	}
+
+	wxSizer *uppersection = new wxStaticBoxSizer( new wxStaticBox( FindWindow(ID_PANEL), wxID_ANY, wxT("Upper Section") ), wxVERTICAL);
+	wxSizer *lowersection = new wxStaticBoxSizer( new wxStaticBox( FindWindow(ID_PANEL), wxID_ANY, wxT("Lower Section") ), wxVERTICAL);
+	
+	wxFlexGridSizer* uppergrid = new wxFlexGridSizer(2, 0, 10);
+	wxFlexGridSizer* lowergrid = new wxFlexGridSizer(2, 0, 10);
+
+	//BEGIN layout for the upper section of the score board
+	uppergrid->Add(FindWindow(ID_ACES),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_ACESTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_TWOS),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_TWOSTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_THREES),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_THREESTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_FOURS),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_FOURSTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_FIVES),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_FIVESTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_SIXES),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_SIXESTEXT),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Total score:")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_UPPERSECTIONTOTAL),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Bonus:")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_BONUS),1,wxALL,SPACE_SIZE);
+	uppergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Total of upper section:")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindow(ID_UPPERTOTAL),1,wxALL,SPACE_SIZE);
+	//END layout for the upper section of the score board
+
+	//BEGIN layout for the lower section of the score board
+	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_THREEOFAKIND,wxT("3 of a kind")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_THREEOFAKINDTEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_FOUROFAKIND,wxT("4 of a kind")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_FOUROFAKINDTEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_FULLHOUSE,wxT("Full House")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_FULLHOUSETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_SMALLSEQUENCE,wxT("Sequence of 4")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_SMALLSEQUENCETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_LARGESEQUENCE,wxT("Sequence of 5")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_LARGESEQUENCETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_YAHTZEE,wxT("Yahtzee")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_YAHTZEETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_CHANCE,wxT("Chance")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_CHANCETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Yahtzee Bonus")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_YAHTZEEBONUSTEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Total of lower section:")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_LOWERTOTAL),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Grand Total:")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_GRANDTOTAL),1,wxALL,SPACE_SIZE);
+	//END layout for the lower section of the score board
+
+	uppersection->Add(uppergrid);
+	lowersection->Add(lowergrid);
+	sectionsSizer->Add(uppersection,0,wxALL,5);
+	sectionsSizer->Add(lowersection,0,wxALL,5);
+
+	//BEGIN layout for the dice section of the score board
+	if (m_horizontallayout) {
+		diceSizer->Add(FindWindow(ID_DICE1),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE2),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE3),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE4),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE5),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_ROLL),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE1KEEP),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE2KEEP),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE3KEEP),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE4KEEP),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE5KEEP),0,wxBOTTOM | wxLEFT,KEEP_SPACE);
+	} else {
+		diceSizer->Add(FindWindow(ID_DICE1),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE1KEEP),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(FindWindow(ID_DICE2),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE2KEEP),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(FindWindow(ID_DICE3),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE3KEEP),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(FindWindow(ID_DICE4),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE4KEEP),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(FindWindow(ID_DICE5),0,wxALL,DICE_SPACE);
+		diceSizer->Add(FindWindow(ID_DICE5KEEP),0,wxLEFT,KEEP_SPACE);
+		diceSizer->AddSpacer(VER_DICE_SPACER);
+		diceSizer->Add(FindWindow(ID_ROLL),0,wxALL,DICE_SPACE);
+	}
+	//END layout for the dice section of the score board *******/
+
+	
+	topSizer->Add(sectionsSizer);
+	topSizer->Add(diceSizer);	
+
+	FindWindow(ID_PANEL)->SetSizer(topSizer);
+	
+	topSizer->Fit(this);
+	topSizer->SetSizeHints(this);
+}
+

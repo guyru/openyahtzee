@@ -77,6 +77,7 @@ private:
 	void PostScore(int id);
 	void CalculateSubTotal();
 	int InitializeDatabase();
+	void Relayout();
 
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dices[6];

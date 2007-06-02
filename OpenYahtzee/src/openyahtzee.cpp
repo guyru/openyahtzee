@@ -24,7 +24,7 @@
 // but all other stuff is done on other files.
 
 /*
-PREFIX and DATADIR are passed by the make file to the program and hold the the
+PREFIX and DATA_DIR are passed by the make file to the program and hold the the
 path prefix and datadir path accordingly.
 */
 

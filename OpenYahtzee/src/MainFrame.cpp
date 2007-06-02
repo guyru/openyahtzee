@@ -55,6 +55,9 @@
 #define SPACE_SIZE 1
 #define DICE_SPACE 3
 #define KEEP_SPACE 5
+#ifdef WIN32
+#define KEEP_SPACE 13
+#endif
 #define VER_DICE_SPACER 10
 
 //default values - settings

@@ -14,4 +14,4 @@ noinst_HEADERS = MainFrame.h ObjectsID.h SettingsDB.h HighScoreTableDB.h \
 
 openyahtzee_LDFLAGS = `wx-config --libs` -lsqlite3
 AM_CXXFLAGS = `wx-config --cxxflags` -DPREFIX=\"$(prefix)\" \
-	-DDATADIR=\"$(datadir)\"
+		-DDATA_DIR=\"$(datadir)\"

@@ -1101,35 +1101,35 @@ void MainFrame::Relayout()
 	uppergrid->Add(FindWindow(ID_FIVESTEXT),1,wxALL,SPACE_SIZE);
 	uppergrid->Add(FindWindow(ID_SIXES),0,wxALL,SPACE_SIZE);
 	uppergrid->Add(FindWindow(ID_SIXESTEXT),1,wxALL,SPACE_SIZE);
-	uppergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Total score:")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindowByLabel(wxT("Total score:")),0,wxALL,SPACE_SIZE);
 	uppergrid->Add(FindWindow(ID_UPPERSECTIONTOTAL),1,wxALL,SPACE_SIZE);
-	uppergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Bonus:")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindowByLabel(wxT("Bonus:")),0,wxALL,SPACE_SIZE);
 	uppergrid->Add(FindWindow(ID_BONUS),1,wxALL,SPACE_SIZE);
-	uppergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Total of upper section:")),0,wxALL,SPACE_SIZE);
+	uppergrid->Add(FindWindowByLabel(wxT("Total of upper section:")),0,wxALL,SPACE_SIZE);
 	uppergrid->Add(FindWindow(ID_UPPERTOTAL),1,wxALL,SPACE_SIZE);
 	//END layout for the upper section of the score board
 
 	//BEGIN layout for the lower section of the score board
-	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_THREEOFAKIND,wxT("3 of a kind")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_THREEOFAKINDTEXT),1,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_FOUROFAKIND,wxT("4 of a kind")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_FOUROFAKINDTEXT),1,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_FULLHOUSE,wxT("Full House")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_FULLHOUSETEXT),1,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_SMALLSEQUENCE,wxT("Sequence of 4")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_SMALLSEQUENCETEXT),1,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_LARGESEQUENCE,wxT("Sequence of 5")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_LARGESEQUENCETEXT),1,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_YAHTZEE,wxT("Yahtzee")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_YAHTZEETEXT),1,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxButton(FindWindow(ID_PANEL),ID_CHANCE,wxT("Chance")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_CHANCETEXT),1,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Yahtzee Bonus")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_YAHTZEEBONUSTEXT),1,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Total of lower section:")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_LOWERTOTAL),1,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxStaticText(FindWindow(ID_PANEL), wxID_ANY, wxT("Grand Total:")),0,wxALL,SPACE_SIZE);
-	lowergrid->Add(new wxTextCtrl(FindWindow(ID_PANEL), ID_GRANDTOTAL),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_THREEOFAKIND),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_THREEOFAKINDTEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_FOUROFAKIND),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_FOUROFAKINDTEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_FULLHOUSE),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_FULLHOUSETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_SMALLSEQUENCE),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_SMALLSEQUENCETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_LARGESEQUENCE),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_LARGESEQUENCETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_YAHTZEE),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_YAHTZEETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_CHANCE),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_CHANCETEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindowByLabel(wxT("Yahtzee Bonus")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_YAHTZEEBONUSTEXT),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindowByLabel(wxT("Total of lower section:")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_LOWERTOTAL),1,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindowByLabel(wxT("Grand Total:")),0,wxALL,SPACE_SIZE);
+	lowergrid->Add(FindWindow(ID_GRANDTOTAL),1,wxALL,SPACE_SIZE);
 	//END layout for the lower section of the score board
 
 	uppersection->Add(uppergrid);

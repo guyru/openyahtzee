@@ -131,8 +131,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
    		wxDefaultPosition, wxDefaultSize);
 
 	wxBoxSizer *topSizer;
-	wxBoxSizer *sectionsSizer;
 	wxFlexGridSizer *diceSizer;
+
 	if (m_horizontallayout) {
 		topSizer = new wxBoxSizer( wxVERTICAL );
 		sectionsSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -143,8 +143,9 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 		diceSizer = new wxFlexGridSizer(1, 0, 0);;
 	}
 
-	wxSizer *uppersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Upper Section") ), wxVERTICAL);
-	wxSizer *lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lower Section") ), wxVERTICAL);
+	uppersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Upper Section") ), wxVERTICAL);
+	
+lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lower Section") ), wxVERTICAL);
 	
 	wxFlexGridSizer* uppergrid = new wxFlexGridSizer(2, 0, 10);
 	wxFlexGridSizer* lowergrid = new wxFlexGridSizer(2, 0, 10);
@@ -301,7 +302,6 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 {
 	AboutDialog *about = new AboutDialog(this,wxID_ANY,wxT("About Open Yahtzee"));
 	about->ShowModal();
-	Relayout();
 }
 
 /**
@@ -473,13 +473,15 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 			m_settingsdb->SetKey("calculatesubtotal","No");
 			m_calculatesubtotal = false;
 		}
+
 		if (data.horizontal){
 			m_settingsdb->SetKey("horizontallayout","Yes");
 			m_horizontallayout = true;
-			
+			Relayout();			
 		} else {
 			m_settingsdb->SetKey("horizontallayout","No");
 			m_horizontallayout = false;
+			Relayout();
 		}
 
 	}
@@ -1070,8 +1072,13 @@ int MainFrame::InitializeDatabase()
 void MainFrame::Relayout()
 {
 	wxBoxSizer *topSizer;
-	wxBoxSizer *sectionsSizer;
 	wxFlexGridSizer *diceSizer;
+
+	lowersection->GetStaticBox()->Destroy();
+	uppersection->GetStaticBox()->Destroy();
+	sectionsSizer->Remove(lowersection);
+	sectionsSizer->Remove(uppersection);
+
 	if (m_horizontallayout) {
 		topSizer = new wxBoxSizer( wxVERTICAL );
 		sectionsSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -1082,8 +1089,8 @@ void MainFrame::Relayout()
 		diceSizer = new wxFlexGridSizer(1, 0, 0);;
 	}
 
-	wxSizer *uppersection = new wxStaticBoxSizer( new wxStaticBox( FindWindow(ID_PANEL), wxID_ANY, wxT("Upper Section") ), wxVERTICAL);
-	wxSizer *lowersection = new wxStaticBoxSizer( new wxStaticBox( FindWindow(ID_PANEL), wxID_ANY, wxT("Lower Section") ), wxVERTICAL);
+	uppersection = new wxStaticBoxSizer( new wxStaticBox( FindWindow(ID_PANEL), wxID_ANY, wxT("Upper Section") ), wxVERTICAL);
+	lowersection = new wxStaticBoxSizer( new wxStaticBox( FindWindow(ID_PANEL), wxID_ANY, wxT("Lower Section") ), wxVERTICAL);
 	
 	wxFlexGridSizer* uppergrid = new wxFlexGridSizer(2, 0, 10);
 	wxFlexGridSizer* lowergrid = new wxFlexGridSizer(2, 0, 10);
@@ -1173,10 +1180,13 @@ void MainFrame::Relayout()
 	
 	topSizer->Add(sectionsSizer);
 	topSizer->Add(diceSizer);	
+	
+	topSizer->SetSizeHints(this);
 
-	FindWindow(ID_PANEL)->SetSizer(topSizer);
+	topSizer->Layout();
+	FindWindow(ID_PANEL)->SetSizerAndFit(topSizer);
 	
 	topSizer->Fit(this);
-	topSizer->SetSizeHints(this);
+	
 }
 

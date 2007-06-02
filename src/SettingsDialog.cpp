@@ -38,7 +38,7 @@ SettingsDialog::SettingsDialog(wxWindow* parent, int id):
 	checkbox_reset = new wxCheckBox(this, ID_RESETHIGHSCORE, wxT("Reset high score table"));
 	animate_checkbox = new wxCheckBox(this, ID_ANIMATECHECKBOX, wxT("Animate dice"));
 	subtotal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Calculate sub-total score for the upper and lower sections"));
-	horizontal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Enable horizontal layout for user interface \n(requires restart of the game)."));
+	horizontal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Enable horizontal layout for user interface."));
 
 
 	connect_event_table();

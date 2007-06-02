@@ -79,6 +79,9 @@ private:
 	int InitializeDatabase();
 	void Relayout();
 
+	wxStaticBoxSizer *uppersection, *lowersection;
+	wxBoxSizer *sectionsSizer;
+
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dices[6];
 

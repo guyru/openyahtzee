@@ -26,7 +26,7 @@
 AboutDialog::AboutDialog(wxWindow* parent, int id, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
     wxDialog(parent, id, title, pos, size, wxDEFAULT_DIALOG_STYLE|wxMINIMIZE_BOX)
 {
-	wxString temp= wxT(DATADIR);
+	wxString temp= wxT(DATA_DIR);
 	temp += wxT("/OpenYahtzee/logo.gif");
 
 	wxBitmap *logo = new wxBitmap(temp, wxBITMAP_TYPE_GIF); 

@@ -385,6 +385,11 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 
 	//clear the score;
 	((wxTextCtrl*)FindWindow(ID_ACESTEXT + (m_lastmove - ID_ACES)))->SetValue(wxT(""));
+	
+	//Undo the Yahtzee flag if needed
+	if (m_lastmove == ID_YAHTZEE) {
+		m_yahtzee = false;
+	}
 
 	//undo also the yahtzee bonus if needed
 	if (m_yahtzeebonus) {

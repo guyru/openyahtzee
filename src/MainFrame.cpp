@@ -54,9 +54,14 @@
 //default values - design
 #define SPACE_SIZE 1
 #define DICE_SPACE 3
-#define KEEP_SPACE 5
 #ifdef WIN32
-#define KEEP_SPACE 13
+	#define KEEP_SPACE 13
+	#define VERTICAL_ROLL_SIZEX 64
+	#define VERTICAL_ROLL_SIZEY 53
+#else
+	#define KEEP_SPACE 5
+	#define VERTICAL_ROLL_SIZEX 64
+	#define VERTICAL_ROLL_SIZEY 64
 #endif
 #define VER_DICE_SPACER 10
 
@@ -228,7 +233,7 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE5,*bitmap_dices[4]),0,wxALL,DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP, wxT("Keep")),0,wxLEFT,KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64)),0,wxALL,DICE_SPACE);
+		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(VERTICAL_ROLL_SIZEX,VERTICAL_ROLL_SIZEY)),0,wxALL,DICE_SPACE);
 	}
 	//END layout for the dice section of the score board *******/
 
@@ -1149,6 +1154,15 @@ void MainFrame::Relayout()
 	sectionsSizer->Add(uppersection,0,wxALL,5);
 	sectionsSizer->Add(lowersection,0,wxALL,5);
 
+	//Change the roll button size if we need to
+	if (m_horizontallayout) {
+		FindWindow(ID_ROLL)->Destroy();
+		new wxButton(FindWindow(ID_PANEL), ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64));
+	} else {
+		FindWindow(ID_ROLL)->Destroy();
+		new wxButton(FindWindow(ID_PANEL), ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(VERTICAL_ROLL_SIZEX,VERTICAL_ROLL_SIZEY));
+	}
+	
 	//BEGIN layout for the dice section of the score board
 	if (m_horizontallayout) {
 		diceSizer->Add(FindWindow(ID_DICE1),0,wxALL,DICE_SPACE);

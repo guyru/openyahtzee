@@ -506,13 +506,13 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 void MainFrame::OnRollButton (wxCommandEvent& event)
 {
 	if (event.GetEventType() == wxEVT_ENABLE_ROLL) {
-		//here we reconnect the event handler. We should recieve this event only after 
-		//the dice stopped rolling and all other click events where skipped.
-		Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
+		m_skiproll = false;
 		return;
 	}
-	//Disconnect the button so we won't recieve new events untill we finish rolling the dice.
-	Disconnect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
+	
+	//skip rolling the dice if the user accidently rolled the dice before they finished spinning.
+	if (m_skiproll) return;
+	m_skiproll = true;
 
 	//roll the dice...
 	if (m_animate) {
@@ -561,7 +561,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
 	m_yahtzeebonus = false; //if we scored yahtzee bonus before we don't care anymore.
 	
-	//queue the event which will cause the event-handler for clicks to be reconnected.
+	//queue the event which will reset m_skiproll
 	event.SetEventType(wxEVT_ENABLE_ROLL);
 	wxEvtHandler::AddPendingEvent(event);
 }

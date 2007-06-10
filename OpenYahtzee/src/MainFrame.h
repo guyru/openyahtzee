@@ -102,6 +102,8 @@ private:
 	bool m_calculatesubtotal; //sets whether to calculate the subtotal after every score or not
 
 	bool m_horizontallayout;
+	
+	bool m_skiproll;
 
 };
 #endif

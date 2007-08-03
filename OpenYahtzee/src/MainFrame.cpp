@@ -505,8 +505,9 @@ void MainFrame::OnSettings( wxCommandEvent& event)
  */
 void MainFrame::OnRollButton (wxCommandEvent& event)
 {
-	if (event.GetEventType() == wxEVT_ENABLE_ROLL) {
+	if (event.GetEventType() == wxEVT_IDLE) {
 		m_skiproll = false;
+		Disconnect(wxEVT_IDLE,  wxCommandEventHandler(MainFrame::OnRollButton));
 		return;
 	}
 	
@@ -561,9 +562,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
 	m_yahtzeebonus = false; //if we scored yahtzee bonus before we don't care anymore.
 	
-	//queue the event which will reset m_skiproll
-	event.SetEventType(wxEVT_ENABLE_ROLL);
-	wxEvtHandler::AddPendingEvent(event);
+	Connect(wxEVT_IDLE, wxCommandEventHandler(MainFrame::OnRollButton));
 }
 
 /**

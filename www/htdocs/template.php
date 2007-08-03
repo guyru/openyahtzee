@@ -61,7 +61,7 @@ class Template
 <p>This is Open Yahtzee. Open Yahtzee is an open-source cross-platform version of the classic dice game Yahtzee</p>
 
 <h3>Links:</h3>
-<p>- <a href="http://guy.sikumuna.com">Guy Rutenberg</a><br />
+<p>- <a href="http://www.guyrutenberg.com">Guy Rutenberg</a><br />
 - <a href="http://sourceforge.net/">SourceForge</a><br />
 - <a href="http://www.wxwidgets.org/">wxWidgets</a><br />
 </p>

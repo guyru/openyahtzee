@@ -50,8 +50,8 @@ class Template
 
 <div class="announce">
 <strong>Latest Stable Version:</strong>
-<p>Open Yahtzee 1.7</p>
-<p class="textright"><a 	href="http://sourceforge.net/project/showfiles.php?group_id=175453&amp;package_id=201410&amp;release_id=485238">Download...</a></p>
+<p>Open Yahtzee 1.8</p>
+<p class="textright"><a href="http://sourceforge.net/project/showfiles.php?group_id=175453">Download...</a></p>
 </div><!--End of announce div -->
 
 </div><!--End of avmenu div -->

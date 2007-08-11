@@ -10,9 +10,9 @@ Open Yahtzee 1.8:
 - New horizontal layout for user interface is available as an option.
 - Clicking on the dice sets the "keep" checkbox.
 - "Keeping" the dice now makes them grayscale.
-- Realigned the "kepp" checkboxes to the dice.
+- Realigned the "keep" checkboxes to the dice.
 - Fixed bug #1700729 (undoing the first move of the game).
-- Fixed bug #1719068 (UI behaivior of the dialog box asking for the user's name).
+- Fixed bug #1719068 (UI behavior of the dialog box asking for the user's name).
 - Fixed bug #1719063 (double clicking on the roll button).
 - Fixed bug #1731178 (undoing yahtzee still qualifies for yahtzee-bonus).
 - Refactored the code of the dialog box that asks the user for his name for

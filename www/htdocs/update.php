@@ -1,7 +1,7 @@
 <?php
 
 //VERSION NUMBER set here the latest stable version
-$oy_version = "1.7.0";
+$oy_version = "1.8.0";
 $stableversion = explode (".",$oy_version);
 
 
@@ -33,10 +33,10 @@ $template->content='
 <p>You are using OpenYahtzee-'.$version.'. <br />
 The latest version is OpenYahtzee-'.$oy_version.'.</p>';
 if ($needsupdate) {
-	$template->content .= '<p>Open Yahtzee 1.7 was released! The full release announcement can be found <a href= http://sourceforge.net/forum/forum.php?forum_id=663217> here.</a></p><p>The latest version of OpenYahtzee is newer than the version you use.<br/>
-<a href="http://sourceforge.net/project/showfiles.php?group_id=175453">Download the latest version of OpenYahtzee</a>.</p>';
+	$template->content .= '<p>Open Yahtzee 1.8 was released! The full release announcement can be found <a href= http://sourceforge.net/forum/forum.php?forum_id=724736> here.</a></p><p>The latest version of Open Yahtzee is newer than the version you use.<br/>
+<a href="http://sourceforge.net/project/showfiles.php?group_id=175453">Download the latest version of Open Yahtzee</a>.</p>';
 } else {
-	$template->content .= '<p>You are using the latest version of OpenYahtzee. Stay tuned for updates.</p>';
+	$template->content .= '<p>You are using the latest version of Open Yahtzee. Stay tuned for updates.</p>';
 }
 
 

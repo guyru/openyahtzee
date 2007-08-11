@@ -3,7 +3,7 @@ require_once("template.php");
 $template = new Template;
 $template->siteTitle = "Open Yahtzee - Download";
 
-$latestversion="1.6.0";
+$latestversion="1.8.0";
 
 $template->content = '<h2>Open Yahtzee Download</h2>
 Open Yahtzee is a cross platform game. It works on different platforms and hence is available for download fo this platforms.

@@ -18,6 +18,8 @@ Open Yahtzee 1.8:
 - Refactored the code of the dialog box that asks the user for his name for
   the high score table.
 - Redesigned "About" dialog box.
+- Reduced installer and binary size for windows.
+- Better integration with Windows XP themes.
 
 Open Yahtzee 1.7:
 -----------------

@@ -3,7 +3,7 @@
   <general>
     <author>Guy Rutenberg</author>
     <email>guyrutenberg@gmail.com</email>
-    <version>1.7</version>
+    <version>1.8.0</version>
     <projectmanagement>KDevAutoProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
     <keywords>
@@ -222,17 +222,17 @@
   <dist>
     <custom>false</custom>
     <bzip>false</bzip>
-    <archname/>
+    <archname></archname>
     <appname>OpenYahtzee</appname>
-    <version>1.7</version>
-    <release/>
+    <version>1.8</version>
+    <release></release>
     <vendor>Guy Rutenberg</vendor>
     <licence>GPL</licence>
-    <summary/>
-    <group/>
-    <packager/>
-    <description/>
-    <changelog/>
+    <summary></summary>
+    <group></group>
+    <packager></packager>
+    <description></description>
+    <changelog></changelog>
     <devpackage>false</devpackage>
     <docspackage>false</docspackage>
     <appicon>false</appicon>
@@ -241,6 +241,6 @@
     <useRPM>false</useRPM>
     <ftpkde>false</ftpkde>
     <appskde>false</appskde>
-    <url/>
+    <url></url>
   </dist>
 </kdevelop>

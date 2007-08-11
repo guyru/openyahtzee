@@ -5,7 +5,7 @@
 ;
 ; 
 ;--------------------------------
-!define version 1.7
+!define version 1.8
 ;--------------------------------
 ;Include Modern UI
 
@@ -64,10 +64,9 @@ Section "OpenYahtzee-${version} (required)" SecOpenYahtzee
   ; Put file there
   File "openyahtzee.exe"
   File "mingwm10.dll"
-  File "wxbase28_gcc_custom.dll"
-  File "wxmsw28_core_gcc_custom.dll"
-  File "README.txt"
+  File "openyahtzee.exe.manifest"
   File "COPYING.txt"
+  File "ChangeLog.txt"
   File "icon32.ico"
   
   ; Write the installation path into the registry
@@ -121,13 +120,14 @@ Section "Uninstall"
   DeleteRegKey HKLM SOFTWARE\OpenYahtzee
 
   ; Remove files and uninstaller
-  Delete $INSTDIR\openyahtzee.exe
-  Delete "wxbase28_gcc_custom.dll"
-  Delete "wxmsw28_core_gcc_custom.dll"
-  Delete "COPYING.txt"
-  Delete "README.txt"
-  Delete "icon32.ico"
-  Delete $INSTDIR\uninstall.exe
+  Delete "$INSTDIR\openyahtzee.exe"
+  Delete "$INSTDIR\openyahtzee.exe.manifest"
+  Delete "$INSTDIR\mingwm10.dll"
+  Delete "$INSTDIR\COPYING.txt"
+  Delete "$INSTDIR\ChangeLog.txt"
+  Delete "$INSTDIR\icon32.ico"
+  Delete "$INSTDIR\uninstall.exe"
+  Delete "$INSTDIR\*"
 
   ; Remove shortcuts, if any
   Delete "$SMPROGRAMS\OpenYahtzee\*.*"

@@ -5,6 +5,10 @@ OPEN YAHTZEE CHANGELOG
 This file lists the changes betweeen Open Yahtzee releases. For a 
 complete list of changes see the SVN changelog of the project.
 
+Open Yahtzee 1.9:
+-----------------
+- Fixed bug #1775620 (Settings dialog enables roll butto).
+
 Open Yahtzee 1.8:
 -----------------
 - New horizontal layout for user interface is available as an option.

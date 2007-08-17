@@ -1082,6 +1082,7 @@ void MainFrame::Relayout()
 {
 	wxBoxSizer *topSizer;
 	wxFlexGridSizer *diceSizer;
+	bool roll_button_enabled;
 
 	lowersection->GetStaticBox()->Destroy();
 	uppersection->GetStaticBox()->Destroy();
@@ -1154,6 +1155,7 @@ void MainFrame::Relayout()
 	sectionsSizer->Add(lowersection,0,wxALL,5);
 
 	//Change the roll button size if we need to
+	roll_button_enabled = FindWindow(ID_ROLL)->IsEnabled();
 	if (m_horizontallayout) {
 		FindWindow(ID_ROLL)->Destroy();
 		new wxButton(FindWindow(ID_PANEL), ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64));
@@ -1161,6 +1163,7 @@ void MainFrame::Relayout()
 		FindWindow(ID_ROLL)->Destroy();
 		new wxButton(FindWindow(ID_PANEL), ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(VERTICAL_ROLL_SIZEX,VERTICAL_ROLL_SIZEY));
 	}
+	FindWindow(ID_ROLL)->Enable(roll_button_enabled);
 	
 	//BEGIN layout for the dice section of the score board
 	if (m_horizontallayout) {

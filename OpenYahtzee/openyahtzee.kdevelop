@@ -222,17 +222,17 @@
   <dist>
     <custom>false</custom>
     <bzip>false</bzip>
-    <archname></archname>
+    <archname/>
     <appname>OpenYahtzee</appname>
     <version>1.8</version>
-    <release></release>
+    <release/>
     <vendor>Guy Rutenberg</vendor>
     <licence>GPL</licence>
-    <summary></summary>
-    <group></group>
-    <packager></packager>
-    <description></description>
-    <changelog></changelog>
+    <summary/>
+    <group/>
+    <packager/>
+    <description/>
+    <changelog/>
     <devpackage>false</devpackage>
     <docspackage>false</docspackage>
     <appicon>false</appicon>
@@ -241,6 +241,6 @@
     <useRPM>false</useRPM>
     <ftpkde>false</ftpkde>
     <appskde>false</appskde>
-    <url></url>
+    <url/>
   </dist>
 </kdevelop>

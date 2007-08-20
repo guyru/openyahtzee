@@ -3,44 +3,45 @@ require_once("template.php");
 $template = new Template;
 $template->siteTitle = "Open Yahtzee - Screenshots";
 
-
+$template->meta = '<link rel="stylesheet" type="text/css" href="lightbox.css" media="screen"/>'.
+		'<script type="text/javascript" src="lightbox.js"></script>';
 $template->content = <<<EOF
 <h2>Open Yahtzee - Screenshots</h2>
 <h4>Open Yahtzee 1.8</h4>
 <table class="screenshots">
 	<tr>
 		<td><div class="center">
-			<a href="images/openyahtzee1.8_linux.png"><img src="images/openyahtzee1.8_linux_thumb.png" alt="screenshot" /></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.8_linux.png"><img src="images/openyahtzee1.8_linux_thumb.png" alt="screenshot" /></a></div>
 			<div class="center">Linux</div></td>
 		<td><div class="center">
-			<a href="images/openyahtzee1.8_linux2.png"><img src="images/openyahtzee1.8_linux2_thumb.png" alt="screenshot"/></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.8_linux2.png"><img src="images/openyahtzee1.8_linux2_thumb.png" alt="screenshot"/></a></div>
 			<div class="center">Linux</div></td>
 		<td><div class="center">
-			<a href="images/openyahtzee1.8_linux3.png"><img src="images/openyahtzee1.8_linux3_thumb.png" alt="screenshot"/></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.8_linux3.png"><img src="images/openyahtzee1.8_linux3_thumb.png" alt="screenshot"/></a></div>
 			<div class="center">Linux</div></td>
 	</tr>
 	<tr>
 		<td><div class="center">
-			<a href="images/openyahtzee1.8_windows.png"><img src="images/openyahtzee1.8_windows_thumb.png" alt="screenshot"/></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.8_windows.png"><img src="images/openyahtzee1.8_windows_thumb.png" alt="screenshot"/></a></div>
 			<div class="center">Windows</div></td>
 		<td><div class="center">
-			<a href="images/openyahtzee1.8_windows2.png"><img src="images/openyahtzee1.8_windows2_thumb.png" alt="screenshot"/></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.8_windows2.png"><img src="images/openyahtzee1.8_windows2_thumb.png" alt="screenshot"/></a></div>
 			<div class="center">Windows</div></td>
 		<td><div class="center">
-			<a href="images/openyahtzee1.8_windows3.png"><img src="images/openyahtzee1.8_windows3_thumb.png" alt="screenshot"/></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.8_windows3.png"><img src="images/openyahtzee1.8_windows3_thumb.png" alt="screenshot"/></a></div>
 			<div class="center">Windows</div></td>
 </table>
 <h4>Open Yahtzee 1.7</h4>
 <table class="screenshots">
 	<tr>
 		<td><div class="center">
-			<a href="images/openyahtzee1.7_linux.jpg"><img src="images/openyahtzee1.7_linux_thumb.jpg" alt="screenshot" /></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.7_linux.jpg"><img src="images/openyahtzee1.7_linux_thumb.jpg" alt="screenshot" /></a></div>
 			<div class="center">Linux</div></td>
 		<td><div class="center">
-			<a href="images/openyahtzee1.7_linux2.png"><img src="images/openyahtzee1.7_linux2_thumb.png" alt="screenshot"/></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.7_linux2.png"><img src="images/openyahtzee1.7_linux2_thumb.png" alt="screenshot"/></a></div>
 			<div class="center">Linux</div></td>
 		<td><div class="center">
-			<a href="images/openyahtzee1.7_windows.png"><img src="images/openyahtzee1.7_windows_thumb.png" alt="screenshot"/></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.7_windows.png"><img src="images/openyahtzee1.7_windows_thumb.png" alt="screenshot"/></a></div>
 			<div class="center">Windows</div></td>
 	</tr>
 </table>
@@ -48,7 +49,7 @@ $template->content = <<<EOF
 <table class="screenshots">
 	<tr>
 		<td><div class="center">
-			<a href="images/openyahtzee1.6_linux.png"><img src="images/openyahtzee1.6_linux_thumb.png" alt="screenshot" /></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.6_linux.png"><img src="images/openyahtzee1.6_linux_thumb.png" alt="screenshot" /></a></div>
 			<div class="center">Linux</div></td>
 	</tr>
 </table>
@@ -56,7 +57,7 @@ $template->content = <<<EOF
 <table class="screenshots">
 	<tr>
 		<td><div class="center">
-			<a href="images/openyahtzee1.5.1_linux.png"><img src="images/openyahtzee1.5.1_linux_thumb.png" alt="screenshot" /></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.5.1_linux.png"><img src="images/openyahtzee1.5.1_linux_thumb.png" alt="screenshot" /></a></div>
 			<div class="center">Linux</div></td>
 		
 	</tr>
@@ -65,7 +66,7 @@ $template->content = <<<EOF
 <table class="screenshots">
 	<tr>
 		<td><div class="center">
-			<a href="images/openyahtzee1.0.1_linux.png"><img src="images/openyahtzee1.0.1_linux_thumb.png" alt="screenshot" /></a></div>
+			<a rel="lightbox" href="images/openyahtzee1.0.1_linux.png"><img src="images/openyahtzee1.0.1_linux_thumb.png" alt="screenshot" /></a></div>
 			<div class="center">Linux</div></td>
 	</tr>
 </table>

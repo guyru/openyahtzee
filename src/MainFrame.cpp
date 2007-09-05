@@ -527,7 +527,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 			for (int i=0 ; i<5; i++){
 				if(dice_throws[i]){
 					dice_throws[i]--;
-					dice[i] = rand()%6;
+					dice[i] = (int)(6.0*rand()/RAND_MAX); //increase randomness by using the high-order bits
 					((wxDynamicBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
 				}
 			}

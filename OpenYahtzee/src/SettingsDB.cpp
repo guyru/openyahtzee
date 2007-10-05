@@ -27,8 +27,12 @@ using namespace std;
 SettingsDB::SettingsDB()
 {
 	/* Open the database which holds the settings. */
+#ifdef PORTABLE
+	m_path = "";
+#else
 	m_path = ((wxFileName::GetHomeDir()).mb_str());
-	m_path += "/"; //IMPORTANT! only works under linux/unix/*nix
+	m_path += "/";
+#endif
 	m_path += DBFILENAME;
 
 #ifdef DEBUG

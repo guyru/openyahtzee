@@ -37,8 +37,13 @@ setting for the class in the beginning of it's definitions.
 #ifndef SETTINGSDB_INC
 #define SETTINGSDB_INC
 
-///Sets the file name of the database the class will open. The directory will always be the home dir.
-#define DBFILENAME ".OpenYahtzee" 
+///Sets the file name of the database the class will open.
+#ifdef PORTABLE
+	#define DBFILENAME ".OpenYahtzee" 
+#else
+	#define DBFILENAME "OpenYahtzee.dat"
+#endif
+
 class SettingsDB : public DBwrapper
 {
 public:

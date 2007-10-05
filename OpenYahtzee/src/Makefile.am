@@ -12,6 +12,6 @@ INCLUDES = $(all_includes)
 noinst_HEADERS = MainFrame.h ObjectsID.h SettingsDB.h HighScoreTableDB.h \
 	HighScoreDialog.h SettingsDialog.h Icon.h icon32.ico wxDynamicBitmap.h UtilityFunctions.h
 
-openyahtzee_LDFLAGS = `wx-config --libs` -lsqlite3
-AM_CXXFLAGS = `wx-config --cxxflags` -DPREFIX=\"$(prefix)\" \
-		-DDATA_DIR=\"$(datadir)\"
+AM_CXXFLAGS = `wx-config --cxxflags`
+openyahtzee_LDADD = -lsqlite3
+openyahtzee_LDFLAGS = $(wx-config --libs)

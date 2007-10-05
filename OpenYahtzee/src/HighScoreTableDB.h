@@ -37,8 +37,13 @@ This will be pretty generic class with some specific setting for the class in th
 #ifndef HIGHSCORETABLEDB_INC
 #define HIGHSCORETABLEDB_INC
 
-///Sets the file name of the database the class will open. The directory will always be the home dir.
-#define DBFILENAME ".OpenYahtzee" 
+///Sets the file name of the database the class will open.
+#ifdef PORTABLE
+	#define DBFILENAME ".OpenYahtzee" 
+#else
+	#define DBFILENAME "OpenYahtzee.dat"
+#endif
+
 class HighScoreTableDB : public DBwrapper
 {
 public:

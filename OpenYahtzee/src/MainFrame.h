@@ -29,7 +29,7 @@
 #ifndef MAINFRAME_INC
 #define MAINFRAME_INC
 
-DECLARE_EVENT_TYPE(wxEVT_ENABLE_ROLL, -1)
+DECLARE_EVENT_TYPE(wxEVT_ENABLE_ROLL, -1) /*just to satisfy kdevelop*/;
 
 /// MainFrame class - the main window
 /**

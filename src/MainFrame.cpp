@@ -69,7 +69,7 @@
 #define DEF_HIGHSCORESIZE 20
 #define OY_VERSION "1.8.0"
 
-DEFINE_EVENT_TYPE(wxEVT_ENABLE_ROLL)
+DEFINE_EVENT_TYPE(wxEVT_ENABLE_ROLL) /*just to satisfy kdevelop*/;
 
 
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
@@ -305,7 +305,11 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
+#ifdef PORTABLE
+	AboutDialog *about = new AboutDialog(this,wxID_ABY,wxT("About Open Yahtzee PE"));
+#else
 	AboutDialog *about = new AboutDialog(this,wxID_ANY,wxT("About Open Yahtzee"));
+#endif
 	about->ShowModal();
 }
 

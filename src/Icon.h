@@ -28,7 +28,7 @@
 #ifdef WIN32 //windows demands 32x32 icons for the program
 	#include "icon32.xpm"
 	#define ICON icon32_xpm
-#else 
+#else
 	#include "icon.xpm"
 	#define ICON icon_xpm
 #endif

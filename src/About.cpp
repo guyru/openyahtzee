@@ -48,8 +48,11 @@ AboutDialog::AboutDialog(wxWindow* parent, int id, const wxString& title, const 
 	notebook_main_pane_about = new wxPanel(notebook_main, -1);
 	
 	bitmap_1 = new wxDynamicBitmap((wxWindow*)this, (wxWindowID)wxID_ANY,*logo);
-	
+#ifdef PORTABLE
+	app_label = new wxStaticText(this, -1, wxT("Open Yahtzee Portable Edition 1.8.0"));
+#else	
 	app_label = new wxStaticText(this, -1, wxT("Open Yahtzee 1.8.0"));
+#endif
 	label_desc = new wxStaticText(notebook_main_pane_about, -1, wxT("A full-featured wxWidgets version of\nthe classic dice game Yahtzee."));
 	label_copyright = new wxStaticText(notebook_main_pane_about, -1, wxT("(c) 2006-2007 Guy Rutenberg"));
 	label_1 = new wxStaticText(notebook_main_pane_about, -1, wxT("http://openyahtzee.sourceforge.net/"));

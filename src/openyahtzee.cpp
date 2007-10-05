@@ -28,6 +28,10 @@ PREFIX and DATA_DIR are passed by the make file to the program and hold the the
 path prefix and datadir path accordingly.
 */
 
+/*
+ * If PORTABLE is defined, Open Yahtzee will be compiled for the Portable Edition.
+ */
+
 #include "wx/wx.h"
 #include "MainFrame.h"
 // #ifdef WIN32 
@@ -46,9 +50,9 @@ public:
 
 
 	// Implements MyApp& GetApp()
-	DECLARE_APP(MyApp)
+	DECLARE_APP(MyApp) /*just to satisfy kdevelop*/;
 	// Give wxWidgets the means to create a MyApp object
-	IMPLEMENT_APP(MyApp)
+	IMPLEMENT_APP(MyApp) /*just to satisfy kdevelop*/;
 	// Initialize the application
 
 bool MyApp::OnInit()

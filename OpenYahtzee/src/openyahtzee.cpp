@@ -31,6 +31,7 @@ path prefix and datadir path accordingly.
 /*
  * If PORTABLE is defined, Open Yahtzee will be compiled for the Portable Edition.
  */
+// #define PORTABLE
 
 #include "wx/wx.h"
 #include "MainFrame.h"

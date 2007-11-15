@@ -14,4 +14,4 @@ noinst_HEADERS = MainFrame.h ObjectsID.h SettingsDB.h HighScoreTableDB.h \
 
 AM_CXXFLAGS = `wx-config --cxxflags`
 openyahtzee_LDADD = -lsqlite3
-openyahtzee_LDFLAGS = $(wx-config --libs)
+openyahtzee_LDFLAGS = `wx-config --libs`

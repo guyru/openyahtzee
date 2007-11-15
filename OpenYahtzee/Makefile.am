@@ -3,4 +3,4 @@
 AUTOMAKE_OPTIONS = foreign 1.4
 
 SUBDIRS = src
-AM_CXXFLAGS = $(wx-config --cxxflags)
+AM_CXXFLAGS = `wx-config --cxxflags`

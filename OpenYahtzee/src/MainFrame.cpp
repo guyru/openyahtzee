@@ -306,7 +306,7 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
 #ifdef PORTABLE
-	AboutDialog *about = new AboutDialog(this,wxID_ABY,wxT("About Open Yahtzee PE"));
+	AboutDialog *about = new AboutDialog(this,wxID_ANY,wxT("About Open Yahtzee PE"));
 #else
 	AboutDialog *about = new AboutDialog(this,wxID_ANY,wxT("About Open Yahtzee"));
 #endif

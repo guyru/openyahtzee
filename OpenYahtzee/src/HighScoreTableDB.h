@@ -38,7 +38,7 @@ This will be pretty generic class with some specific setting for the class in th
 #define HIGHSCORETABLEDB_INC
 
 ///Sets the file name of the database the class will open.
-#ifdef PORTABLE
+#ifndef PORTABLE
 	#define DBFILENAME ".OpenYahtzee" 
 #else
 	#define DBFILENAME "OpenYahtzee.dat"

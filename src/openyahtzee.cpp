@@ -29,9 +29,8 @@ path prefix and datadir path accordingly.
 */
 
 /*
- * If PORTABLE is defined, Open Yahtzee will be compiled for the Portable Edition.
+ * If PORTABLE is defined, Open Yahtzee will be compiled for the Portable Edition. Add "-DPORTABLE" to the CXXFLAGS when compiling.
  */
-// #define PORTABLE
 
 #include "wx/wx.h"
 #include "MainFrame.h"

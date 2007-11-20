@@ -11,15 +11,15 @@ die("Invalid Input!");
 }
 }
 
-$name=$_POST['name'];
+$name=mysql_real_escape_string($_POST['name']);
 checkOK($name);
-$email=$_POST['email'];
+$email=mysql_real_escape_string($_POST['email']);
 checkOK($email);
-$comments=$_POST['comments'];
+$comments=mysql_real_escape_string($_POST['comments']);
 //the checking of the comments is completly uneeded
 //checkOK($comments);
 
-$to="openyahtzee-users@lists.sourceforge.net";
+$to=mysql_real_escape_string("openyahtzee-users@lists.sourceforge.net");
 
 $message="The following feedback was sent to the list by $name <$email>.\n\n$comments";
 //$message = wordwrap($message, 70);

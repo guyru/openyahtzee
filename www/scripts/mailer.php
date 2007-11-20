@@ -4,9 +4,9 @@ function sf_mail($to = "" , $subject = "", $message = "", $headers = "")
   $mail_link = mysql_connect('mysql4-o.sourceforge.net', 'o175453rw', 'OvRzHf2M')
    or die('Could not connect: ' . mysql_error());
   $to = addslashes($to);
-  $subject = addslashes($subject);
-  $message = addslashes($message);
-  $headers = addslashes($headers);  
+  $subject = mysql_real_escape_string($subject);
+  $message = mysql_real_escape_string($message);
+  $headers = mysql_real_escape_string($headers);  
 
   $query = "INSERT INTO o175453_general.mailer(recipient, subject, message, headers) VALUES('$to', '$subject', '$message', '$headers')";
 /*  $result = */mysql_query($query, $mail_link) or die('Query failed: ' . mysql_error());

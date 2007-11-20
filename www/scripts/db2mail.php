@@ -10,10 +10,10 @@ $result = mysql_query($query) or die('Query failed: ' . mysql_error());
 
 $total = 0;
 while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
-  $line['ID'] = stripcslashes ($line['ID']);
-  $line['subject'] = stripcslashe($line['subject']);
-  $line['recipient'] = stripcslashe($line['recipient']);
-  $line['headers'] = stripcslasheb($line['headers']);
+  $line['ID'] = breakapart ($line['ID']);
+  $line['subject'] = breakapart($line['subject']);
+  $line['recipient'] = breakapart($line['recipient']);
+  $line['headers'] = breakapart($line['headers']);
   $line['headers'] .= "Message-DBID: ". $line['ID'] ."\n";
 
   echo ("Processing item ". $line['ID'] ." to '". $line['recipient'] ."', Subject '". $line['subject'] ."'\n");

@@ -133,6 +133,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 RANLIB = @RANLIB@
+SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
@@ -199,7 +200,7 @@ noinst_HEADERS = MainFrame.h ObjectsID.h SettingsDB.h HighScoreTableDB.h \
 
 AM_CXXFLAGS = `wx-config --cxxflags`
 openyahtzee_LDADD = -lsqlite3
-openyahtzee_LDFLAGS = $(wx-config --libs)
+openyahtzee_LDFLAGS = `wx-config --libs`
 all: all-am
 
 .SUFFIXES:

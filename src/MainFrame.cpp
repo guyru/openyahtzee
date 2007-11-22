@@ -592,7 +592,7 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 		PostScore(event.GetId());
 	}
 	else 
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
+		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 }
 
 /**
@@ -602,7 +602,7 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 void MainFrame::On3ofakindButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
+		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
 	YahtzeeBonus();
@@ -633,7 +633,7 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 void MainFrame::On4ofakindButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
+		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
 	YahtzeeBonus();
@@ -664,7 +664,7 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
+		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
 	YahtzeeBonus();
@@ -693,7 +693,7 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
+		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
 
@@ -719,7 +719,7 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
+		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
 
@@ -744,7 +744,7 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 {
 	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
+		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
 	//give the score
@@ -776,7 +776,7 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 		PostScore(event.GetId());
 	}
 	else 
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("OpenYahtzee"), wxOK | wxICON_INFORMATION, this);
+		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 
 }
 

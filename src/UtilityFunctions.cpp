@@ -81,7 +81,8 @@ void LaunchBrowser (wxString link)
 			path += link;
 			::wxExecute(path);
 		} else {
-			wxMessageBox(wxT("No browser has been found."),wxT("OpenYahtzee"));
+			wxMessageBox(wxT("No browser has been found."),
+				wxT("Open Yahtzee"));
 		}
 	}
 }

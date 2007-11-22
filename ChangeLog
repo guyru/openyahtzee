@@ -7,8 +7,9 @@ complete list of changes see the SVN changelog of the project.
 
 Open Yahtzee 1.9:
 -----------------
-- Fixed bug #1775620 (Settings dialog enables roll butto).
+- Fixed bug #1775620 (Settings dialog enables roll button).
 - Improved randomness of the dice.
+- Fixed window's title caption (bug #1836473).
 
 Open Yahtzee 1.8:
 -----------------

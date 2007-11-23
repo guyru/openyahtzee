@@ -25,22 +25,22 @@ public:
 	ScoreDice();
 	ScoreDice(short int dice[5]);
 	void SetDice(short int dice[5]);
-	short int Aces();
-	short int Twos();
-	short int Threes();
-	short int Fours();
-	short int Fives();
-	short int Sixes();
+	short int Aces() const;
+	short int Twos() const;
+	short int Threes() const;
+	short int Fours() const;
+	short int Fives() const;
+	short int Sixes() const;
 
-	short int ThreeOfAKind();
-	short int FourOfAKind();
-	short int FullHouse();
-	short int SmallSequence();
-	short int LargeSequence();
-	short int Yahtzee();
-	short int Chance();
+	short int ThreeOfAKind() const;
+	short int FourOfAKind() const;
+	short int FullHouse() const;
+	short int SmallSequence() const;
+	short int LargeSequence() const;
+	short int Yahtzee() const;
+	short int Chance() const;
 
-	bool IsYahtzee();
+	bool IsYahtzee() const;
 
 private:
 	short int m_dice[5]; 

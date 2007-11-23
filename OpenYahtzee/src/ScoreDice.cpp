@@ -59,58 +59,142 @@ void ScoreDice::SetDice(short int dice[5])
 }
 
 /**
- *
+ * \return the score for the aces box.
  */
-short int ScoreDice::Aces()
+short int ScoreDice::Aces() const
 {
 	return m_dicehash[0];
 }
 
 /**
- *
+ * \return the score for the twos box.
  */
-short int ScoreDice::Twos()
+short int ScoreDice::Twos() const
 {
 	return 2*m_dicehash[1];
 }
 
 
 /**
- *
+ * \return the score for the threes box.
  */
-short int ScoreDice::Threes()
+short int ScoreDice::Threes() const
 {
 	return 3*m_dicehash[2];
 }
 
 /**
- *
+ * \return the score for the fours box.
  */
-short int ScoreDice::Fours()
+short int ScoreDice::Fours() const
 {
 	return 4*m_dicehash[3];
 }
 
 /**
  *
+ * \return the score for the fives box.
  */
-short int ScoreDice::Fives()
+short int ScoreDice::Fives() const
 {
 	return 5*m_dicehash[4];
 }
 
 /**
  *
+ * \return the score for the sixes box.
  */
-short int ScoreDice::Sixes()
+short int ScoreDice::Sixes() const
 {
 	return 6*m_dicehash[5];
 }
 
 /**
  *
+ * \return the score for the "Three of A Kind" box.
  */
-short int ScoreDice::Yahtzee()
+short int ScoreDice::ThreeOfAKind() const
+{
+	bool three = false;
+	short int temp = 0;
+	
+	for (int i=0; i<6; i++)
+		if (m_dicehash[i] >= 3)
+			three = true;
+	if (three)
+		return Chance();
+	return 0;
+}
+
+/**
+ *
+ * \return the score for the "Four of A Kind" box.
+ */
+short int ScoreDice::FourOfAKind() const
+{
+	bool four = false;
+	short int temp = 0;
+	
+	for (int i=0; i<6; i++)
+		if (m_dicehash[i] >= 4)
+			four = true;
+	if (four)
+		return Chance();
+	return 0;
+}
+
+/**
+ *
+ * \return the score for the "Full House" box.
+ */
+short int ScoreDice::FullHouse() const
+{
+	bool two = false;
+	bool three = false;
+
+	for (int i=0; i<6; i++)
+		if (m_dicehash[i] == 2)
+			two = true;
+	for (int i=0; i<6; i++)
+		if (m_dicehash[i] == 3)
+			three = true;
+	if (two && three)
+		return 25;
+	return 0;
+}
+
+/**
+ *
+ * \return the score for the small sequence box.
+ */
+short int ScoreDice::SmallSequence() const
+{
+	if ( (m_dicehash[0]>=1 && m_dicehash[1]>=1 && m_dicehash[2]>=1 &&
+		m_dicehash[3]>=1) || (m_dicehash[1]>=1 && m_dicehash[2]>=1 &&
+		m_dicehash[3]>=1 && m_dicehash[4]>=1) || (m_dicehash[2]>=1 &&
+		m_dicehash[3]>=1 && m_dicehash[4]>=1 && m_dicehash[5]>=1))
+		return 30;
+	return 0;
+}
+
+/**
+ *
+ * \return the score for the large sequence box.
+ */
+short int ScoreDice::LargeSequence() const
+{
+	if ( (m_dicehash[0]==1 && m_dicehash[1]==1 && m_dicehash[2]==1 &&
+		m_dicehash[3]==1 && m_dicehash[4]==1) || (m_dicehash[1]==1 &&
+		m_dicehash[2]==1 && m_dicehash[3]==1 && m_dicehash[4]==1 &&
+		m_dicehash[5]==1))
+		return 40;
+	return 0;
+}
+/**
+ *
+ * \return the score for the Yahtzee box.
+ */
+short int ScoreDice::Yahtzee() const
 {
 	if (IsYahtzee()) 
 		return 50;
@@ -120,8 +204,9 @@ short int ScoreDice::Yahtzee()
 
 /**
  *
+ * \return the score for the chance box.
  */
-short int ScoreDice::Chance()
+short int ScoreDice::Chance() const
 {
 	short int temp = 0;
 	for(int i = 0; i<5; i++) 
@@ -131,9 +216,10 @@ short int ScoreDice::Chance()
 }
 
 /**
- *
+ * \brief determines wheter the current dice hold a Yahtzee or not.
+ * \return true or false depending on whether there is a Yahtzee or not.
  */
-bool ScoreDice::IsYahtzee()
+bool ScoreDice::IsYahtzee() const
 {
 	if ((m_dice[0]==m_dice[1]) && (m_dice[1]==m_dice[2]) && \
 			(m_dice[1]==m_dice[3]) && (m_dice[1]==m_dice[4]))

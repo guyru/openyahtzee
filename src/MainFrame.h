@@ -26,6 +26,7 @@
 
 #include "SettingsDB.h"
 #include "HighScoreTableDB.h"
+#include "ScoreDice.h"
 #ifndef MAINFRAME_INC
 #define MAINFRAME_INC
 
@@ -87,6 +88,7 @@ private:
 
 	short int dice[5];	//holds the dices score
 	short int dicehash[6];	//the dice hash
+	ScoreDice m_score_dice;
 	short int m_rolls;	//holds how many rolls left
 	short int m_numofplaysleft; //holds how many times the user got to score untill the end of the game
 	bool m_yahtzee;

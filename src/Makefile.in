@@ -55,7 +55,7 @@ am_openyahtzee_OBJECTS = openyahtzee.$(OBJEXT) MainFrame.$(OBJEXT) \
 	DBwrapper.$(OBJEXT) SettingsDB.$(OBJEXT) \
 	HighScoreTableDB.$(OBJEXT) HighScoreDialog.$(OBJEXT) \
 	SettingsDialog.$(OBJEXT) wxDynamicBitmap.$(OBJEXT) \
-	About.$(OBJEXT) UtilityFunctions.$(OBJEXT)
+	About.$(OBJEXT) UtilityFunctions.$(OBJEXT) ScoreDice.$(OBJEXT)
 openyahtzee_OBJECTS = $(am_openyahtzee_OBJECTS)
 openyahtzee_DEPENDENCIES =
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
@@ -186,9 +186,10 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 openyahtzee_SOURCES = openyahtzee.cpp MainFrame.cpp five.xpm four.xpm one.xpm \
-							six.xpm three.xpm two.xpm DBwrapper.cpp DBwrapper.h SettingsDB.cpp \
-							HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp icon.xpm icon32.xpm \
-				openyahtzee.rc wxDynamicBitmap.cpp About.cpp UtilityFunctions.cpp
+	six.xpm three.xpm two.xpm DBwrapper.cpp DBwrapper.h SettingsDB.cpp \
+	HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp icon.xpm \
+	icon32.xpm openyahtzee.rc wxDynamicBitmap.cpp About.cpp \
+	UtilityFunctions.cpp ScoreDice.cpp
 
 
 # set the include path found by configure
@@ -196,7 +197,8 @@ INCLUDES = $(all_includes)
 
 # the library search path.
 noinst_HEADERS = MainFrame.h ObjectsID.h SettingsDB.h HighScoreTableDB.h \
-	HighScoreDialog.h SettingsDialog.h Icon.h icon32.ico wxDynamicBitmap.h UtilityFunctions.h
+	HighScoreDialog.h SettingsDialog.h Icon.h icon32.ico wxDynamicBitmap.h \
+	UtilityFunctions.h ScoreDice.h
 
 AM_CXXFLAGS = `wx-config --cxxflags`
 openyahtzee_LDADD = -lsqlite3
@@ -277,6 +279,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HighScoreDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HighScoreTableDB.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/MainFrame.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ScoreDice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SettingsDB.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SettingsDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/UtilityFunctions.Po@am__quote@

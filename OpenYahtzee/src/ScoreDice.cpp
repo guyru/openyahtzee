@@ -50,14 +50,38 @@ void ScoreDice::SetDice(short int dice[5])
 	for (int i=0; i<5; i++) 
 		m_dice[i] = dice[i];
 	
-
 	//fill the dice hash
 	for (int i=0; i<6; i++)
 		m_dicehash[i] = 0;
 	for (int i=0; i<5; i++)
-		m_dicehash[dice[i]] += 1;	
+		m_dicehash[dice[i]-1] += 1;	
+	
+	m_yahtzee_joker = false;
 }
 
+/**
+ * Tells the scoring class wheter or not we have a Yahtzee Joker.
+ * \param is_yahtzee_joker [bool] true if there is a Yahtzee Joker.
+ * \note checking whether we got a yahtzee joker is done by an outside function,
+ * and it needs the dice set before it can operate.
+ * \see MainFrame::YahtzeeJoker()
+ */
+void ScoreDice::SetYahtzeeJoker(bool is_yahtzee_joker)
+{
+	m_yahtzee_joker = is_yahtzee_joker;
+}
+
+/**
+ * \brief Gets the value of a dice.
+ * \param number the index of the dice wanted.
+ * \return the value of the dice. 0 if wrong input.
+ */
+short int ScoreDice::GetDice(short int number)
+{
+	if (number<=5 && number >=1)
+		return m_dice[number-1];
+	return 0;
+}
 /**
  * \return the score for the aces box.
  */
@@ -210,7 +234,7 @@ short int ScoreDice::Chance() const
 {
 	short int temp = 0;
 	for(int i = 0; i<5; i++) 
-		temp += m_dice[i]+1;
+		temp += m_dice[i];
 	
 	return temp;
 }

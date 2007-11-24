@@ -25,6 +25,9 @@ public:
 	ScoreDice();
 	ScoreDice(short int dice[5]);
 	void SetDice(short int dice[5]);
+	void SetYahtzeeJoker(bool is_yahtzee_joker);
+	short int GetDice(short int number);
+
 	short int Aces() const;
 	short int Twos() const;
 	short int Threes() const;
@@ -45,5 +48,6 @@ public:
 private:
 	short int m_dice[5]; 
 	short int m_dicehash[6];
+	bool m_yahtzee_joker;
 
 };

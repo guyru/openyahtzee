@@ -24,7 +24,7 @@
  *	of MainFrame's functions                *
  ***********************************************/
 
-// #define DEBUG
+ #define DEBUG
 
 #include <wx/wx.h>
 
@@ -293,7 +293,6 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 	/*** End of Event Table ***/
 
 	ResetRolls();
-	ClearDiceHash();
 	m_yahtzee = false;
 	m_yahtzeebonus = false;
 	m_numofplaysleft = 13;
@@ -358,7 +357,6 @@ void MainFrame::OnNewGame(wxCommandEvent& event)
 	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
 	
 	ResetRolls();
-	ClearDiceHash();
 	m_yahtzee = false;
 	m_numofplaysleft = 13;
 	
@@ -509,6 +507,8 @@ void MainFrame::OnSettings( wxCommandEvent& event)
  */
 void MainFrame::OnRollButton (wxCommandEvent& event)
 {
+	short int dice[5];	//holds the dices score
+	
 	if (event.GetEventType() == wxEVT_IDLE) {
 		m_skiproll = false;
 		Disconnect(wxEVT_IDLE,  wxCommandEventHandler(MainFrame::OnRollButton));
@@ -519,6 +519,12 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	if (m_skiproll) return;
 	m_skiproll = true;
 
+	//fill the dice array with the old values
+	dice[0]=m_score_dice.GetDice(1);
+	dice[1]=m_score_dice.GetDice(2);
+	dice[2]=m_score_dice.GetDice(3);
+	dice[3]=m_score_dice.GetDice(4);
+	dice[4]=m_score_dice.GetDice(5);
 	//roll the dice...
 	if (m_animate) {
 		int dice_throws[5] = {0,0,0,0,0};
@@ -531,8 +537,10 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 			for (int i=0 ; i<5; i++){
 				if(dice_throws[i]){
 					dice_throws[i]--;
-					dice[i] = (int)(6.0*rand()/RAND_MAX); //increase randomness by using the high-order bits
-					((wxDynamicBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
+					dice[i] = (int)(6.0*rand()/RAND_MAX)+1;
+					((wxDynamicBitmap*) FindWindow(i + 
+						ID_DICE1)) -> SetBitmap(
+						*bitmap_dices[dice[i]-1]);
 				}
 			}
 			::wxMilliSleep(100);
@@ -540,18 +548,15 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	} else {
 		for (int i=0; i<5; i++) {
 			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
-				dice[i] = rand()%6;
-				((wxDynamicBitmap*) FindWindow(i + ID_DICE1)) -> SetBitmap(*bitmap_dices[dice[i]]);
+				dice[i] = (int)(6.0*rand()/RAND_MAX)+1;
+				((wxDynamicBitmap*) FindWindow(i + ID_DICE1))->
+					SetBitmap(*bitmap_dices[dice[i]-1]);
 			}
 		}
 	}
-	
-	//Clear old dice-hash and create a new one
-	ClearDiceHash();
-	for (int i=0; i<5; i++)
-		dicehash[dice[i]] += 1;	
 
-	//if out of rolls disable the roll butoon
+	m_score_dice.SetDice(dice);
+	m_score_dice.SetYahtzeeJoker(YahtzeeJoker());
 	m_rolls -= 1;
 	#ifndef DEBUG
 	if (m_rolls <= 0) 
@@ -581,10 +586,29 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 void MainFrame::OnUpperButtons (wxCommandEvent& event)
 {
 	wxString out;
-	int temp;
+	short int temp;
 	if(m_rolls < 3){
 		YahtzeeBonus();
-		temp = dicehash[(event.GetId() - ID_ACES)] * (event.GetId() - ID_ACES + 1);
+		switch(event.GetId()) {
+		case ID_ACES:
+			temp = m_score_dice.Aces();
+			break;
+		case ID_TWOS:
+			temp = m_score_dice.Twos();
+			break;
+		case ID_THREES:
+			temp = m_score_dice.Threes();
+			break;
+		case ID_FOURS:
+			temp = m_score_dice.Fours();
+			break;
+		case ID_FIVES:
+			temp = m_score_dice.Fives();
+			break;
+		case ID_SIXES:
+			temp = m_score_dice.Sixes();
+			break;
+		}
 	
 		out.Printf(wxT("%i"),temp);
 		((wxTextCtrl*) FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT))->SetValue(out);
@@ -606,22 +630,10 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 		return;
 	}
 	YahtzeeBonus();
-	bool three = false;
 	wxString out;
-	int temp = 0;	
-
-	//check for the conditions of scoring
-	for (int i=0; i<6; i++)
-		if (dicehash[i] >= 3)
-			three = true;
-	if (three){
-		for(int i = 0; i<5; i++) 
-			temp += dice[i]+1;
 	
-		out.Printf(wxT("%i"),temp);
-		((wxTextCtrl*) FindWindow(ID_THREEOFAKINDTEXT))->SetValue(out);
-	} else
-		((wxTextCtrl*) FindWindow(ID_THREEOFAKINDTEXT))->SetValue(wxT("0"));
+	out.Printf(wxT("%i"),m_score_dice.ThreeOfAKind());
+	((wxTextCtrl*) FindWindow(ID_THREEOFAKINDTEXT))->SetValue(out);
 	
 	PostScore(event.GetId());
 }
@@ -637,22 +649,10 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 		return;
 	}
 	YahtzeeBonus();
-	bool four = false;
 	wxString out;
-	int temp = 0;	
 
-	//check for the conditions of scoring
-	for (int i=0; i<6; i++)
-		if (dicehash[i] >= 4)
-			four = true;
-	if (four){
-		for(int i = 0; i<5; i++) 
-			temp += dice[i]+1;
-	
-		out.Printf(wxT("%i"),temp);
-		((wxTextCtrl*) FindWindow(ID_FOUROFAKINDTEXT))->SetValue(out);
-	} else
-		((wxTextCtrl*) FindWindow(ID_FOUROFAKINDTEXT))->SetValue(wxT("0"));
+	out.Printf(wxT("%i"),m_score_dice.FourOfAKind());
+	((wxTextCtrl*) FindWindow(ID_FOUROFAKINDTEXT))->SetValue(out);
 	
 	PostScore(event.GetId());
 }
@@ -663,25 +663,16 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
  */
 void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 {
+	wxString out;
+
 	if(m_rolls>=3) {
 		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
 	YahtzeeBonus();
-	bool two = false;
-	bool three = false;
 
-	//check for the conditions of scoring
-	for (int i=0; i<6; i++)
-		if (dicehash[i] == 2)
-			two = true;
-	for (int i=0; i<6; i++)
-		if (dicehash[i] == 3)
-			three = true;
-	if ((two && three) || YahtzeeJoker())
-		((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetValue(wxT("25"));
-	else
-		((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetValue(wxT("0"));
+	out.Printf(wxT("%i"), m_score_dice.FullHouse());
+	((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetValue(out);
 	
 	PostScore(event.GetId());
 }
@@ -692,22 +683,17 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
  */
 void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 {
+	wxString out;
+
 	if(m_rolls>=3) {
 		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
 
 	YahtzeeBonus();
-	bool sequence = false;
-	//check for the conditions of scoring
-	if ( (dicehash[0]>=1 && dicehash[1]>=1 && dicehash[2]>=1 && dicehash[3]>=1) ||
-		(dicehash[1]>=1 && dicehash[2]>=1 && dicehash[3]>=1 && dicehash[4]>=1) ||
-		(dicehash[2]>=1 && dicehash[3]>=1 && dicehash[4]>=1 && dicehash[5]>=1))
-			sequence = true;
-	if (sequence || YahtzeeJoker())
-		((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetValue(wxT("30"));
-	else
-		((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetValue(wxT("0"));
+	
+	out.Printf(wxT("%i"), m_score_dice.SmallSequence());
+	((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetValue(out);
 	
 	PostScore(event.GetId());
 }
@@ -718,21 +704,17 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
  */
 void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 {
+	wxString out;
+	
 	if(m_rolls>=3) {
 		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
 
 	YahtzeeBonus();
-	bool sequence = false;
-	//check for the conditions of scoring
-	if ( (dicehash[0]==1 && dicehash[1]==1 && dicehash[2]==1 && dicehash[3]==1 && dicehash[4]==1) ||
-		(dicehash[1]==1 && dicehash[2]==1 && dicehash[3]==1 && dicehash[4]==1 && dicehash[5]==1))
-			sequence = true;
-	if (sequence || YahtzeeJoker())
-		((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetValue(wxT("40"));
-	else
-		((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetValue(wxT("0"));
+
+	out.Printf(wxT("%i"), m_score_dice.LargeSequence());
+	((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetValue(out);
 	
 	PostScore(event.GetId());
 }
@@ -743,16 +725,16 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
  */
 void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 {
+	wxString out;
+	
 	if(m_rolls>=3) {
 		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
 		return;
 	}
-	//give the score
-	if ((dice[0]==dice[1]) && (dice[1]==dice[2]) && (dice[1]==dice[3]) && (dice[1]==dice[4])){
-		((wxTextCtrl*) FindWindow(ID_YAHTZEETEXT))->SetValue(wxT("50"));
-		m_yahtzee=true;
-	} else
-		((wxTextCtrl*) FindWindow(ID_YAHTZEETEXT))->SetValue(wxT("0"));
+	
+	if (m_score_dice.IsYahtzee()) m_yahtzee = true;
+	out.Printf(wxT("%i"), m_score_dice.Yahtzee());
+	((wxTextCtrl*) FindWindow(ID_YAHTZEETEXT))->SetValue(out);
 
 	PostScore(event.GetId());
 }
@@ -767,10 +749,8 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 	int temp = 0;
 	if(m_rolls < 3){
 		YahtzeeBonus();
-		for(int i = 0; i<5; i++) 
-			temp += dice[i]+1;
 	
-		out.Printf(wxT("%i"),temp);
+		out.Printf(wxT("%i"),m_score_dice.Chance());
 		((wxTextCtrl*) FindWindow(ID_CHANCETEXT))->SetValue(out);
 		
 		PostScore(event.GetId());
@@ -812,17 +792,6 @@ void MainFrame::OnKeepClick (wxCommandEvent& event)
 //********************************************
 
 /**
- * This function clears the dice hash.
- *
- * The dice hash is just an array that holds how many dices have each value.
- */
-void MainFrame::ClearDiceHash()
-{
-	for (int i=0; i<6; i++)
-		dicehash[i] = 0;
-}
-
-/**
  * This function handles everything related to reseting the dice rolls after scoring.
  */
 void MainFrame::ResetRolls()
@@ -848,7 +817,7 @@ void MainFrame::YahtzeeBonus()
 	//if the player didn't have any yathzees yet he can't have the bonus;
 	if (!m_yahtzee)
 		return;
-	if ((dice[0]==dice[1]) && (dice[1]==dice[2]) && (dice[1]==dice[3]) && (dice[1]==dice[4])) {
+	if (m_score_dice.IsYahtzee()) {
 		tempstr = ((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> GetValue();
 		tempstr.ToLong(&temp,10);
 		temp += 100;
@@ -864,7 +833,9 @@ void MainFrame::YahtzeeBonus()
  */
 bool MainFrame::YahtzeeJoker()
 {
-	if ((dice[0]==dice[1]) && (dice[1]==dice[2]) && (dice[1]==dice[3]) && (dice[1]==dice[4]) && !(FindWindow(ID_ACES+dice[0])->IsEnabled()) && !(FindWindow(ID_YAHTZEE)->IsEnabled())) {
+	if (m_score_dice.IsYahtzee() && !(FindWindow(ID_ACES + 
+		m_score_dice.GetDice(1)-1)->IsEnabled()) && 
+		!(FindWindow(ID_YAHTZEE)->IsEnabled())) {
 		return true;
 	}
 	return false;

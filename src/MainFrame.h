@@ -86,8 +86,6 @@ private:
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dices[6];
 
-	short int dice[5];	//holds the dices score
-	short int dicehash[6];	//the dice hash
 	ScoreDice m_score_dice;
 	short int m_rolls;	//holds how many rolls left
 	short int m_numofplaysleft; //holds how many times the user got to score untill the end of the game

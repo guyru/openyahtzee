@@ -182,7 +182,7 @@ short int ScoreDice::FullHouse() const
 	for (int i=0; i<6; i++)
 		if (m_dicehash[i] == 3)
 			three = true;
-	if (two && three)
+	if ((two && three) || m_yahtzee_joker)
 		return 25;
 	return 0;
 }
@@ -198,6 +198,8 @@ short int ScoreDice::SmallSequence() const
 		m_dicehash[3]>=1 && m_dicehash[4]>=1) || (m_dicehash[2]>=1 &&
 		m_dicehash[3]>=1 && m_dicehash[4]>=1 && m_dicehash[5]>=1))
 		return 30;
+	else if (m_yahtzee_joker)
+		return 30;
 	return 0;
 }
 
@@ -211,6 +213,8 @@ short int ScoreDice::LargeSequence() const
 		m_dicehash[3]==1 && m_dicehash[4]==1) || (m_dicehash[1]==1 &&
 		m_dicehash[2]==1 && m_dicehash[3]==1 && m_dicehash[4]==1 &&
 		m_dicehash[5]==1))
+		return 40;
+	else if (m_yahtzee_joker)
 		return 40;
 	return 0;
 }

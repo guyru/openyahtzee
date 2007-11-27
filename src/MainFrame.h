@@ -108,7 +108,7 @@ private:
 
 	bool m_horizontallayout;
 	
-	bool m_skiproll;
+	bool m_skiproll; ///used to prevent the user from accidently rolling the dice twice
 
 	class MainFrameEvtHandler *m_evt_handler;
 };

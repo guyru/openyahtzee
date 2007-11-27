@@ -1203,7 +1203,6 @@ void MainFrameEvtHandler::OnScoreMouseEnter (wxMouseEvent& event)
 	wxTextCtrl *text_control;
 	wxString out;
 	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(event.GetId()-ID_ACES+ID_ACESTEXT));
-	text_control->SetDefaultStyle(wxTextAttr(*wxBLUE));
 	switch (event.GetId()) {
 	case ID_ACES:
 		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Aces());
@@ -1246,6 +1245,7 @@ void MainFrameEvtHandler::OnScoreMouseEnter (wxMouseEvent& event)
 		break;
 	}
 	text_control->SetValue(out); 		
+	text_control->SetBackgroundColour(wxColour(239,239,239));
 	
 	event.Skip(); //allow default proccesing
 }

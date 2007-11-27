@@ -70,7 +70,8 @@ public:
 	void OnScoreMouseEnter (wxMouseEvent& event);
 	void OnScoreMouseLeave (wxMouseEvent& event);
 	
-	void OnLoaded (wxCommandEvent& event);	
+
+	ScoreDice m_score_dice;
 
 private:
 	void ClearDiceHash();
@@ -91,7 +92,6 @@ private:
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dices[6];
 
-	ScoreDice m_score_dice;
 	short int m_rolls;	//holds how many rolls left
 	short int m_numofplaysleft; //holds how many times the user got to score untill the end of the game
 	bool m_yahtzee;
@@ -110,11 +110,21 @@ private:
 	
 	bool m_skiproll;
 
+	class MainFrameEvtHandler *m_evt_handler;
 };
-class MyEvtHandler : public wxEvtHandler
+
+/**
+ * This class handles events for windows in MainFrame where it hasn't been
+ * possible to use the regular event handler.
+ */
+class MainFrameEvtHandler : public wxEvtHandler
 {
 public: 
-void OnKeepClick2 (wxCommandEvent& event){std::cout<<"adfasf"<<std::endl;}	
+	MainFrameEvtHandler(MainFrame *main_frame) { m_main_frame = main_frame;}
+	void OnScoreMouseEnter (wxMouseEvent& event);
+	void OnScoreMouseLeave (wxMouseEvent& event);
+private:
+	MainFrame *m_main_frame;
 
 };
 #endif

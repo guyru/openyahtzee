@@ -79,11 +79,12 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	//give the frame an icon
 	SetIcon(wxIcon(ICON));
 
-
 	std::ostringstream sstr;
 
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
+
+	m_evt_handler = new MainFrameEvtHandler(this);
 	
 	InitializeDatabase();//this must come _after_ m_settingsdb and m_highscoredb are created
 
@@ -291,17 +292,12 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 	Connect(ID_DICE1KEEP,ID_DICE5KEEP, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (MainFrame::OnKeepClick));
 	//END connecting the scoreboard buttons to the event
 	
-	MyEvtHandler *n = new MyEvtHandler();
-	wxCommandEvent event2(myEVT_FRAME_LOADED,this->GetId()); 
-	AddPendingEvent(event2);
-	Connect(this->GetId(),myEVT_FRAME_LOADED, wxCommandEventHandler (MainFrame::OnLoaded));
-	((wxWindow *)FindWindow(ID_ACES))->PushEventHandler(n);
-	n->Connect(ID_ACES, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyEvtHandler::OnKeepClick2));
-	//Connect(ID_ACES, ID_CHANCE, wxEVT_ENTER_WINDOW,
-		//wxMouseEventHandler(MainFrame::OnScoreMouseEnter));
-	Connect(ID_ACES, wxEVT_ENTER_WINDOW, wxMouseEventHandler(wxDynamicBitmap::OnClick));
-	Connect(ID_ACES, ID_CHANCE, wxEVT_LEAVE_WINDOW,
-		wxMouseEventHandler(MainFrame::OnScoreMouseLeave));
+	for (int i = ID_ACES; i<=ID_CHANCE; i++)
+		((wxWindow *)FindWindow(i))->PushEventHandler(m_evt_handler);
+	m_evt_handler->Connect(ID_ACES, ID_CHANCE, wxEVT_ENTER_WINDOW,
+		wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseEnter));
+	m_evt_handler->Connect(ID_ACES, ID_CHANCE, wxEVT_LEAVE_WINDOW,
+		wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseLeave));
 
 	/*** End of Event Table ***/
 
@@ -314,14 +310,6 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 
 /*********EVENT PROCCESSING FUNCTIONS********/
 
-
-void MainFrame::OnLoaded(wxCommandEvent& event){
-	std::cout<<"afasdf"<<std::endl;
-	((wxWindow *)FindWindow(ID_ACES))->SetEventHandler((wxEvtHandler *)this);
-	((wxWindow *)FindWindow(ID_ACES))->SetEventHandler((wxEvtHandler *)FindWindow(ID_ACES));
-	((wxWindow *)FindWindow(ID_ACES))->PushEventHandler((wxEvtHandler *)this);
-	
-}
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
 #ifdef PORTABLE
@@ -807,28 +795,6 @@ void MainFrame::OnKeepClick (wxCommandEvent& event)
 	((wxDynamicBitmap*) FindWindow(event.GetId()-ID_DICE1KEEP + ID_DICE1))->SetGrayScale(temp->GetValue());
 }
 
-/**
- *
- */
-void MainFrame::OnScoreMouseEnter (wxMouseEvent& event)
-{
-	wxTextCtrl *text_control;
-	wxString out;
-	text_control = ((wxTextCtrl*) FindWindow(event.GetId()-ID_ACES+ID_ACESTEXT));
-	text_control->SetDefaultStyle(wxTextAttr(*wxLIGHT_GREY));
-	out.Printf(wxT("%i"), m_score_dice.Aces());
-	text_control->SetValue(out); 		
-	wxMessageBox(wxT("adfasdf"));
-}
-
-/**
- *
- */
-void MainFrame::OnScoreMouseLeave (wxMouseEvent& event)
-{
-	((wxTextCtrl*) FindWindow(event.GetId()-ID_ACES+ID_ACESTEXT))->
-		SetDefaultStyle(wxTextAttr(*wxBLACK));
-}
 
 //********************************************
 //******	General Functions	******
@@ -1229,3 +1195,68 @@ void MainFrame::Relayout()
 	
 }
 
+/**
+ *
+ */
+void MainFrameEvtHandler::OnScoreMouseEnter (wxMouseEvent& event)
+{
+	wxTextCtrl *text_control;
+	wxString out;
+	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(event.GetId()-ID_ACES+ID_ACESTEXT));
+	text_control->SetDefaultStyle(wxTextAttr(*wxBLUE));
+	switch (event.GetId()) {
+	case ID_ACES:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Aces());
+		break;
+	case ID_TWOS:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Twos());
+		break;
+	case ID_THREES:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Threes());
+		break;
+	case ID_FOURS:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Fours());
+		break;
+	case ID_FIVES:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Fives());
+		break;
+	case ID_SIXES:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Sixes());
+		break;
+	case ID_THREEOFAKIND:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.ThreeOfAKind());
+		break;
+	case ID_FOUROFAKIND:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.FourOfAKind());
+		break;
+	case ID_FULLHOUSE:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.FullHouse());
+		break;
+	case ID_SMALLSEQUENCE:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.SmallSequence());
+		break;
+	case ID_LARGESEQUENCE:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.LargeSequence());
+		break;
+	case ID_YAHTZEE:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Yahtzee());
+		break;
+	case ID_CHANCE:
+		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Chance());
+		break;
+	}
+	text_control->SetValue(out); 		
+	
+	event.Skip(); //allow default proccesing
+}
+
+/**
+ *
+ */
+void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
+{
+	wxTextCtrl *text_control;
+	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(event.GetId()-ID_ACES+ID_ACESTEXT));
+	text_control->SetDefaultStyle(wxTextAttr(*wxBLACK));
+	text_control->Clear();
+}

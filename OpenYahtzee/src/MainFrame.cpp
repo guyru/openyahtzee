@@ -24,7 +24,7 @@
  *	of MainFrame's functions                *
  ***********************************************/
 
- #define DEBUG
+//#define DEBUG
 
 #include <wx/wx.h>
 
@@ -70,6 +70,7 @@
 #define OY_VERSION "1.8.0"
 
 DEFINE_EVENT_TYPE(wxEVT_ENABLE_ROLL) /*just to satisfy kdevelop*/;
+const wxEventType myEVT_FRAME_LOADED = wxNewEventType();
 
 
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
@@ -289,6 +290,18 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 	Connect(ID_DICE1,ID_DICE5, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnDiceClick));
 	Connect(ID_DICE1KEEP,ID_DICE5KEEP, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (MainFrame::OnKeepClick));
 	//END connecting the scoreboard buttons to the event
+	
+	MyEvtHandler *n = new MyEvtHandler();
+	wxCommandEvent event2(myEVT_FRAME_LOADED,this->GetId()); 
+	AddPendingEvent(event2);
+	Connect(this->GetId(),myEVT_FRAME_LOADED, wxCommandEventHandler (MainFrame::OnLoaded));
+	((wxWindow *)FindWindow(ID_ACES))->PushEventHandler(n);
+	n->Connect(ID_ACES, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyEvtHandler::OnKeepClick2));
+	//Connect(ID_ACES, ID_CHANCE, wxEVT_ENTER_WINDOW,
+		//wxMouseEventHandler(MainFrame::OnScoreMouseEnter));
+	Connect(ID_ACES, wxEVT_ENTER_WINDOW, wxMouseEventHandler(wxDynamicBitmap::OnClick));
+	Connect(ID_ACES, ID_CHANCE, wxEVT_LEAVE_WINDOW,
+		wxMouseEventHandler(MainFrame::OnScoreMouseLeave));
 
 	/*** End of Event Table ***/
 
@@ -302,6 +315,13 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 /*********EVENT PROCCESSING FUNCTIONS********/
 
 
+void MainFrame::OnLoaded(wxCommandEvent& event){
+	std::cout<<"afasdf"<<std::endl;
+	((wxWindow *)FindWindow(ID_ACES))->SetEventHandler((wxEvtHandler *)this);
+	((wxWindow *)FindWindow(ID_ACES))->SetEventHandler((wxEvtHandler *)FindWindow(ID_ACES));
+	((wxWindow *)FindWindow(ID_ACES))->PushEventHandler((wxEvtHandler *)this);
+	
+}
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
 #ifdef PORTABLE
@@ -785,6 +805,29 @@ void MainFrame::OnKeepClick (wxCommandEvent& event)
 {
 	wxCheckBox *temp = (wxCheckBox*) FindWindow(event.GetId());
 	((wxDynamicBitmap*) FindWindow(event.GetId()-ID_DICE1KEEP + ID_DICE1))->SetGrayScale(temp->GetValue());
+}
+
+/**
+ *
+ */
+void MainFrame::OnScoreMouseEnter (wxMouseEvent& event)
+{
+	wxTextCtrl *text_control;
+	wxString out;
+	text_control = ((wxTextCtrl*) FindWindow(event.GetId()-ID_ACES+ID_ACESTEXT));
+	text_control->SetDefaultStyle(wxTextAttr(*wxLIGHT_GREY));
+	out.Printf(wxT("%i"), m_score_dice.Aces());
+	text_control->SetValue(out); 		
+	wxMessageBox(wxT("adfasdf"));
+}
+
+/**
+ *
+ */
+void MainFrame::OnScoreMouseLeave (wxMouseEvent& event)
+{
+	((wxTextCtrl*) FindWindow(event.GetId()-ID_ACES+ID_ACESTEXT))->
+		SetDefaultStyle(wxTextAttr(*wxBLACK));
 }
 
 //********************************************

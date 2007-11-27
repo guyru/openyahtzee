@@ -67,6 +67,11 @@ public:
 	void OnDiceClick (wxCommandEvent& event);
 	void OnKeepClick (wxCommandEvent& event);	
 
+	void OnScoreMouseEnter (wxMouseEvent& event);
+	void OnScoreMouseLeave (wxMouseEvent& event);
+	
+	void OnLoaded (wxCommandEvent& event);	
+
 private:
 	void ClearDiceHash();
 	void ResetRolls();
@@ -104,6 +109,12 @@ private:
 	bool m_horizontallayout;
 	
 	bool m_skiproll;
+
+};
+class MyEvtHandler : public wxEvtHandler
+{
+public: 
+void OnKeepClick2 (wxCommandEvent& event){std::cout<<"adfasf"<<std::endl;}	
 
 };
 #endif

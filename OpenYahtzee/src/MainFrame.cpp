@@ -69,9 +69,7 @@
 #define DEF_HIGHSCORESIZE 20
 #define OY_VERSION "1.8.0"
 
-DEFINE_EVENT_TYPE(wxEVT_ENABLE_ROLL) /*just to satisfy kdevelop*/;
-const wxEventType myEVT_FRAME_LOADED = wxNewEventType();
-
+const wxEventType wxEVT_ENABLE_ROLL = wxNewEventType();
 
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
@@ -291,13 +289,21 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 	Connect(ID_DICE1,ID_DICE5, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnDiceClick));
 	Connect(ID_DICE1KEEP,ID_DICE5KEEP, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler (MainFrame::OnKeepClick));
 	//END connecting the scoreboard buttons to the event
-	
-	for (int i = ID_ACES; i<=ID_CHANCE; i++)
+
+	/* The following code connects the on wxEVT_ENTER_WINDOW and 
+	 * wxEVT_LEAVE_WINDOW events to the score buttons to handle the score
+	 * hints. For some unknown technical problem we have to directly connect
+	 * the events, otherwise the wxEVT_LEAVE_WINDOW doesn't get generated.
+	 * We have to use event handler other than MainFrame's as the regular
+	 * event handler leads to segmantation fault.
+	 */
+	wxButton *temp;
+	for (int i = ID_ACES; i<=ID_CHANCE; i++) {
+		temp = ((wxButton *)FindWindow(i));
 		((wxWindow *)FindWindow(i))->PushEventHandler(m_evt_handler);
-	m_evt_handler->Connect(ID_ACES, ID_CHANCE, wxEVT_ENTER_WINDOW,
-		wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseEnter));
-	m_evt_handler->Connect(ID_ACES, ID_CHANCE, wxEVT_LEAVE_WINDOW,
-		wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseLeave));
+		((wxWindow *)FindWindow(i))->Connect(wxEVT_LEAVE_WINDOW, wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseLeave), temp, m_evt_handler);
+		((wxWindow *)FindWindow(i))->Connect(wxEVT_ENTER_WINDOW, wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseEnter), temp, m_evt_handler);
+	}
 
 	/*** End of Event Table ***/
 
@@ -620,6 +626,7 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 	
 		out.Printf(wxT("%i"),temp);
 		((wxTextCtrl*) FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT))->SetValue(out);
+		((wxTextCtrl*) FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT))->SetBackgroundColour(*wxWHITE);
 		
 		PostScore(event.GetId());
 	}
@@ -642,6 +649,7 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 	
 	out.Printf(wxT("%i"),m_score_dice.ThreeOfAKind());
 	((wxTextCtrl*) FindWindow(ID_THREEOFAKINDTEXT))->SetValue(out);
+	((wxTextCtrl*) FindWindow(ID_THREEOFAKINDTEXT))->SetBackgroundColour(*wxWHITE);
 	
 	PostScore(event.GetId());
 }
@@ -661,6 +669,7 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 
 	out.Printf(wxT("%i"),m_score_dice.FourOfAKind());
 	((wxTextCtrl*) FindWindow(ID_FOUROFAKINDTEXT))->SetValue(out);
+	((wxTextCtrl*) FindWindow(ID_FOUROFAKINDTEXT))->SetBackgroundColour(*wxWHITE);
 	
 	PostScore(event.GetId());
 }
@@ -681,6 +690,7 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 
 	out.Printf(wxT("%i"), m_score_dice.FullHouse());
 	((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetValue(out);
+	((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetBackgroundColour(*wxWHITE);
 	
 	PostScore(event.GetId());
 }
@@ -702,6 +712,7 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 	
 	out.Printf(wxT("%i"), m_score_dice.SmallSequence());
 	((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetValue(out);
+	((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetBackgroundColour(*wxWHITE);
 	
 	PostScore(event.GetId());
 }
@@ -723,6 +734,7 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 
 	out.Printf(wxT("%i"), m_score_dice.LargeSequence());
 	((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetValue(out);
+	((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetBackgroundColour(*wxWHITE);
 	
 	PostScore(event.GetId());
 }
@@ -743,6 +755,7 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 	if (m_score_dice.IsYahtzee()) m_yahtzee = true;
 	out.Printf(wxT("%i"), m_score_dice.Yahtzee());
 	((wxTextCtrl*) FindWindow(ID_YAHTZEETEXT))->SetValue(out);
+	((wxTextCtrl*) FindWindow(ID_YAHTZEETEXT))->SetBackgroundColour(*wxWHITE);
 
 	PostScore(event.GetId());
 }
@@ -760,6 +773,7 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 	
 		out.Printf(wxT("%i"),m_score_dice.Chance());
 		((wxTextCtrl*) FindWindow(ID_CHANCETEXT))->SetValue(out);
+		((wxTextCtrl*) FindWindow(ID_CHANCETEXT))->SetBackgroundColour(*wxWHITE);
 		
 		PostScore(event.GetId());
 	}
@@ -1196,14 +1210,32 @@ void MainFrame::Relayout()
 }
 
 /**
+ * Check whether the dice should be rolled or if the user already rolled them.
+ * \return true if the dice are valid (rolled).
+ */
+bool MainFrame::IsValidDice()
+{
+	if ( m_rolls < 3 )
+		return true;
+	return false;
+}
+
+/**
  *
  */
 void MainFrameEvtHandler::OnScoreMouseEnter (wxMouseEvent& event)
 {
+	int id;
 	wxTextCtrl *text_control;
 	wxString out;
-	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(event.GetId()-ID_ACES+ID_ACESTEXT));
-	switch (event.GetId()) {
+	if (! m_main_frame->IsValidDice()){
+		event.Skip();
+		return;
+	}
+	
+	id = ((wxWindow *)event.GetEventObject())->GetId();
+	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(id-ID_ACES+ID_ACESTEXT));
+	switch (id) {
 	case ID_ACES:
 		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Aces());
 		break;
@@ -1255,8 +1287,21 @@ void MainFrameEvtHandler::OnScoreMouseEnter (wxMouseEvent& event)
  */
 void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
 {
+	//we dont have the id of the control that generated the event
 	wxTextCtrl *text_control;
-	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(event.GetId()-ID_ACES+ID_ACESTEXT));
-	text_control->SetDefaultStyle(wxTextAttr(*wxBLACK));
-	text_control->Clear();
+	
+	if (! m_main_frame->IsValidDice()){
+		event.Skip();
+		return;
+	}
+
+	for (int i = ID_ACESTEXT; i<=ID_CHANCETEXT; i++) {
+		text_control = (wxTextCtrl *)m_main_frame->FindWindow(i);
+		if (text_control->GetBackgroundColour()==wxColour(239,239,239)){
+			text_control->Clear();
+			text_control->SetBackgroundColour(*wxWHITE);
+		}
+	}
+
+	event.Skip(); //allow default proccesing
 }

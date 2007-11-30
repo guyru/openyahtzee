@@ -30,8 +30,6 @@
 #ifndef MAINFRAME_INC
 #define MAINFRAME_INC
 
-DECLARE_EVENT_TYPE(wxEVT_ENABLE_ROLL, -1) /*just to satisfy kdevelop*/;
-
 /// MainFrame class - the main window
 /**
 The Main Frame class is a derieved class from wxFrame which is responsible to 
@@ -69,7 +67,8 @@ public:
 
 	void OnScoreMouseEnter (wxMouseEvent& event);
 	void OnScoreMouseLeave (wxMouseEvent& event);
-	
+
+	bool IsValidDice();
 
 	ScoreDice m_score_dice;
 

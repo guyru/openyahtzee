@@ -84,6 +84,8 @@ private:
 	void CalculateSubTotal();
 	int InitializeDatabase();
 	void Relayout();
+	void AddMenus();
+	void ConnectEventTable();
 
 	wxStaticBoxSizer *uppersection, *lowersection;
 	wxBoxSizer *sectionsSizer;

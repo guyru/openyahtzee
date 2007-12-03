@@ -95,43 +95,9 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	
 	//randomize the random-number generator based on the time
 	srand( (unsigned)time( NULL ) );
+	
+	AddMenus();
 
-
-	/*****Create and initialize the menu bar******/
-
-	/*Create the menus*/
-	wxMenu *gameMenu = new wxMenu;	//create File menu
-	wxMenu *helpMenu = new wxMenu;	//create Help menu
-	
-	
-	//insert menu items into menu Help
-	helpMenu->Append(ID_CHECK_FOR_UPDATES, wxT("&Check for Updates"),
-			wxT("Check for new version of the game via the web"));
-	helpMenu->AppendSeparator();
-	helpMenu->Append(ID_SENDCOMMENT, wxT("&Send a Comment to Developers"),
-			wxT("Send a comment to the developers of the game"));
-	helpMenu->AppendSeparator();
-	helpMenu->Append(wxID_ABOUT, wxT("&About...\tF1"),
-			wxT("Show about dialog"));
-
-	//insert menu items into menu File
-	gameMenu->Append(ID_NEWGAME,wxT("&New Game\tF2"),wxT("Start a new game"));
-	//create the undo button and make it disabled
-	gameMenu->Append(ID_UNDO,wxT("&Undo\tCTRL+Z"),wxT("Undo the last move"));
-	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
-	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
-	gameMenu->Append(wxID_EXIT, wxT("E&xit\tAlt-X"),
-			wxT("Quit this program"));
-	
-	// Declare the menu-bar and append the freshly created menus to the menu bar...
-	wxMenuBar *menuBar = new wxMenuBar();
-	menuBar->Append(gameMenu, wxT("&Game"));
-	menuBar->Append(helpMenu, wxT("&Help"));
-	
-	// ... and attach this menu bar to the frame
-	SetMenuBar(menuBar);
-	
-	/***End menu-bar ***/
 	wxPanel* panel = new wxPanel(this, ID_PANEL,
    		wxDefaultPosition, wxDefaultSize);
 
@@ -256,13 +222,58 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 	//disable the undo button
 	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
 
-
+	ConnectEventTable();
 	
+	ResetRolls();
+	m_yahtzee = false;
+	m_yahtzeebonus = false;
+	m_numofplaysleft = 13;
 
-	/***************************************/
-	/********* Declare Event Table *********/
-	/***************************************/
+}
+
+/**
+ * Adds the menus and menu items to the MainFrame.
+ */
+void MainFrame::AddMenus()
+{
+	/*Create the menus*/
+	wxMenu *gameMenu = new wxMenu;	//create Game menu
+	wxMenu *helpMenu = new wxMenu;	//create Help menu
 	
+	
+	//insert menu items into menu Help
+	helpMenu->Append(ID_CHECK_FOR_UPDATES, wxT("&Check for Updates"),
+			wxT("Check for new version of the game via the web"));
+	helpMenu->AppendSeparator();
+	helpMenu->Append(ID_SENDCOMMENT, wxT("&Send a Comment to Developers"),
+			wxT("Send a comment to the developers of the game"));
+	helpMenu->AppendSeparator();
+	helpMenu->Append(wxID_ABOUT, wxT("&About...\tF1"),
+			wxT("Show about dialog"));
+
+	//insert menu items into menu Game
+	gameMenu->Append(ID_NEWGAME,wxT("&New Game\tF2"),wxT("Start a new game"));
+	//create the undo button and make it disabled
+	gameMenu->Append(ID_UNDO,wxT("&Undo\tCTRL+Z"),wxT("Undo the last move"));
+	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
+	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
+	gameMenu->Append(wxID_EXIT, wxT("E&xit\tAlt-X"),
+			wxT("Quit this program"));
+	
+	// Declare the menu-bar and append the freshly created menus to the menu bar...
+	wxMenuBar *menuBar = new wxMenuBar();
+	menuBar->Append(gameMenu, wxT("&Game"));
+	menuBar->Append(helpMenu, wxT("&Help"));
+	
+	// ... and attach this menu bar to the frame
+	SetMenuBar(menuBar);
+}
+
+/**
+ * Connects the tables to the event handlers
+ */
+void MainFrame::ConnectEventTable()
+{
 	//BEGIN connecting the menu items' events
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnQuit));
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnAbout));
@@ -304,15 +315,8 @@ lowersection = new wxStaticBoxSizer( new wxStaticBox( panel, wxID_ANY, wxT("Lowe
 		((wxWindow *)FindWindow(i))->Connect(wxEVT_LEAVE_WINDOW, wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseLeave), temp, m_evt_handler);
 		((wxWindow *)FindWindow(i))->Connect(wxEVT_ENTER_WINDOW, wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseEnter), temp, m_evt_handler);
 	}
+}
 
-	/*** End of Event Table ***/
-
-	ResetRolls();
-	m_yahtzee = false;
-	m_yahtzeebonus = false;
-	m_numofplaysleft = 13;
-
- }
 
 /*********EVENT PROCCESSING FUNCTIONS********/
 

@@ -86,6 +86,7 @@ private:
 	void Relayout();
 	void AddMenus();
 	void ConnectEventTable();
+	void AddControlsAndLayout();
 
 	wxStaticBoxSizer *uppersection, *lowersection;
 	wxBoxSizer *sectionsSizer;

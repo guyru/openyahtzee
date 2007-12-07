@@ -1,6 +1,6 @@
 // $Header$
 /***************************************************************************
- *   Copyright (C) 2006 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2007 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -72,6 +72,13 @@ public:
 
 	ScoreDice m_score_dice;
 
+	struct {
+		bool animate;
+		bool calculate_subtotal;
+		bool horizontal_layout;
+		bool score_hints;
+	} m_settings;
+
 private:
 	void ClearDiceHash();
 	void ResetRolls();
@@ -104,11 +111,6 @@ private:
 
 	SettingsDB *m_settingsdb; //handles the settings database
 	HighScoreTableDB *m_highscoredb; //handles the highscore database managment
-
-	bool m_animate; //sets whether to animate the dice.
-	bool m_calculatesubtotal; //sets whether to calculate the subtotal after every score or not
-
-	bool m_horizontallayout;
 	
 	bool m_skiproll; ///used to prevent the user from accidently rolling the dice twice
 

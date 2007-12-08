@@ -563,6 +563,9 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 		m_settingsdb->SetKey("calculatesubtotal","No");
 		m_settings.calculate_subtotal = false;
 	}
+	((wxTextCtrl*) FindWindow(ID_UPPERSECTIONTOTAL)) -> SetValue(wxT(""));
+	((wxTextCtrl*) FindWindow(ID_LOWERTOTAL)) -> SetValue(wxT(""));
+	CalculateSubTotal();
 
 	if (data.score_hints){
 		m_settingsdb->SetKey("score_hints","Yes");

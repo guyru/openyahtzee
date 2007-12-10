@@ -35,27 +35,12 @@ class Template
 <p></p>
 </div>
 
-<img style="margin-left:85px;" id="frontphoto" src="top2.gif" width="600" height="175" alt="" />
+<div id="rightside">
+<div id="content">
 
-<div id="avmenu">
-<h2 class="hide">Menu:</h2>
-<ul>
-<li><a href="index.php">Home Page</a></li>
-<li><a href="download.php">Download</a></li>
-<li><a href="news.php">News</a></li>
-<li><a href="index.php#features">Features</a></li>
-<li><a href="screenshots.php">Screenshots</a></li>
-<li><a href="http://sourceforge.net/projects/openyahtzee">SF Project Page</a></li>
-</ul>
+<?php print $this->content; ?>
 
-<div class="announce">
-<strong>Latest Stable Version:</strong>
-<p>Open Yahtzee 1.8</p>
-<p class="textright"><a href="http://sourceforge.net/project/showfiles.php?group_id=175453">Download...</a></p>
-</div><!--End of announce div -->
-
-</div><!--End of avmenu div -->
-
+</div><!--End of content div -->
 <div id="extras">
 <h3>Short About:</h3>
 <p>This is Open Yahtzee. Open Yahtzee is an open-source cross-platform version of the classic dice game Yahtzee</p>
@@ -67,12 +52,27 @@ class Template
 </p>
 
 </div><!--End of extras div -->
+</div><!--End of rightside div-->
 
-<div id="content">
+<div id="avmenu">
+	<h2 class="hide">Menu:</h2>
+	<ul>
+		<li><a href="index.php">Home Page</a></li>
+		<li><a href="download.php">Download</a></li>
+		<li><a href="news.php">News</a></li>
+		<li><a href="index.php#features">Features</a></li>
+		<li><a href="screenshots.php">Screenshots</a></li>
+		<li><a href="http://sourceforge.net/projects/openyahtzee">SF Project Page</a></li>
+	</ul>
 
-<?php print $this->content; ?>
-
-</div><!--End of content div -->
+	<div class="announce">
+		<strong>Latest Stable Version:</strong>
+		<p>Open Yahtzee 1.8</p>
+		<p class="textright">
+			<a href="http://sourceforge.net/project/showfiles.php?group_id=175453">Download...</a>
+		</p>
+	</div><!--End of announce div -->
+</div><!--End of avmenu div -->
 
 <div id="footer">
 Copyright &copy; 2006 Guy Rutenberg. based on a design by <a 

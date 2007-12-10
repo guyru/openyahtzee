@@ -23,7 +23,8 @@ width: 760px;
 clear: both;
 margin: 20px 0 0 0;
 padding: 0;
-height: 45px;
+height: 210px;
+background: url('top2.gif') no-repeat center;
 }
 
 #header h1 {
@@ -94,6 +95,11 @@ background-color: #eaeaea;
 line-height: 1.3em;
 }
 
+#rightside {
+float: right;
+width: 600px;
+}
+
 #extras {
 float: right;
 width: 100px;
@@ -108,12 +114,14 @@ margin: 0 0 1.5em 0;
 }
 
 #content {
-margin: 0 110px 20px 160px;
+margin: 0 10px 20px 0px;
 border-left: 1px solid #f0f0f0;
 border-right: 1px solid #f0f0f0;
 padding: 0 10px 0 10px;
 line-height: 1.6em;
 text-align: left;
+width: 468px;
+float: left;
 }
 
 #content h2 {

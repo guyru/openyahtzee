@@ -1,6 +1,6 @@
 // $Header: $
 /***************************************************************************
- *   Copyright (C) 2006 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2007 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -47,7 +47,7 @@ AboutDialog::AboutDialog(wxWindow* parent, int id, const wxString& title, const 
 	
 	notebook_main_pane_about = new wxPanel(notebook_main, -1);
 	
-	bitmap_1 = new wxDynamicBitmap((wxWindow*)this, (wxWindowID)wxID_ANY,*logo);
+	bitmap_1 = new wxDynamicBitmap((wxWindow*)this, (wxWindowID)wxID_ANY,logo);
 #ifdef PORTABLE
 	app_label = new wxStaticText(this, -1, wxT("Open Yahtzee Portable Edition 1.8.0"));
 #else	

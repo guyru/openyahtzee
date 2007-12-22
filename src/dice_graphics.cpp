@@ -1,4 +1,3 @@
-// $Header$
 /***************************************************************************
  *   Copyright (C) 2006-2007 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
@@ -7,7 +6,7 @@
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
- *                                                                         *
+ *               `                                                          *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
@@ -18,41 +17,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/**\file wxDynamicBitmap.h
- *\brief Header file for DBwrapper class.
- *
- * This file contains the header for the wxDynamicBitmap class and all the nessecery include files.
-*/
 
-#include <wx/wx.h>
-//#include <wx/control.h>
+#include "dice_graphics.h"
 
-#ifndef WXDYNAMICBITMAP
-#define WXDYNAMICBITMAP
+#include "one.xpm"
+#include "two.xpm"
+#include "three.xpm"
+#include "four.xpm"
+#include "five.xpm"
+#include "six.xpm"
 
-/// wxDynamicBitmap class - a wrapper for databases
+DiceGraphics::DiceGraphics()
+{
+	m_theme = 0;
+
+	LoadTheme1();
+}
+void DiceGraphics::LoadTheme1()
+{
+	m_bitmaps[0][0] = new wxBitmap(one_xpm);
+	m_bitmaps[0][1] = new wxBitmap(two_xpm);
+	m_bitmaps[0][2] = new wxBitmap(three_xpm);
+	m_bitmaps[0][3] = new wxBitmap(four_xpm);
+	m_bitmaps[0][4] = new wxBitmap(five_xpm);
+	m_bitmaps[0][5] = new wxBitmap(six_xpm);
+}
 /**
-the wxDynamicBitmap class is a wxWidgets class for dynamicly displaying bitmaps. This is different
-than wxStaticBitmap in the fact that it immediatly draws the bitmap and doesn't wait for the paint event.
-*/
-
-class wxDynamicBitmap : public wxControl {
-public:
-	wxDynamicBitmap (wxWindow* parent, wxWindowID id, wxBitmap  *bitmap,
-		 const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
-		 long style = wxNO_BORDER, const wxString& name = wxPanelNameStr);
-	virtual void SetBitmap(wxBitmap  *bitmap);
-	wxBitmap GetBitmap();
-	void OnPaint(wxPaintEvent& event);
-	void OnClick(wxMouseEvent& event);
-	wxSize DoGetBestSize() const;
-	void SetGrayScale(bool grayscale=true);
-	void ConvertToGrayScale(wxImage& image) const;
-private:
-	void PaintBitmap(wxDC& dc);
-	wxBitmap m_bitmap;
-	wxBitmap m_graybitmap;
-	bool m_grayscale;
-};
-
-#endif //WXDYNAMICBITMAP
+ * \param i the number of the dice (1 to 6)
+ * \return a pointer to wxBitmap
+ */
+wxBitmap *DiceGraphics::GetDice(int i)
+{
+	return m_bitmaps[m_theme][i-1];
+}

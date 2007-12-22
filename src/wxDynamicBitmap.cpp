@@ -1,6 +1,6 @@
 // $Header$
 /***************************************************************************
- *   Copyright (C) 2006 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2007 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,7 +25,7 @@
 
 #include <iostream>
 
-wxDynamicBitmap::wxDynamicBitmap(wxWindow* parent, wxWindowID id, wxBitmap&  bitmap,
+wxDynamicBitmap::wxDynamicBitmap(wxWindow* parent, wxWindowID id, wxBitmap *bitmap,
 				const wxPoint& pos, const wxSize& size,
 				long style, const wxString& name)
 {
@@ -48,9 +48,9 @@ wxBitmap wxDynamicBitmap::GetBitmap()
 	return m_bitmap;
 }
 
-void wxDynamicBitmap::SetBitmap( wxBitmap& bitmap)
+void wxDynamicBitmap::SetBitmap( wxBitmap *bitmap)
 {
-	m_bitmap = bitmap;
+	m_bitmap = *bitmap;
 	SetGrayScale(m_grayscale);
 	wxWindow::Refresh();
 	wxWindow::Update();

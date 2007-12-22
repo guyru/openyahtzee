@@ -27,6 +27,7 @@
 #include "SettingsDB.h"
 #include "HighScoreTableDB.h"
 #include "ScoreDice.h"
+#include "dice_graphics.h"
 #ifndef MAINFRAME_INC
 #define MAINFRAME_INC
 
@@ -100,6 +101,7 @@ private:
 
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dices[6];
+	DiceGraphics m_dice_graphics;
 
 	short int m_rolls;	//holds how many rolls left
 	short int m_numofplaysleft; //holds how many times the user got to score untill the end of the game

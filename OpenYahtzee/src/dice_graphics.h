@@ -1,4 +1,3 @@
-// $Header$
 /***************************************************************************
  *   Copyright (C) 2006-2007 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
@@ -18,41 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/**\file wxDynamicBitmap.h
- *\brief Header file for DBwrapper class.
- *
- * This file contains the header for the wxDynamicBitmap class and all the nessecery include files.
-*/
+#ifndef _DICE_GRAPHICS_INC_
+#define _DICE_GRAPHICS_INC_
 
-#include <wx/wx.h>
-//#include <wx/control.h>
+#include <wx/bitmap.h>
 
-#ifndef WXDYNAMICBITMAP
-#define WXDYNAMICBITMAP
-
-/// wxDynamicBitmap class - a wrapper for databases
-/**
-the wxDynamicBitmap class is a wxWidgets class for dynamicly displaying bitmaps. This is different
-than wxStaticBitmap in the fact that it immediatly draws the bitmap and doesn't wait for the paint event.
-*/
-
-class wxDynamicBitmap : public wxControl {
+class DiceGraphics {
 public:
-	wxDynamicBitmap (wxWindow* parent, wxWindowID id, wxBitmap  *bitmap,
-		 const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
-		 long style = wxNO_BORDER, const wxString& name = wxPanelNameStr);
-	virtual void SetBitmap(wxBitmap  *bitmap);
-	wxBitmap GetBitmap();
-	void OnPaint(wxPaintEvent& event);
-	void OnClick(wxMouseEvent& event);
-	wxSize DoGetBestSize() const;
-	void SetGrayScale(bool grayscale=true);
-	void ConvertToGrayScale(wxImage& image) const;
+	DiceGraphics();
+	wxBitmap *GetDice(int i);
+
 private:
-	void PaintBitmap(wxDC& dc);
-	wxBitmap m_bitmap;
-	wxBitmap m_graybitmap;
-	bool m_grayscale;
+	void LoadTheme1();
+	void LoadTheme2();
+	wxBitmap *m_bitmaps[1][6];
+	int m_theme;
+
 };
 
-#endif //WXDYNAMICBITMAP
+
+#endif // _DICE_GRAPHICS_INC_

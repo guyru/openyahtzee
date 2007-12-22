@@ -40,14 +40,6 @@
 #include <cstdlib>
 #include <wx/version.h>
 
-//include the images for the dice
-#include "one.xpm"
-#include "two.xpm"
-#include "three.xpm"
-#include "four.xpm"
-#include "five.xpm"
-#include "six.xpm"
-
 //include the icon file
 #include "Icon.h"
 
@@ -84,12 +76,12 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	
 	InitializeDatabase();//this must come _after_ m_settingsdb and m_highscoredb are created
 
-	bitmap_dices[0] = new wxBitmap(one_xpm);
-	bitmap_dices[1] = new wxBitmap(two_xpm);
-	bitmap_dices[2] = new wxBitmap(three_xpm);
-	bitmap_dices[3] = new wxBitmap(four_xpm);
-	bitmap_dices[4] = new wxBitmap(five_xpm);
-	bitmap_dices[5] = new wxBitmap(six_xpm);
+	//bitmap_dices[0] = new wxBitmap(one_xpm);
+	//bitmap_dices[1] = new wxBitmap(two_xpm);
+	//bitmap_dices[2] = new wxBitmap(three_xpm);
+	//bitmap_dices[3] = new wxBitmap(four_xpm);
+	//bitmap_dices[4] = new wxBitmap(five_xpm);
+	//bitmap_dices[5] = new wxBitmap(six_xpm);
 	
 	//randomize the random-number generator based on the time
 	srand( (unsigned)time( NULL ) );
@@ -263,16 +255,16 @@ void MainFrame::AddControlsAndLayout()
 
 	//BEGIN layout for the dice section of the score board
 	if (m_settings.horizontal_layout) {
+		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE1,
+			m_dice_graphics.GetDice(1)), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE1, *bitmap_dices[0]), 0, wxALL, DICE_SPACE);
+			ID_DICE2, m_dice_graphics.GetDice(2)), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE2, *bitmap_dices[1]), 0, wxALL, DICE_SPACE);
+			ID_DICE3, m_dice_graphics.GetDice(3)), 0, wxALL,DICE_SPACE);
 		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE3, *bitmap_dices[2]), 0, wxALL,DICE_SPACE);
+			ID_DICE4, m_dice_graphics.GetDice(4)), 0, wxALL,DICE_SPACE);
 		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE4, *bitmap_dices[3]), 0, wxALL,DICE_SPACE);
-		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE5, *bitmap_dices[4]), 0, wxALL,DICE_SPACE);
+			ID_DICE5, m_dice_graphics.GetDice(5)), 0, wxALL,DICE_SPACE);
 		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),
 			wxDefaultPosition, wxSize(64,64)), 0, wxALL,DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP,
@@ -287,27 +279,27 @@ void MainFrame::AddControlsAndLayout()
 			wxT("Keep")), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
 	} else {
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE1,
-			*bitmap_dices[0]), 0, wxALL, DICE_SPACE);
+			m_dice_graphics.GetDice(1)), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
 		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,
-			*bitmap_dices[1]), 0, wxALL, DICE_SPACE);
+			m_dice_graphics.GetDice(2)), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE3,
-			*bitmap_dices[2]), 0, wxALL, DICE_SPACE);
+			m_dice_graphics.GetDice(3)), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE4,
-			*bitmap_dices[3]), 0, wxALL, DICE_SPACE);
+			m_dice_graphics.GetDice(4)), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE5, 
-			*bitmap_dices[4]), 0, wxALL, DICE_SPACE);
+			m_dice_graphics.GetDice(5)), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
@@ -627,7 +619,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 					dice[i] = (int)(6.0*rand()/RAND_MAX)+1;
 					((wxDynamicBitmap*) FindWindow(i + 
 						ID_DICE1)) -> SetBitmap(
-						*bitmap_dices[dice[i]-1]);
+						m_dice_graphics.GetDice(dice[i]));
 				}
 			}
 			::wxMilliSleep(100);
@@ -637,7 +629,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
 				dice[i] = (int)(6.0*rand()/RAND_MAX)+1;
 				((wxDynamicBitmap*) FindWindow(i + ID_DICE1))->
-					SetBitmap(*bitmap_dices[dice[i]-1]);
+					SetBitmap(m_dice_graphics.GetDice(dice[i]));
 			}
 		}
 	}

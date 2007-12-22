@@ -21,6 +21,7 @@
 #define _DICE_GRAPHICS_INC_
 
 #include <wx/bitmap.h>
+#define NUM_OF_THEMES 3
 
 class DiceGraphics {
 public:
@@ -30,7 +31,8 @@ public:
 private:
 	void LoadTheme1();
 	void LoadTheme2();
-	wxBitmap *m_bitmaps[1][6];
+	void LoadTheme3();
+	wxBitmap *m_bitmaps[ NUM_OF_THEMES ][6];
 	int m_theme;
 
 };

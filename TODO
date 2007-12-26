@@ -1,0 +1,23 @@
+$Header$
+
+Open Yahtzee - TODO FILE
+========================
+
+- Set a better icon for the windows installer.
+- Add ability to adjust the length of the sleep between dice rolls.
+- Multiplayer mode.
+
+DONE:
+------------------
+Open Yahtzee 1.7
+- Add a frame around the dices.
+- Make the dice roll a couple of times before they stop.
+- Change the "reset high score" toggle button to a checkbox.
+- Disable the ability to undo the last move of the game.
+- Add a menu item for sending a comment to the developers.
+
+
+
+Open Yahtzee 1.6
+-cleanup code at the end of every scoring button
+-cleanup code for the icon settings for the dialogs/frames

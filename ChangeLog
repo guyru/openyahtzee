@@ -1,0 +1,61 @@
+$Header$
+
+OPEN YAHTZEE CHANGELOG
+===========================
+This file lists the changes betweeen Open Yahtzee releases. For a 
+complete list of changes see the SVN changelog of the project.
+
+Open Yahtzee 1.9:
+-----------------
+- Fixed bug #1775620 (Settings dialog enables roll button).
+- Improved randomness of the dice.
+- Fixed window's title caption (bug #1836473).
+
+Open Yahtzee 1.8:
+-----------------
+- New horizontal layout for user interface is available as an option.
+- Clicking on the dice sets the "keep" checkbox.
+- "Keeping" the dice now makes them grayscale.
+- Realigned the "keep" checkboxes to the dice.
+- Fixed bug #1700729 (undoing the first move of the game).
+- Fixed bug #1719068 (UI behavior of the dialog box asking for the user's name).
+- Fixed bug #1719063 (double clicking on the roll button).
+- Fixed bug #1731178 (undoing yahtzee still qualifies for yahtzee-bonus).
+- Refactored the code of the dialog box that asks the user for his name for
+  the high score table.
+- Redesigned "About" dialog box.
+- Reduced installer and binary size for windows.
+- Better integration with Windows XP themes.
+
+Open Yahtzee 1.7:
+-----------------
+- New dice graphics.
+- Dice rolling animation.
+- Fixed bug #1634542 (undoing of scoring that involves Yahtzee Bonus).
+- Fixed minor misalignment in the UI.
+- Code refactoring and cleanup.
+- Redesigned the Settings Dialog.
+- The main window of the game is now unresizable (fixed size).
+- Disabled the ability to undo the last move of the game (this allowed people 
+  to re-enter their score to the high score table over and over again).
+- Implemented the Yahtzee Joker scoring rules.
+- Added accelerator key for the Undo button (CTRL+Z).
+- Added ability to send comments to the developer (via the Open Yahtzee website).
+- Calculates the sub-total score after every score (can be disabled).
+- New icons for windows installer.
+
+Open Yahtzee 1.6:
+-----------------
+-Added an undo button.
+-Improved Windows portability.
+-New icons for the program.
+-Ability to check for updates via the web.
+-Added database initialization, so when the game doesn't find the data 
+ it needs in the database it just goes back to default values.
+-Code refactoring and some code cleanup.
+-fixed some typos in one of the high-score related dialogs.
+
+This changelog was started only during the development of Open Yahtzee 1.6
+so if you are interested in the changelog of older versions, take a look 
+at the CVS log or the changelog attached to the file releases at 
+SourceForge.

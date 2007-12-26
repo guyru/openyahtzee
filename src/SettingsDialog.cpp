@@ -1,0 +1,114 @@
+// $Header$
+/***************************************************************************
+ *   Copyright (C) 2006-2007 by Guy Rutenberg   *
+ *   guy@Guy_Computer   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
+#include "SettingsDialog.h"
+#include "MainFrame.h"
+
+#include "Icon.h"
+
+SettingsDialog::SettingsDialog(wxWindow* parent, int id):
+    wxDialog(parent, wxID_ANY, wxT("Settings Dialog"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
+{
+
+	SetIcon(wxIcon(ICON));
+
+	label_1 = new wxStaticText(this, -1, wxT("High score table size:"));
+	spin_ctrl = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,0,1024,20);
+	checkbox_reset = new wxCheckBox(this, ID_RESETHIGHSCORE, wxT("Reset high score table"));
+	animate_checkbox = new wxCheckBox(this, ID_ANIMATECHECKBOX, wxT("Animate dice"));
+	subtotal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Calculate "
+		"sub-total score for the upper and lower sections"));
+	score_hints_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Display "
+		"score hints."));
+	horizontal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Enable horizontal layout for user interface."));
+
+	ConnectEventTable();
+	DoLayout();
+}
+
+
+void SettingsDialog::ConnectEventTable()
+{
+	Connect(ID_RESETHIGHSCORE,wxEVT_COMMAND_CHECKBOX_CLICKED,wxCommandEventHandler(SettingsDialog::OnResetHighScore));
+}
+
+
+void SettingsDialog::DoLayout()
+{
+	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer* highscoresizer = new wxBoxSizer(wxHORIZONTAL);
+
+	highscoresizer->Add(label_1, 0, wxALL, 5);
+	highscoresizer->Add(spin_ctrl, 0, wxALL, 5);
+	top_sizer->Add(highscoresizer, 0, 0, 0);
+	top_sizer->Add(checkbox_reset, 0,wxALL, 5);
+
+	top_sizer->Add(animate_checkbox,0,wxALL,5);
+	top_sizer->Add(subtotal_checkbox,0,wxALL,5);
+	top_sizer->Add(score_hints_checkbox,0,wxALL,5);
+	top_sizer->Add(horizontal_checkbox,0,wxALL,5);
+
+	top_sizer->Add(CreateButtonSizer(wxOK|wxCANCEL), 1, wxBOTTOM, 10);
+	SetAutoLayout(true);
+	SetSizer(top_sizer);
+	top_sizer->Fit(this);
+	top_sizer->SetSizeHints(this);
+	Layout();
+}
+
+
+void SettingsDialog::OnResetHighScore(wxCommandEvent& event)
+{
+	if(!checkbox_reset->GetValue()){
+		checkbox_reset->SetValue(0);
+		return;
+	}
+	
+	int answer = wxMessageBox(wxT("Are you sure you want to reset the high "
+		"score table? After reseting the high score table, you won't be"
+		" able to restore it!\n\nThe new high score table size will be "
+		"as specified in this dialog."), wxT("High-score table reset"),
+		wxYES_NO|wxICON_EXCLAMATION,this);
+
+	if(answer==wxNO)
+		checkbox_reset->SetValue(0);
+}
+
+void SettingsDialog::SetData(SettingsDialogData data)
+{
+	spin_ctrl->SetValue(data.highscoresize);
+	animate_checkbox->SetValue(data.animate);
+	subtotal_checkbox->SetValue(data.subtotal);
+	score_hints_checkbox->SetValue(data.score_hints);
+	horizontal_checkbox->SetValue(data.horizontal);
+}
+
+SettingsDialogData SettingsDialog::GetData()
+{
+	SettingsDialogData data;
+	data.highscoresize = spin_ctrl->GetValue();
+	data.reset = checkbox_reset->GetValue();
+	data.animate = animate_checkbox->GetValue();
+	data.subtotal = subtotal_checkbox->GetValue();
+	data.score_hints = score_hints_checkbox->GetValue();
+	data.horizontal = horizontal_checkbox->GetValue();
+	return data;
+}

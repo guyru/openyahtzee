@@ -1,7 +1,7 @@
 bin_PROGRAMS = openyahtzee
 openyahtzee_SOURCES = openyahtzee.cpp MainFrame.cpp DBwrapper.cpp DBwrapper.h \
 	SettingsDB.cpp HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp \
-	icon.xpm icon32.xpm openyahtzee.rc wxDynamicBitmap.cpp About.cpp \
+	icon.xpm icon32.xpm wxDynamicBitmap.cpp About.cpp \
 	UtilityFunctions.cpp ScoreDice.cpp dice_graphics.cpp
 
 # set the include path found by configure

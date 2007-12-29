@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Open Yahtzee
+Type=Application
+Comment=A full-featured wxWidgets version of the classic dice game Yahtzee
+Exec=openyahtzee
+TryExec=openyahtzee
+Path=
+Icon=openyahtzee.png
+Categories=Game;BoardGame;

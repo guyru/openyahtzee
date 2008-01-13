@@ -1,6 +1,6 @@
 // $Header$
 /***************************************************************************
- *   Copyright (C) 2006-2007 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2008 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,6 +33,7 @@
 #include "ObjectsID.h"
 #include "HighScoreDialog.h"
 #include "SettingsDialog.h"
+#include "dice_theme_dialog.h"
 #include "About.h"
 #include "UtilityFunctions.h"
 #include <iostream>
@@ -135,6 +136,7 @@ void MainFrame::AddMenus()
 	gameMenu->Append(ID_UNDO,wxT("&Undo\tCTRL+Z"),wxT("Undo the last move"));
 	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
 	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
+	gameMenu->Append(ID_THEMES,wxT("Dice Theme..."),wxT("Select a dice theme"));
 	gameMenu->Append(wxID_EXIT, wxT("E&xit\tAlt-X"),
 			wxT("Quit this program"));
 	
@@ -332,6 +334,7 @@ void MainFrame::ConnectEventTable()
 	Connect(ID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
+	Connect(ID_THEMES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnDiceTheme));
 	//END connecting the menu items' events
 
 	Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
@@ -576,6 +579,20 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 		m_settings.horizontal_layout = false;
 		Relayout();
 	}
+}
+
+/**
+ * Shows the dice theme selection dialog. This event-handler is connected to
+ * Game->Dice Theme menu item.
+ * \param event 
+ */
+void MainFrame::OnDiceTheme( wxCommandEvent& event)
+{
+	DiceThemeDialog *dialog = new DiceThemeDialog(this,wxID_ANY);
+
+	if(dialog->ShowModal()!=wxID_OK)
+		return;
+
 }
 
 /**

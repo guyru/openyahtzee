@@ -1,8 +1,9 @@
 bin_PROGRAMS = openyahtzee
 openyahtzee_SOURCES = openyahtzee.cpp MainFrame.cpp DBwrapper.cpp \
-	SettingsDB.cpp HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp \
-	icon.xpm icon32.xpm wxDynamicBitmap.cpp About.cpp \
-	UtilityFunctions.cpp ScoreDice.cpp dice_graphics.cpp
+	HighScoreTableDB.cpp HighScoreDialog.cpp SettingsDialog.cpp \
+	SettingsDB.cpp icon.xpm icon32.xpm wxDynamicBitmap.cpp About.cpp \
+	UtilityFunctions.cpp ScoreDice.cpp dice_graphics.cpp \
+	dice_theme_dialog.cpp
 
 # set the include path found by configure
 INCLUDES = $(all_includes)
@@ -19,7 +20,7 @@ dice_graphics =  dice/theme1/one.xpm dice/theme1/two.xpm dice/theme1/three.xpm \
 noinst_HEADERS = MainFrame.h ObjectsID.h SettingsDB.h HighScoreTableDB.h \
 	HighScoreDialog.h SettingsDialog.h Icon.h icon32.ico wxDynamicBitmap.h \
 	About.h UtilityFunctions.h ScoreDice.h dice_graphics.h DBwrapper.h \
-	$(dice_graphics)
+	dice_theme_dialog.h $(dice_graphics)
 
 AM_CXXFLAGS = `wx-config --cxxflags`
 openyahtzee_LDADD = -lsqlite3

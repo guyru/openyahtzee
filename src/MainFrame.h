@@ -1,6 +1,6 @@
 // $Header$
 /***************************************************************************
- *   Copyright (C) 2006-2007 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2008 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,6 +51,7 @@ public:
 	void OnUndo (wxCommandEvent& event);
 	void OnShowHighscore (wxCommandEvent& event);
 	void OnSettings (wxCommandEvent& event);
+	void OnDiceTheme( wxCommandEvent& event);
 	void OnCheckForUpdates (wxCommandEvent& event);
 	void OnSendComment (wxCommandEvent& event);
 

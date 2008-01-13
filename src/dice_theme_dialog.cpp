@@ -1,6 +1,5 @@
-// $Header$
 /***************************************************************************
- *   Copyright (C) 2006 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2008 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,73 +17,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef OBJECTSID_INC
-#define OBJECTSID_INC
 
-enum {
-	ID_PANEL,
-	ID_NEWGAME,
-	ID_UNDO,
-	ID_SHOWHIGHSCORE,
-	ID_SETTINGS,
-	ID_THEMES,
-	ID_CHECK_FOR_UPDATES,
-	ID_SENDCOMMENT,
+#include "dice_theme_dialog.h"
+
+#include "Icon.h"
+
+DiceThemeDialog::DiceThemeDialog(wxWindow* parent, int id):
+    wxDialog(parent, wxID_ANY, wxT("Dice Theme Selection"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+{
+	SetIcon(wxIcon(ICON));
 	
-	ID_ACES,
-	ID_TWOS,
-	ID_THREES,
-	ID_FOURS,
-	ID_FIVES,
-	ID_SIXES,
-	ID_THREEOFAKIND,
-	ID_FOUROFAKIND,
-	ID_FULLHOUSE,
-	ID_SMALLSEQUENCE,
-	ID_LARGESEQUENCE,
-	ID_YAHTZEE,
-	ID_CHANCE,
+	AddControlsAndLayout();
+}
 
-	ID_ACESTEXT,
-	ID_TWOSTEXT,
-	ID_THREESTEXT,
-	ID_FOURSTEXT,
-	ID_FIVESTEXT,
-	ID_SIXESTEXT,
-	ID_THREEOFAKINDTEXT,
-	ID_FOUROFAKINDTEXT,
-	ID_FULLHOUSETEXT,
-	ID_SMALLSEQUENCETEXT,
-	ID_LARGESEQUENCETEXT,
-	ID_YAHTZEETEXT,
-	ID_CHANCETEXT,
-	ID_YAHTZEEBONUSTEXT,
+void DiceThemeDialog::AddControlsAndLayout()
+{
+	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
+	wxSizerFlags sizer_flags(1);
+	sizer_flags.Expand().Border();
+	top_sizer->Add(new wxListCtrl(this, ID_THEMELIST), sizer_flags);
+	top_sizer->Add(CreateButtonSizer(wxOK | wxCANCEL), sizer_flags.Proportion(0));
 
-	ID_UPPERSECTIONTOTAL,
-	ID_BONUS,
-	ID_UPPERTOTAL,
-	ID_LOWERTOTAL,
-	ID_GRANDTOTAL,
-	
-	ID_ROLL,
-	ID_DICE1,
-	ID_DICE2,
-	ID_DICE3,
-	ID_DICE4,
-	ID_DICE5,
-	
-	ID_DICE1KEEP,
-	ID_DICE2KEEP,
-	ID_DICE3KEEP,
-	ID_DICE4KEEP,
-	ID_DICE5KEEP,
-
-	ID_INFODIALOGNAMEBOX,
-
-	//SettingsDialog
-	ID_RESETHIGHSCORE,
-	ID_ANIMATECHECKBOX,
-};
-
-
-#endif
+	SetAutoLayout(true);
+	SetSizer(top_sizer);
+	top_sizer->Fit(this);
+	top_sizer->SetSizeHints(this);
+	Layout();
+}

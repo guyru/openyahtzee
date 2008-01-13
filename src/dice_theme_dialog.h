@@ -1,6 +1,5 @@
-// $Header$
 /***************************************************************************
- *   Copyright (C) 2006 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2008 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,73 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef OBJECTSID_INC
-#define OBJECTSID_INC
 
-enum {
-	ID_PANEL,
-	ID_NEWGAME,
-	ID_UNDO,
-	ID_SHOWHIGHSCORE,
-	ID_SETTINGS,
-	ID_THEMES,
-	ID_CHECK_FOR_UPDATES,
-	ID_SENDCOMMENT,
+#include <wx/wx.h>
+
+#ifndef __DICE_THEME_DIALOG_H
+#define __DICE_THEME_DIALOG_H
+
+class DiceThemeDialog: public wxDialog {
+public:
+	DiceThemeDialog(wxWindow* parent, int id);
 	
-	ID_ACES,
-	ID_TWOS,
-	ID_THREES,
-	ID_FOURS,
-	ID_FIVES,
-	ID_SIXES,
-	ID_THREEOFAKIND,
-	ID_FOUROFAKIND,
-	ID_FULLHOUSE,
-	ID_SMALLSEQUENCE,
-	ID_LARGESEQUENCE,
-	ID_YAHTZEE,
-	ID_CHANCE,
+private:
+	void AddControlsAndLayout();
 
-	ID_ACESTEXT,
-	ID_TWOSTEXT,
-	ID_THREESTEXT,
-	ID_FOURSTEXT,
-	ID_FIVESTEXT,
-	ID_SIXESTEXT,
-	ID_THREEOFAKINDTEXT,
-	ID_FOUROFAKINDTEXT,
-	ID_FULLHOUSETEXT,
-	ID_SMALLSEQUENCETEXT,
-	ID_LARGESEQUENCETEXT,
-	ID_YAHTZEETEXT,
-	ID_CHANCETEXT,
-	ID_YAHTZEEBONUSTEXT,
-
-	ID_UPPERSECTIONTOTAL,
-	ID_BONUS,
-	ID_UPPERTOTAL,
-	ID_LOWERTOTAL,
-	ID_GRANDTOTAL,
-	
-	ID_ROLL,
-	ID_DICE1,
-	ID_DICE2,
-	ID_DICE3,
-	ID_DICE4,
-	ID_DICE5,
-	
-	ID_DICE1KEEP,
-	ID_DICE2KEEP,
-	ID_DICE3KEEP,
-	ID_DICE4KEEP,
-	ID_DICE5KEEP,
-
-	ID_INFODIALOGNAMEBOX,
-
-	//SettingsDialog
-	ID_RESETHIGHSCORE,
-	ID_ANIMATECHECKBOX,
 };
 
+enum {
+	ID_THEMELIST,
+};
 
-#endif
+#endif //__DICE_THEME_DIALOG_H

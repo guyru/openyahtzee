@@ -390,7 +390,7 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 void MainFrame::OnCheckForUpdates (wxCommandEvent& event)
 {
 	
-	wxString link = wxT("http://openyahtzee.sourceforge.net/update.php?version=");
+	wxString link = wxT("http://openyahtzee.sourceforge.net/download/check-for-updates/");
 	
 	link += wxT(OY_VERSION);
 
@@ -405,7 +405,7 @@ void MainFrame::OnCheckForUpdates (wxCommandEvent& event)
  */
 void MainFrame::OnSendComment (wxCommandEvent& event)
 {
-	wxString link = wxT("http://openyahtzee.sourceforge.net/feedback.php");
+	wxString link = wxT("http://openyahtzee.sourceforge.net/feedback/");
 	
 	LaunchBrowser(link);
 }
@@ -1155,16 +1155,6 @@ int MainFrame::InitializeDatabase()
 		m_settings.score_hints = true;
 	}
 
-	if (m_settingsdb->GetKey("openyahtzeehomepage") == "") {
-		m_settingsdb->SetKey("openyahtzeehomepage", "http://openyahtzee.sourceforge.net/");
-	}
-
-	if (m_settingsdb->GetKey("updateurl") == "") {
-		/*the version string will be appended in the end of the
-		  given url */
-		m_settingsdb->SetKey("updateurl", "http://openyahtzee.sourceforge.net/update.php?version=");
-	}
-	
 	return 1;
 }
 

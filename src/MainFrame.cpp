@@ -363,9 +363,8 @@ void MainFrame::ConnectEventTable()
 	wxButton *temp;
 	for (int i = ID_ACES; i<=ID_CHANCE; i++) {
 		temp = ((wxButton *)FindWindow(i));
-		((wxWindow *)FindWindow(i))->PushEventHandler(m_evt_handler);
-		((wxWindow *)FindWindow(i))->Connect(wxEVT_LEAVE_WINDOW, wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseLeave), temp, m_evt_handler);
-		((wxWindow *)FindWindow(i))->Connect(wxEVT_ENTER_WINDOW, wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseEnter), temp, m_evt_handler);
+		temp->Connect(wxEVT_LEAVE_WINDOW, wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseLeave), NULL, m_evt_handler);
+		temp->Connect(wxEVT_ENTER_WINDOW, wxMouseEventHandler(MainFrameEvtHandler::OnScoreMouseEnter), NULL, m_evt_handler);
 	}
 }
 

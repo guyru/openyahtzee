@@ -393,7 +393,7 @@ void MainFrame::OnCheckForUpdates (wxCommandEvent& event)
 	
 	link += wxT(OY_VERSION);
 
-	LaunchBrowser(link);
+	wxLaunchDefaultBrowser(link);
 }
 
 
@@ -406,7 +406,7 @@ void MainFrame::OnSendComment (wxCommandEvent& event)
 {
 	wxString link = wxT("http://openyahtzee.sourceforge.net/feedback/");
 	
-	LaunchBrowser(link);
+	wxLaunchDefaultBrowser(link);
 }
 
 void MainFrame::OnQuit(wxCommandEvent& event)

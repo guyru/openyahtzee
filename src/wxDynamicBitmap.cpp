@@ -85,6 +85,13 @@ void wxDynamicBitmap::OnClick(wxMouseEvent& event)
 	GetEventHandler()->ProcessEvent( newevent );
 }
 
+/**
+ * This function repaints the widget with a grayscale version of the currently
+ * displayed picture, or repaints it with the original version depending on the
+ * value of grayscale.
+ * \param grayscale [bool] if true repaints the image with grayscale version, 
+ * otherwise reverts to the original picture
+ */
 void wxDynamicBitmap::SetGrayScale(bool grayscale)
 {
 	m_grayscale = grayscale;
@@ -93,8 +100,8 @@ void wxDynamicBitmap::SetGrayScale(bool grayscale)
 	if (grayscale) {
 		wxImage tempimage;
 		tempimage = m_bitmap.ConvertToImage();
-		ConvertToGrayScale(tempimage);
-		m_graybitmap = wxBitmap(tempimage);
+		//ConvertToGrayScale(tempimage);
+		m_graybitmap = wxBitmap(tempimage.ConvertToGreyscale());
 	}
 	wxWindow::Refresh();
 	wxWindow::Update();

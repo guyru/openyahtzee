@@ -4,10 +4,10 @@ AUTOMAKE_OPTIONS = foreign 1.4
 
 SUBDIRS = src
 
-appicondir = $(datadir)/pixmaps
+appicondir = $(datarootdir)/pixmaps
 dist_appicon_DATA = icons/openyahtzee.png
 
-menudir = $(datadir)/applications
+menudir = $(datarootdir)/applications
 dist_menu_DATA = openyahtzee.desktop
 
 AM_CXXFLAGS = `wx-config --cxxflags`

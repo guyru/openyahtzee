@@ -18,13 +18,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
+#ifndef SCORE_DICE_H
+#define SCORE_DICE_H
 
 class ScoreDice {
 public:
 	ScoreDice();
 	ScoreDice(short int dice[5]);
-	void SetDice(short int dice[5]);
+	void SetDice(const short int dice[5]);
 	void SetYahtzeeJoker(bool is_yahtzee_joker);
 	short int GetDice(short int number);
 
@@ -51,3 +52,5 @@ private:
 	bool m_yahtzee_joker;
 
 };
+
+#endif //SCORE_DICE_H

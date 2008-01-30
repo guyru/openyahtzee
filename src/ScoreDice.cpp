@@ -45,7 +45,7 @@ ScoreDice::ScoreDice()
  * \brief Sets the dice values
  * \param dice An array of 5 short ints containing the values of the dice.
  */
-void ScoreDice::SetDice(short int dice[5])
+void ScoreDice::SetDice(const short int dice[5])
 {
 	for (int i=0; i<5; i++) 
 		m_dice[i] = dice[i];
@@ -66,7 +66,7 @@ void ScoreDice::SetDice(short int dice[5])
  * and it needs the dice set before it can operate.
  * \see MainFrame::YahtzeeJoker()
  */
-void ScoreDice::SetYahtzeeJoker(bool is_yahtzee_joker)
+void ScoreDice::SetYahtzeeJoker(const bool is_yahtzee_joker)
 {
 	m_yahtzee_joker = is_yahtzee_joker;
 }
@@ -76,7 +76,7 @@ void ScoreDice::SetYahtzeeJoker(bool is_yahtzee_joker)
  * \param number the index of the dice wanted.
  * \return the value of the dice. 0 if wrong input.
  */
-short int ScoreDice::GetDice(short int number)
+short int ScoreDice::GetDice(const short int number)
 {
 	if (number<=5 && number >=1)
 		return m_dice[number-1];

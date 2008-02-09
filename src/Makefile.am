@@ -6,7 +6,7 @@ openyahtzee_SOURCES = openyahtzee.cpp MainFrame.cpp DBwrapper.cpp \
 	dice_theme_dialog.cpp
 
 # set the include path found by configure
-INCLUDES = $(all_includes)
+AM_CPPFLAGS = $(all_includes)
 
 # the library search path.
 

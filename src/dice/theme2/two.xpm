@@ -1,5 +1,5 @@
 /* XPM */
-static char *theme2_two_xpm[] = {
+static char *two_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "64 64 131 2",
 "   c #0F1E1E",

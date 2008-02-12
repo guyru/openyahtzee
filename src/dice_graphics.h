@@ -23,18 +23,45 @@
 #include <wx/bitmap.h>
 #define NUM_OF_THEMES 3
 
+/**
+ * This is the base class for the DiceThemes. It implements a Strategy design
+ * pattern
+ */
+class DiceTheme {
+public:
+	virtual wxBitmap* GetDice(int i) = 0;
+};
+
 class DiceGraphics {
 public:
 	DiceGraphics();
+	DiceGraphics(DiceTheme* theme);
+	~DiceGraphics();
 	wxBitmap *GetDice(int i);
 
 private:
-	void LoadTheme1();
-	void LoadTheme2();
-	void LoadTheme3();
-	wxBitmap *m_bitmaps[ NUM_OF_THEMES ][6];
-	int m_theme;
+	DiceTheme *m_theme;
+};
 
+class DiceTheme1 : public DiceTheme {
+	wxBitmap *m_bitmaps[6];
+public:
+	DiceTheme1();
+	virtual wxBitmap* GetDice(int i);
+};
+
+class DiceTheme2 : public DiceTheme {
+	wxBitmap *m_bitmaps[6];
+public:
+	DiceTheme2();
+	virtual wxBitmap* GetDice(int i);
+};
+
+class DiceTheme3 : public DiceTheme {
+	wxBitmap *m_bitmaps[6];
+public:
+	virtual wxBitmap* GetDice(int i);
+	DiceTheme3();
 };
 
 

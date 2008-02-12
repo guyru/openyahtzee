@@ -20,70 +20,100 @@
 
 #include "dice_graphics.h"
 
-#include "dice/theme1/one.xpm"
-#include "dice/theme1/two.xpm"
-#include "dice/theme1/three.xpm"
-#include "dice/theme1/four.xpm"
-#include "dice/theme1/five.xpm"
-#include "dice/theme1/six.xpm"
-
-#include "dice/theme2/one.xpm"
-#include "dice/theme2/two.xpm"
-#include "dice/theme2/three.xpm"
-#include "dice/theme2/four.xpm"
-#include "dice/theme2/five.xpm"
-#include "dice/theme2/six.xpm"
-
-#include "dice/theme3/1.xpm"
-#include "dice/theme3/2.xpm"
-#include "dice/theme3/3.xpm"
-#include "dice/theme3/4.xpm"
-#include "dice/theme3/5.xpm"
-#include "dice/theme3/6.xpm"
 
 DiceGraphics::DiceGraphics()
 {
-	m_theme = 0;
-
-	LoadTheme1();
-	LoadTheme2();
-	LoadTheme3();
+	m_theme = (DiceTheme*)new DiceTheme1();
 }
 
-void DiceGraphics::LoadTheme1()
+DiceGraphics::~DiceGraphics()
 {
-	m_bitmaps[0][0] = new wxBitmap(theme1_one_xpm);
-	m_bitmaps[0][1] = new wxBitmap(theme1_two_xpm);
-	m_bitmaps[0][2] = new wxBitmap(theme1_three_xpm);
-	m_bitmaps[0][3] = new wxBitmap(theme1_four_xpm);
-	m_bitmaps[0][4] = new wxBitmap(theme1_five_xpm);
-	m_bitmaps[0][5] = new wxBitmap(theme1_six_xpm);
+	delete m_theme;
 }
 
-void DiceGraphics::LoadTheme2()
-{
-	m_bitmaps[1][0] = new wxBitmap(theme2_one_xpm);
-	m_bitmaps[1][1] = new wxBitmap(theme2_two_xpm);
-	m_bitmaps[1][2] = new wxBitmap(theme2_three_xpm);
-	m_bitmaps[1][3] = new wxBitmap(theme2_four_xpm);
-	m_bitmaps[1][4] = new wxBitmap(theme2_five_xpm);
-	m_bitmaps[1][5] = new wxBitmap(theme2_six_xpm);
-}
-
-void DiceGraphics::LoadTheme3()
-{
-	m_bitmaps[2][0] = new wxBitmap(theme3_1_xpm);
-	m_bitmaps[2][1] = new wxBitmap(theme3_2_xpm);
-	m_bitmaps[2][2] = new wxBitmap(theme3_3_xpm);
-	m_bitmaps[2][3] = new wxBitmap(theme3_4_xpm);
-	m_bitmaps[2][4] = new wxBitmap(theme3_5_xpm);
-	m_bitmaps[2][5] = new wxBitmap(theme3_6_xpm);
-}
 /**
  * \param i the number of the dice (1 to 6)
  * \return a pointer to wxBitmap
  */
 wxBitmap *DiceGraphics::GetDice(int i)
 {
-	return m_bitmaps[m_theme][i-1];
+	return m_theme->GetDice(i);
+}
+
+namespace dicetheme1 {
+	#include "dice/theme1/one.xpm"
+	#include "dice/theme1/two.xpm"
+	#include "dice/theme1/three.xpm"
+	#include "dice/theme1/four.xpm"
+	#include "dice/theme1/five.xpm"
+	#include "dice/theme1/six.xpm"
+}
+DiceTheme1::DiceTheme1() {
+	m_bitmaps[0] = new wxBitmap(dicetheme1::one_xpm);
+	m_bitmaps[1] = new wxBitmap(dicetheme1::two_xpm);
+	m_bitmaps[2] = new wxBitmap(dicetheme1::three_xpm);
+	m_bitmaps[3] = new wxBitmap(dicetheme1::four_xpm);
+	m_bitmaps[4] = new wxBitmap(dicetheme1::five_xpm);
+	m_bitmaps[5] = new wxBitmap(dicetheme1::six_xpm);
+}
+
+/**
+ * \param i the number of the dice (1 to 6)
+ * \return a pointer to wxBitmap
+ */
+wxBitmap* DiceTheme1::GetDice(int i)
+{
+	return m_bitmaps[i-1];
+}
+
+namespace dicetheme2 {
+	#include "dice/theme2/one.xpm"
+	#include "dice/theme2/two.xpm"
+	#include "dice/theme2/three.xpm"
+	#include "dice/theme2/four.xpm"
+	#include "dice/theme2/five.xpm"
+	#include "dice/theme2/six.xpm"
+}
+DiceTheme2::DiceTheme2() {
+	m_bitmaps[0] = new wxBitmap(dicetheme2::one_xpm);
+	m_bitmaps[1] = new wxBitmap(dicetheme2::two_xpm);
+	m_bitmaps[2] = new wxBitmap(dicetheme2::three_xpm);
+	m_bitmaps[3] = new wxBitmap(dicetheme2::four_xpm);
+	m_bitmaps[4] = new wxBitmap(dicetheme2::five_xpm);
+	m_bitmaps[5] = new wxBitmap(dicetheme2::six_xpm);
+}
+
+/**
+ * \param i the number of the dice (1 to 6)
+ * \return a pointer to wxBitmap
+ */
+wxBitmap* DiceTheme2::GetDice(int i)
+{
+	return m_bitmaps[i-1];
+}
+
+namespace dicetheme3 {
+	#include "dice/theme3/1.xpm"
+	#include "dice/theme3/2.xpm"
+	#include "dice/theme3/3.xpm"
+	#include "dice/theme3/4.xpm"
+	#include "dice/theme3/5.xpm"
+	#include "dice/theme3/6.xpm"
+}
+DiceTheme3::DiceTheme3() {
+	m_bitmaps[0] = new wxBitmap(dicetheme3::one_xpm);
+	m_bitmaps[1] = new wxBitmap(dicetheme3::two_xpm);
+	m_bitmaps[2] = new wxBitmap(dicetheme3::three_xpm);
+	m_bitmaps[3] = new wxBitmap(dicetheme3::four_xpm);
+	m_bitmaps[4] = new wxBitmap(dicetheme3::five_xpm);
+	m_bitmaps[5] = new wxBitmap(dicetheme3::six_xpm);
+}
+
+/**
+ * \param i the number of the dice (1 to 6)
+ * \return a pointer to wxBitmap
+ */
+wxBitmap *DiceTheme3::GetDice(int i)
+{
+	return m_bitmaps[i-1];
 }

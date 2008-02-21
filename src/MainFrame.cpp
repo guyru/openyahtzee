@@ -1,4 +1,3 @@
-// $Header$
 /***************************************************************************
  *   Copyright (C) 2006-2008 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
@@ -99,7 +98,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	}
 	
 	//disable the undo button
-	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
+	(GetMenuBar()->FindItem(wxID_UNDO))->Enable(false);
 
 	ConnectEventTable();
 	
@@ -131,14 +130,12 @@ void MainFrame::AddMenus()
 			wxT("Show about dialog"));
 
 	//insert menu items into menu Game
-	gameMenu->Append(ID_NEWGAME,wxT("&New Game\tF2"),wxT("Start a new game"));
-	//create the undo button and make it disabled
-	gameMenu->Append(ID_UNDO,wxT("&Undo\tCTRL+Z"),wxT("Undo the last move"));
+	gameMenu->Append(wxID_NEW,wxT("&New Game\tF2"),wxT("Start a new game"));
+	gameMenu->Append(wxID_UNDO,wxT("&Undo\tCTRL+Z"),wxT("Undo the last move"));
 	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
 	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
 	gameMenu->Append(ID_THEMES,wxT("Dice Theme..."),wxT("Select a dice theme"));
-	gameMenu->Append(wxID_EXIT, wxT("E&xit\tAlt-X"),
-			wxT("Quit this program"));
+	gameMenu->Append(wxID_EXIT);
 	
 	// Declare the menu-bar and append the freshly created menus to the menu bar...
 	wxMenuBar *menuBar = new wxMenuBar();
@@ -330,8 +327,8 @@ void MainFrame::ConnectEventTable()
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnAbout));
 	Connect(ID_CHECK_FOR_UPDATES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnCheckForUpdates));
 	Connect(ID_SENDCOMMENT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSendComment));
-	Connect(ID_NEWGAME, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
-	Connect(ID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
+	Connect(wxID_NEW, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
+	Connect(wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
 	Connect(ID_THEMES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnDiceTheme));
@@ -423,7 +420,7 @@ void MainFrame::OnQuit(wxCommandEvent& event)
 void MainFrame::OnNewGame(wxCommandEvent& event)
 {
 	//disable the undo button so it won't be enabled when a new game is started.
-	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
+	(GetMenuBar()->FindItem(wxID_UNDO))->Enable(false);
 	
 	ResetRolls();
 	m_yahtzee = false;
@@ -482,7 +479,7 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 	//recalculate the subtotals
 	CalculateSubTotal();
 
-	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
+	(GetMenuBar()->FindItem(wxID_UNDO))->Enable(false);
 	//cancel the counting for the choice that was canceled
 	m_numofplaysleft++;
 }
@@ -494,7 +491,7 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 inline void MainFrame::EnableUndo(int id)
 {
 	if (m_numofplaysleft) {
-		(GetMenuBar()->FindItem(ID_UNDO))->Enable(true);
+		(GetMenuBar()->FindItem(wxID_UNDO))->Enable(true);
 		m_lastmove = id;
 	}
 }
@@ -663,7 +660,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 		((wxCheckBox*) FindWindow(i + ID_DICE1KEEP)) -> Enable(true);
 	
 	//we rolled the dices so undoing isn't allowed
-	(GetMenuBar()->FindItem(ID_UNDO))->Enable(false);
+	(GetMenuBar()->FindItem(wxID_UNDO))->Enable(false);
 	m_yahtzeebonus = false; //if we scored yahtzee bonus before we don't care anymore.
 	
 	Connect(wxEVT_IDLE, wxCommandEventHandler(MainFrame::OnRollButton));

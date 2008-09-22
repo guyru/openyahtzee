@@ -448,6 +448,10 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 	//after the user scored the button was enabled, check if it should be disabled
 	if (m_rolls <= 0) //we don't have remaining rolls 
 		((wxButton*) FindWindow(ID_ROLL)) -> Enable(false);
+	
+	// change the displayed roll counter
+	wxString caption = wxString::Format(wxT("Roll! (%i)"),m_rolls);
+	FindWindow(ID_ROLL)->SetLabel(caption);
 
 	//restore the 'keep' checkboxes
 	for (int i=0; i<5; i++)
@@ -649,10 +653,18 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 
 	m_score_dice.SetDice(dice);
 	m_score_dice.SetYahtzeeJoker(YahtzeeJoker());
-	m_rolls -= 1;
+	--m_rolls;
+	
+	// change the displayed roll counter
+	wxString caption = wxString::Format(wxT("Roll! (%i)"),m_rolls);
+	FindWindow(ID_ROLL)->SetLabel(caption);
+
 	#ifndef DEBUG
-	if (m_rolls <= 0) 
+	if (m_rolls <= 0) {
 		((wxButton*) FindWindow(ID_ROLL)) -> Enable(false);
+		FindWindow(ID_ROLL)->SetLabel(wxT("Roll!"));
+	}
+
 	#endif
 	
 	//enable the keep checkboxes
@@ -900,6 +912,9 @@ void MainFrame::ResetRolls()
 	m_rollsundo = m_rolls;
 	m_rolls = 3;
 	((wxButton*) FindWindow(ID_ROLL)) -> Enable(true);
+
+	// reset the roll count in the caption
+	FindWindow(ID_ROLL)->SetLabel(wxT("Roll! (3)"));
 	for (int i=0; i<5; i++){ 
 		((wxCheckBox*) FindWindow(i + ID_DICE1KEEP)) -> SetValue(false);
 		((wxCheckBox*) FindWindow(i + ID_DICE1KEEP)) -> Enable(false);
@@ -1240,6 +1255,13 @@ void MainFrame::Relayout()
 		new wxButton(FindWindow(ID_PANEL), ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(VERTICAL_ROLL_SIZEX,VERTICAL_ROLL_SIZEY));
 	}
 	FindWindow(ID_ROLL)->Enable(roll_button_enabled);
+
+	// if there are rolls left we should display the count of them
+	if (roll_button_enabled) {
+		wxString caption = wxString::Format(wxT("Roll! (%i)"),m_rolls);
+		FindWindow(ID_ROLL)->SetLabel(caption);
+	}
+
 	
 	//BEGIN layout for the dice section of the score board
 	if (m_settings.horizontal_layout) {

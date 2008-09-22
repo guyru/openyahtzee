@@ -1099,6 +1099,12 @@ void MainFrame::CalculateSubTotal()
 	
 	tempstr.Printf(wxT("%i"),upperscore);
 	((wxTextCtrl*) FindWindow(ID_UPPERSECTIONTOTAL)) -> SetValue(tempstr);
+	if (upperscore >= 63) {
+		((wxTextCtrl*) FindWindow(ID_BONUS))->SetValue(wxT("35"));
+	} else {
+		// this is needed in case of an undo
+		((wxTextCtrl*) FindWindow(ID_BONUS))->SetValue(wxT(""));
+	}
 
 	for (int i = ID_THREEOFAKINDTEXT; i<=ID_YAHTZEEBONUSTEXT; i++) {
 		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();

@@ -1,6 +1,8 @@
 bin_PROGRAMS = openyahtzee
 openyahtzee_SOURCES = \
 	About.cpp \
+	configuration.cpp \
+	configuration.h \
 	DBwrapper.cpp \
 	dice_graphics.cpp \
 	dice_theme_dialog.cpp \
@@ -41,10 +43,23 @@ dice_graphics =  \
 	dice/theme3/5.xpm \
 	dice/theme3/6.xpm
 
-noinst_HEADERS = MainFrame.h ObjectsID.h SettingsDB.h HighScoreTableDB.h \
-	HighScoreDialog.h SettingsDialog.h Icon.h icon32.ico wxDynamicBitmap.h \
-	About.h UtilityFunctions.h ScoreDice.h dice_graphics.h DBwrapper.h \
-	dice_theme_dialog.h $(dice_graphics)
+noinst_HEADERS = \
+	About.h \
+	DBwrapper.h \
+	dice_graphics.h \
+	dice_theme_dialog.h \
+	HighScoreTableDB.h \
+	HighScoreDialog.h \
+	Icon.h \
+	icon32.ico \
+	MainFrame.h \
+	ObjectsID.h \
+	SettingsDB.h \
+	SettingsDialog.h \
+	ScoreDice.h \
+	UtilityFunctions.h \
+	wxDynamicBitmap.h \
+	$(dice_graphics)
 
 AM_CXXFLAGS = `wx-config --cxxflags`
 openyahtzee_LDADD = -lsqlite3

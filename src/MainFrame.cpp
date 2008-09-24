@@ -35,6 +35,7 @@
 #include "dice_theme_dialog.h"
 #include "About.h"
 #include "UtilityFunctions.h"
+#include "configuration.h"
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -77,6 +78,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 		// we don't won't to overwrite newer files.
 		wxRenameFile(home_path+wxT("/.OpenYahtzee"),home_path+wxT("/.openyahtzee"),false);
 	}
+	Configuration config("/home/guy/.openyahtzee.new");
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
 

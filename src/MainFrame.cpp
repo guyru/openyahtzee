@@ -69,6 +69,14 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	//give the frame an icon
 	SetIcon(wxIcon(ICON));
 
+	/* Check if there is configuration file under old-name and
+	 * rename it
+	 */
+	wxString home_path = wxFileName::GetHomeDir();
+	if (wxFileExists(home_path+wxT("/.OpenYahtzee"))) {
+		// we don't won't to overwrite newer files.
+		wxRenameFile(home_path+wxT("/.OpenYahtzee"),home_path+wxT("/.openyahtzee"),false);
+	}
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
 

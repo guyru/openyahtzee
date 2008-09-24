@@ -39,7 +39,7 @@ This will be pretty generic class with some specific setting for the class in th
 
 ///Sets the file name of the database the class will open.
 #ifndef PORTABLE
-	#define DBFILENAME ".OpenYahtzee" 
+	#define DBFILENAME ".openyahtzee" 
 #else
 	#define DBFILENAME "OpenYahtzee.dat"
 #endif

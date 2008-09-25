@@ -18,10 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "configuration.h"
 #include <iostream>
+#include "configuration.h"
+#include "../config.h"
 
 using namespace std;
+using namespace configuration;
 
 Configuration::Configuration(string file)
 {
@@ -30,11 +32,14 @@ Configuration::Configuration(string file)
 
 void Configuration::load(string file)
 {
+	m_file = file;
+
 	cerr<<"loading file: "<<file<<endl;
 	ifstream conf_file (file.c_str());
 	if (!conf_file.is_open()) {
 		// file couldn't be opened, this is due to missing file or
 		// permission error.
+		cerr<<"Error openning configuration file for reading: "<<m_file<<endl;
 	}
 	
 	// the file was opened successfully. we need to check if it is an
@@ -58,6 +63,7 @@ void Configuration::load(string file)
 			parseHighscores(&conf_file);
 		}
 	}
+	conf_file.close();
 }
 
 void Configuration::importOldFile()
@@ -98,7 +104,7 @@ void Configuration::parseHighscores(ifstream *file)
 	int score;
 	string date,hour,name;
 	HighscoreItem temp_item;
-	while(!file->eof()) {
+	while(file->good()) {
 		temp_chr = file->get();
 		file->unget();
 		if (temp_chr == '[') {
@@ -108,11 +114,55 @@ void Configuration::parseHighscores(ifstream *file)
 		(*file)>>score;
 		(*file)>>date;
 		(*file)>>hour;
+		(*file).get(); // discard space before name
 		getline(*file,name);
 		temp_item.score = score;
 		temp_item.name = name;
 		temp_item.date = date+" "+hour;
 		m_highscores.push_back(temp_item);
 		cerr<<score<<" "<<name<<" "<<temp_item.date<<endl;
+
+		// The following two lines read one character forword and
+		// return it. This is done in order to raise the eofbit if
+		// we reached the eof (it is raised only after reading
+		// operation failed).
+		temp_chr = file->get();
+		file->unget();
+	}
+}
+
+void Configuration::save()
+{
+	ofstream conf_file (m_file.c_str());
+	if (!conf_file.is_open()) {
+		// file couldn't be opened, this is due to missing file or
+		// permission error.
+		cerr<<"Error openning configuration file for writing: "<<m_file<<endl;
+	}
+	conf_file<<"openyahtzee="<<VERSION<<endl;
+
+	conf_file<<"[settings]\n";
+	saveSettings(&conf_file);
+	conf_file<<"[highscores]\n";
+	saveHighscores(&conf_file);
+
+	conf_file.close();
+}
+
+void Configuration::saveSettings(ofstream *file)
+{
+	map<string,string>::iterator it;
+	for (it = m_settings.begin(); it!=m_settings.end(); it++) {
+		(*file)<<(*it).first<<"="<<(*it).second<<"\n";
+	}
+}
+
+void Configuration::saveHighscores(ofstream *file)
+{
+	HighscoreList::iterator it;
+	for (it = m_highscores.begin(); it!=m_highscores.end(); it++) {
+		(*file)<<(*it).score<<" ";
+		(*file)<<(*it).date<<" ";
+		(*file)<<(*it).name<<"\n";
 	}
 }

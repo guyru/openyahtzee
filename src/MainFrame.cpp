@@ -78,7 +78,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 		// we don't won't to overwrite newer files.
 		wxRenameFile(home_path+wxT("/.OpenYahtzee"),home_path+wxT("/.openyahtzee"),false);
 	}
-	Configuration config("/home/guy/.openyahtzee.new");
+	configuration::Configuration config("/home/guy/.openyahtzee.new");
+	config.save();
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
 

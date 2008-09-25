@@ -26,6 +26,8 @@
 #include <map>
 #include <list>
 
+namespace configuration {
+
 struct HighscoreItem;
 
 typedef std::list<HighscoreItem> HighscoreList;
@@ -37,6 +39,8 @@ public:
 	 * Reads Open Yahtzee configurations file and parses it.
 	 */
 	void load(std::string file);
+
+	void save();
 private:
 	/**
 	 * Imports old style configuration from sqllite database.
@@ -45,9 +49,14 @@ private:
 
 	void parseSettings(std::ifstream *file);
 	void parseHighscores(std::ifstream *file);
+
+	void saveSettings(std::ofstream *file);
+	void saveHighscores(std::ofstream *file);
 	
 	std::map<std::string, std::string> m_settings;
 	HighscoreList m_highscores;
+
+	std::string m_file;
 };
 
 struct HighscoreItem {
@@ -55,6 +64,8 @@ struct HighscoreItem {
 	std::string name;
 	std::string date;
 };
+
+}
 	
 
 #endif

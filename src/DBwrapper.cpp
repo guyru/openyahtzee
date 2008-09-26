@@ -40,11 +40,14 @@ using namespace std;
 DBwrapper::DBwrapper(std::string filename)
 {
 	m_errmsg=0; //set the pointer to null
+	db_loaded = false;
 	
 	m_errorcode = sqlite3_open(filename.c_str(), &m_db);
 	
 	if (m_errorcode!=SQLITE_OK)
 		cerr<<"ERROR: couldn't open database (DBhandler constructor). filename: "<< filename<<endl;
+	
+	db_loaded = true;
 
 }
 /** 
@@ -54,7 +57,7 @@ DBwrapper::DBwrapper(std::string filename)
 * datatabase for reading/writing.
 */
 DBwrapper::DBwrapper(){
-
+	db_loaded = false;
 }
 
 /**
@@ -63,7 +66,9 @@ DBwrapper::DBwrapper(){
  */
 DBwrapper::~DBwrapper()
 {
-	sqlite3_close(m_db);
+	if (db_loaded) {
+		sqlite3_close(m_db);
+	}
 }
 
 /**
@@ -147,11 +152,13 @@ list<string> DBwrapper::Query (std::string query, const int maxbusy)
  */
 int DBwrapper::Open( std::string filename )
 {
+	db_loaded = false;
 	m_errorcode = sqlite3_open(filename.c_str(), &m_db);
 	
 	if (m_errorcode!=SQLITE_OK)
 		cerr<<"ERROR: couldn't open database (DBhandler constructor). filename: "<< filename<<endl;
 	
+	db_loaded = true;
 	return m_errorcode;
 }
 

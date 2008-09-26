@@ -21,6 +21,7 @@
 #ifndef OPENYAHTZEE_CONFIGURATION_INC
 #define OPENYAHTZEE_CONFIGURATION_INC
 
+#include "DBwrapper.h" // used in the back-compatibility code
 #include <string>
 #include <fstream>
 #include <map>
@@ -32,6 +33,8 @@ struct HighscoreItem;
 
 typedef std::list<HighscoreItem> HighscoreList;
 
+static const char* DEFAULT_HIGHSCORE_SIZE = "20";
+
 class Configuration {
 public:
 	Configuration(std::string file);
@@ -40,7 +43,23 @@ public:
 	 */
 	void load(std::string file);
 
+	/**
+	 * Saves the configurations (setting and highscores) to the file
+	 * specified when the class was constructed
+	 */
 	void save();
+
+	/**
+	 * \return the value associated with the specified key, or empty
+	 * string if that key is missing
+	 */
+	std::string get(std::string key);
+	/**
+	 * Associates the given value with the given key. You must call
+	 * save() in order to make the change permanent.
+	 * \return pointer to self.
+	 */
+	Configuration *set(std::string key, std::string value);
 private:
 	/**
 	 * Imports old style configuration from sqllite database.
@@ -52,11 +71,24 @@ private:
 
 	void saveSettings(std::ofstream *file);
 	void saveHighscores(std::ofstream *file);
+
+	/**
+	 * Loads default settings
+	 */
+	void loadDefaultSettings();
 	
 	std::map<std::string, std::string> m_settings;
 	HighscoreList m_highscores;
 
 	std::string m_file;
+
+	/* The following functions and variables are used for legacy SQLite
+	 * configuration file, and could be dropped.
+	 */
+	DBwrapper old_db;
+	std::string getKeyFromDb(std::string key);
+	void importSettings();
+	void importHighscores();
 };
 
 struct HighscoreItem {

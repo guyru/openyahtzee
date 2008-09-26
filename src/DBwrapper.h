@@ -55,6 +55,7 @@ private:
 	sqlite3* m_db; ///< holds the sqllite database
 	char *m_errmsg; ///< holds the sqllite error messages
 	int m_errorcode; ///< holds the returned sqllite errorcode
+	bool db_loaded;
 };
 
 #endif

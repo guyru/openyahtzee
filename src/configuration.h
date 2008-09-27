@@ -60,6 +60,9 @@ public:
 	 * \return pointer to self.
 	 */
 	Configuration *set(std::string key, std::string value);
+
+	bool isHighscore(int score);
+	int submitHighscore(int score, std::string name, std::string date);
 private:
 	/**
 	 * Imports old style configuration from sqllite database.

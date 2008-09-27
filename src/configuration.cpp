@@ -276,3 +276,52 @@ void Configuration::importHighscores()
 		m_highscores.push_back(temp_item);
 	}
 }
+
+bool Configuration::isHighscore(int score) {
+	const int highscore_list_size = atoi(m_settings["highscore-list-size"].c_str());
+	if (m_highscores.size()<highscore_list_size) {
+		// we have extra room in the highscore list
+		return true;
+	}
+
+	HighscoreList::iterator it= m_highscores.end();
+	if ((--it)->score<score) {
+		return true;
+	}
+
+	return false;
+}
+
+int Configuration::submitHighscore(int score, string name, string date) {
+	const int highscore_list_size = atoi(m_settings["highscore-list-size"].c_str());
+	int place = 1;
+	HighscoreItem temp_item;
+
+	//create sentinel in end of list, we'll remove when we finish
+	temp_item.score = -1; // this is lower than any valid score
+	m_highscores.push_back(temp_item);
+
+	temp_item.score = score;
+	temp_item.date = date;
+	temp_item.name = name;
+
+	HighscoreList::iterator it = m_highscores.begin();
+	while (it!=m_highscores.end()) {
+		if (it->score < temp_item.score) {
+			m_highscores.insert(it, temp_item);
+			break;
+		}
+		place++;
+		it++;
+	}
+	m_highscores.pop_back(); // remove the sentinel;
+
+	if (m_highscores.size()>highscore_list_size) {
+		m_highscores.pop_back();
+	}
+
+	if (place>highscore_list_size) {
+		return 0;
+	}
+	return place;
+}

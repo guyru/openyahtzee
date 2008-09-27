@@ -7,7 +7,8 @@ openyahtzee_SOURCES = \
 	dice_graphics.cpp \
 	dice_theme_dialog.cpp \
 	MainFrame.cpp \
-	HighScoreDialog.cpp \
+	highscores_dialog.cpp \
+	highscores_dialog.h \
 	HighScoreTableDB.cpp \
 	icon.xpm \
 	icon32.xpm \
@@ -49,7 +50,6 @@ noinst_HEADERS = \
 	dice_graphics.h \
 	dice_theme_dialog.h \
 	HighScoreTableDB.h \
-	HighScoreDialog.h \
 	Icon.h \
 	icon32.ico \
 	MainFrame.h \

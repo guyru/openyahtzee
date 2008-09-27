@@ -1,6 +1,5 @@
-// $Header$
 /***************************************************************************
- *   Copyright (C) 2006 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2008 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,19 +17,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef HIGHSCOREDIALOG_INC
-#define HIGHSCOREDIALOG_INC
+#ifndef OPENYAHTZEE_HIGHSCORES_DIALOG_INC
+#define OPENYAHTZEE_HIGHSCORES_DIALOG_INC
 
-#include "HighScoreTableDB.h"
+#include "configuration.h"
+#include <wx/wx.h>
+#include <wx/dialog.h>
+#include <wx/listctrl.h>
 
-class HighScoreDialog : public wxDialog
+namespace highscores_dialog {
+
+class HighscoresDialog : public wxDialog
 {
 public:
-	HighScoreDialog(wxWindow* parent,wxWindowID id,HighScoreTableDB* highscoredb);
+	HighscoresDialog(wxWindow* parent,configuration::Configuration* config, int highlight_rank = 0);
 
+	void onClose(wxCommandEvent& event);	
 private:
+	void createControls();
+	void loadData( );
+	void doLayout();
+	void connectEventTable();
 
+	int highlight_rank;
+	configuration::Configuration* m_config;
+
+	wxListCtrl *highscoreslist;
 };
+
+}
 
 
 #endif

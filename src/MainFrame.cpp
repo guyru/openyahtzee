@@ -30,7 +30,7 @@
 #include "MainFrame.h"
 #include "wxDynamicBitmap.h"
 #include "ObjectsID.h"
-#include "HighScoreDialog.h"
+#include "highscores_dialog.h"
 #include "dice_theme_dialog.h"
 #include "About.h"
 #include "UtilityFunctions.h"
@@ -526,8 +526,11 @@ inline void MainFrame::EnableUndo(int id)
  */
 void MainFrame::OnShowHighscore(wxCommandEvent& event)
 {
-	HighScoreDialog *dialog = new HighScoreDialog(this,wxID_ANY,m_highscoredb);
+	highscores_dialog::HighscoresDialog *dialog = new highscores_dialog::HighscoresDialog(this,m_config);
+
 	dialog->ShowModal();
+
+	delete dialog;
 }
 
 /**

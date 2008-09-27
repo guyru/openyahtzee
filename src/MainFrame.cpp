@@ -31,11 +31,11 @@
 #include "wxDynamicBitmap.h"
 #include "ObjectsID.h"
 #include "HighScoreDialog.h"
-#include "SettingsDialog.h"
 #include "dice_theme_dialog.h"
 #include "About.h"
 #include "UtilityFunctions.h"
 #include "configuration.h"
+#include "settings_dialog.h"
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -78,8 +78,18 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 		// we don't won't to overwrite newer files.
 		wxRenameFile(home_path+wxT("/.OpenYahtzee"),home_path+wxT("/.openyahtzee"),false);
 	}
-	configuration::Configuration config("/home/guy/.openyahtzee.new");
-	config.save();
+
+	
+	std::string config_file;
+	config_file = (home_path.mb_str());
+	#ifndef PORTABLE
+		config_file += "/.openyahtzee.new";
+	#else
+		config_file += "/openyahtzee.dat";
+	#endif
+
+	m_config = new configuration::Configuration(config_file);
+
 	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
 
@@ -168,7 +178,7 @@ void MainFrame::AddControlsAndLayout()
 	wxBoxSizer *topSizer;
 	wxFlexGridSizer *diceSizer;
 
-	if (m_settings.horizontal_layout) {
+	if (m_config->get("horizontal-layout")=="True") {
 		topSizer = new wxBoxSizer( wxVERTICAL );
 		sectionsSizer = new wxBoxSizer( wxHORIZONTAL );
 		diceSizer = new wxFlexGridSizer(2, 0, 0, 0);
@@ -264,7 +274,7 @@ void MainFrame::AddControlsAndLayout()
 	sectionsSizer->Add(lowersection, 0, wxALL, 5);
 
 	//BEGIN layout for the dice section of the score board
-	if (m_settings.horizontal_layout) {
+	if (m_config->get("horizontal-layout")=="True") {
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE1,
 			m_dice_graphics.GetDice(1)), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxDynamicBitmap(panel,
@@ -528,68 +538,19 @@ void MainFrame::OnShowHighscore(wxCommandEvent& event)
  */
 void MainFrame::OnSettings( wxCommandEvent& event)
 {
-	SettingsDialog *dialog = new SettingsDialog(this,wxID_ANY);
-	SettingsDialogData data;
-	std::ostringstream sstr;
-	
-	data.highscoresize = m_highscoredb->GetSize();
+	settings_dialog::SettingsDialog* settings_dialog = new settings_dialog::SettingsDialog(this, m_config);
 
-	data.animate = (m_settingsdb->GetKey("animate")=="Yes")?true:false;
-	data.subtotal = (m_settingsdb->GetKey("calculatesubtotal")=="Yes")?true:false;
-	data.score_hints = m_settings.score_hints;
-	data.horizontal = (m_settingsdb->GetKey("horizontallayout")=="Yes")?true:false;
-	
-	dialog->SetData(data);
-	
-	if(dialog->ShowModal()!=wxID_OK)
+	if (settings_dialog->ShowModal()!=wxID_OK) {
 		return;
-	
-	data = dialog->GetData();
-
-	if(data.reset)
-		m_highscoredb->SetSize(0);
-	
-	sstr<<data.highscoresize<<std::flush;
-	m_settingsdb->SetKey("highscoresize",sstr.str());
-			
-	m_highscoredb->SetSize(data.highscoresize);
-	
-	if (data.animate){
-		m_settingsdb->SetKey("animate","Yes");
-		m_settings.animate = true;
-	} else {
-		m_settingsdb->SetKey("animate","No");
-		m_settings.animate = false;
 	}
 
-	if (data.subtotal){
-		m_settingsdb->SetKey("calculatesubtotal","Yes");
-		m_settings.calculate_subtotal = true;
-	} else {
-		m_settingsdb->SetKey("calculatesubtotal","No");
-		m_settings.calculate_subtotal = false;
-	}
 	((wxTextCtrl*) FindWindow(ID_UPPERSECTIONTOTAL)) -> SetValue(wxT(""));
 	((wxTextCtrl*) FindWindow(ID_LOWERTOTAL)) -> SetValue(wxT(""));
 	CalculateSubTotal();
 
-	if (data.score_hints){
-		m_settingsdb->SetKey("score_hints","Yes");
-		m_settings.score_hints = true;
-	} else {
-		m_settingsdb->SetKey("score_hints","No");
-		m_settings.score_hints = false;
-	}
+	Relayout();
 
-	if (data.horizontal){
-		m_settingsdb->SetKey("horizontallayout","Yes");
-		m_settings.horizontal_layout = true;
-		Relayout();			
-	} else {
-		m_settingsdb->SetKey("horizontallayout","No");
-		m_settings.horizontal_layout = false;
-		Relayout();
-	}
+	delete settings_dialog;
 }
 
 /**
@@ -633,7 +594,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	dice[3]=m_score_dice.GetDice(4);
 	dice[4]=m_score_dice.GetDice(5);
 	//roll the dice...
-	if (m_settings.animate) {
+	if (m_config->get("dice-animation")=="True") {
 		int dice_throws[5] = {0,0,0,0,0};
 		for (int i=0; i<5; i++) { //set the number of rolls for each dice
 			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
@@ -1094,7 +1055,7 @@ void MainFrame::PostScore(int id)
  */
 void MainFrame::CalculateSubTotal()
 {
-	if (!m_settings.calculate_subtotal)
+	if (m_config->get("calculate-subtotal")=="False")
 		return;
 	long upperscore = 0;
 	long lowerscore = 0;
@@ -1147,41 +1108,6 @@ int MainFrame::InitializeDatabase()
 		m_highscoredb->SetSize(highscoresize);
 	}
 	
-	if (m_settingsdb->GetKey("animate") == "Yes") {
-		m_settings.animate = true;
-	} else if (m_settingsdb->GetKey("animate") == "No") {
-		m_settings.animate = false;
-	} else {
-		m_settingsdb->SetKey("animate", "Yes");
-		m_settings.animate = true;
-	}
-
-	if (m_settingsdb->GetKey("calculatesubtotal") == "Yes") {
-		m_settings.calculate_subtotal = true;
-	} else if (m_settingsdb->GetKey("calculatesubtotal") == "No") {
-		m_settings.calculate_subtotal = false;
-	} else {
-		m_settingsdb->SetKey("calculatesubtotal", "Yes");
-		m_settings.calculate_subtotal = true;
-	}
-
-	if (m_settingsdb->GetKey("horizontallayout") == "Yes") {
-		m_settings.horizontal_layout = true;
-	} else if (m_settingsdb->GetKey("horizontallayout") == "No") {
-		m_settings.horizontal_layout = false;
-	} else {
-		m_settingsdb->SetKey("horizontallayout", "No");
-		m_settings.horizontal_layout = true;
-	}
-
-	if (m_settingsdb->GetKey("score_hints") == "Yes") {
-		m_settings.score_hints = true;
-	} else if (m_settingsdb->GetKey("score_hints") == "No") {
-		m_settings.score_hints = false;
-	} else {
-		m_settingsdb->SetKey("score_hints", "Yes");
-		m_settings.score_hints = true;
-	}
 
 	return 1;
 }
@@ -1197,7 +1123,7 @@ void MainFrame::Relayout()
 	sectionsSizer->Remove(lowersection);
 	sectionsSizer->Remove(uppersection);
 
-	if (m_settings.horizontal_layout) {
+	if (m_config->get("horizontal-layout")=="True") {
 		topSizer = new wxBoxSizer( wxVERTICAL );
 		sectionsSizer = new wxBoxSizer( wxHORIZONTAL );
 		diceSizer = new wxFlexGridSizer(2, 0, 0, 0);
@@ -1264,7 +1190,7 @@ void MainFrame::Relayout()
 
 	//Change the roll button size if we need to
 	roll_button_enabled = FindWindow(ID_ROLL)->IsEnabled();
-	if (m_settings.horizontal_layout) {
+	if (m_config->get("horizontal-layout")=="True") {
 		FindWindow(ID_ROLL)->Destroy();
 		new wxButton(FindWindow(ID_PANEL), ID_ROLL, wxT("Roll!"),wxDefaultPosition,wxSize(64,64));
 	} else {
@@ -1281,7 +1207,7 @@ void MainFrame::Relayout()
 
 	
 	//BEGIN layout for the dice section of the score board
-	if (m_settings.horizontal_layout) {
+	if (m_config->get("horizontal-layout")=="True") {
 		diceSizer->Add(FindWindow(ID_DICE1),0,wxALL,DICE_SPACE);
 		diceSizer->Add(FindWindow(ID_DICE2),0,wxALL,DICE_SPACE);
 		diceSizer->Add(FindWindow(ID_DICE3),0,wxALL,DICE_SPACE);
@@ -1345,7 +1271,7 @@ void MainFrameEvtHandler::OnScoreMouseEnter (wxMouseEvent& event)
 	int id;
 	wxTextCtrl *text_control;
 	wxString out;
-	if (! m_main_frame->m_settings.score_hints) {
+	if (m_main_frame->m_config->get("score-hints")=="False") {
 		event.Skip();
 		return;
 	}
@@ -1425,4 +1351,12 @@ void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
 	}
 
 	event.Skip(); //allow default proccesing
+}
+
+MainFrame::~MainFrame() {
+	// free pointers
+	delete m_config;
+	delete m_settingsdb;
+	delete m_highscoredb;
+	delete m_evt_handler;
 }

@@ -28,6 +28,7 @@
 #include "HighScoreTableDB.h"
 #include "ScoreDice.h"
 #include "dice_graphics.h"
+#include "configuration.h"
 #ifndef MAINFRAME_INC
 #define MAINFRAME_INC
 
@@ -43,6 +44,7 @@ class MainFrame : public wxFrame
 public:
 	// Constructor
 	MainFrame(const wxString& title,  const wxSize& size, long style);
+	~MainFrame();
 
 	// Event handlers
 	void OnQuit(wxCommandEvent& event);
@@ -74,12 +76,7 @@ public:
 
 	ScoreDice m_score_dice;
 
-	struct {
-		bool animate;
-		bool calculate_subtotal;
-		bool horizontal_layout;
-		bool score_hints;
-	} m_settings;
+	configuration::Configuration *m_config;
 
 private:
 	void ClearDiceHash();

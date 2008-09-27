@@ -187,7 +187,6 @@ void Configuration::loadDefaultSettings()
 {
 	m_settings["dice-animation"] = "True";
 	m_settings["calculate-subtotal"] = "True";
-	m_settings["calculate-subtotal"] = "True";
 	m_settings["horizontal-layout"] = "True";
 	m_settings["score-hints"] = "True";
 	m_settings["highscore-list-size"] = DEFAULT_HIGHSCORE_SIZE;

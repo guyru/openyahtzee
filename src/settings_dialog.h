@@ -1,6 +1,5 @@
-// $Header$
 /***************************************************************************
- *   Copyright (C) 2006-2007 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2008 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,42 +17,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef OPENYAHTZEE_SETTINGS_DIALOG_INC
+#define OPENYAHTZEE_SETTINGS_DIALOG_INC
 
 #include <wx/wx.h>
-#include <wx/spinctrl.h>
-#include "ObjectsID.h"
+#include "configuration.h"
 
-
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
-
-struct SettingsDialogData {
-	int highscoresize;
-	bool reset;
-	bool animate;
-	bool subtotal;
-	bool horizontal;
-	bool score_hints;
-};
+namespace settings_dialog {
 
 class SettingsDialog: public wxDialog {
 public:
-	SettingsDialog(wxWindow* parent, int id);
+	SettingsDialog(wxWindow* parent, configuration::Configuration* config);
 	
-	SettingsDialogData GetData();
-	void SetData(SettingsDialogData data);
-	
-	void OnResetHighScore(wxCommandEvent& event);
+	void onOK (wxCommandEvent& event);	
 private:
-	void DoLayout();
-	void ConnectEventTable();
-	
+	void connectEventTable();
+	void createControls();
+	void loadSettings();
+	void doLayout();
 
-
-protected:
-	wxStaticText* label_1;
-	wxSpinCtrl* spin_ctrl;
-	wxCheckBox* checkbox_reset; //the reset button
+	configuration::Configuration *m_config;
 	
 	wxCheckBox* animate_checkbox;
 	wxCheckBox* subtotal_checkbox;
@@ -61,6 +44,6 @@ protected:
 	wxCheckBox* horizontal_checkbox;
 	
 };
+}
+#endif // OPENYAHTZEE_SETTINGS_DIALOG_INC
 
-
-#endif // SETTINGSDIALOG_H

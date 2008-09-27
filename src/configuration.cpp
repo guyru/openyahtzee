@@ -157,7 +157,7 @@ void Configuration::saveSettings(ofstream *file)
 
 void Configuration::saveHighscores(ofstream *file)
 {
-	HighscoreList::iterator it;
+	HighscoresList::iterator it;
 	for (it = m_highscores.begin(); it!=m_highscores.end(); it++) {
 		(*file)<<(*it).score<<" ";
 		(*file)<<(*it).date<<" ";
@@ -284,7 +284,7 @@ bool Configuration::isHighscore(int score) {
 		return true;
 	}
 
-	HighscoreList::iterator it= m_highscores.end();
+	HighscoresList::iterator it= m_highscores.end();
 	if ((--it)->score<score) {
 		return true;
 	}
@@ -305,7 +305,7 @@ int Configuration::submitHighscore(int score, string name, string date) {
 	temp_item.date = date;
 	temp_item.name = name;
 
-	HighscoreList::iterator it = m_highscores.begin();
+	HighscoresList::iterator it = m_highscores.begin();
 	while (it!=m_highscores.end()) {
 		if (it->score < temp_item.score) {
 			m_highscores.insert(it, temp_item);
@@ -324,4 +324,10 @@ int Configuration::submitHighscore(int score, string name, string date) {
 		return 0;
 	}
 	return place;
+}
+
+const HighscoresList* Configuration::getHighscores() const
+{
+	const HighscoresList * ptr = &m_highscores;
+	return ptr;
 }

@@ -31,7 +31,7 @@ namespace configuration {
 
 struct HighscoreItem;
 
-typedef std::list<HighscoreItem> HighscoreList;
+typedef std::list<HighscoreItem> HighscoresList;
 
 static const char* DEFAULT_HIGHSCORE_SIZE = "20";
 
@@ -61,8 +61,19 @@ public:
 	 */
 	Configuration *set(std::string key, std::string value);
 
+	/**
+	 * Checks if a given score quallifies to the high score list
+	 */
 	bool isHighscore(int score);
+	
+	/**
+	 * Adds a given entry to the highscore list.
+	 * \return the place in the highscore list for the new entry, or
+	 * zero if it didn't quallify.
+	 */
 	int submitHighscore(int score, std::string name, std::string date);
+
+	const HighscoresList* getHighscores() const;
 private:
 	/**
 	 * Imports old style configuration from sqllite database.
@@ -81,7 +92,7 @@ private:
 	void loadDefaultSettings();
 	
 	std::map<std::string, std::string> m_settings;
-	HighscoreList m_highscores;
+	HighscoresList m_highscores;
 
 	std::string m_file;
 

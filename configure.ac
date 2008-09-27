@@ -4,6 +4,8 @@ AM_INIT_AUTOMAKE([-Wall -Werror])
 AC_CONFIG_SRCDIR([src/openyahtzee.cpp])
 AC_CONFIG_HEADER([config.h])
 
+m4_include(macros/wxwin.m4)
+
 dnl AC_LANG_CPLUSPLUS
 AC_PROG_CXX
 dnl AM_PROG_LIBTOOL

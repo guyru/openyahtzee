@@ -12,7 +12,6 @@ openyahtzee_SOURCES = \
 	icon.xpm \
 	icon32.xpm \
 	openyahtzee.cpp \
-	SettingsDB.cpp \
 	settings_dialog.cpp \
 	settings_dialog.h \
 	ScoreDice.cpp \
@@ -55,7 +54,6 @@ noinst_HEADERS = \
 	icon32.ico \
 	MainFrame.h \
 	ObjectsID.h \
-	SettingsDB.h \
 	ScoreDice.h \
 	UtilityFunctions.h \
 	wxDynamicBitmap.h \

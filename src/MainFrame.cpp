@@ -90,7 +90,6 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 
 	m_config = new configuration::Configuration(config_file);
 
-	m_settingsdb = new SettingsDB(); //Get the settings database connection
 	m_highscoredb = new HighScoreTableDB();
 
 	m_evt_handler = new MainFrameEvtHandler(this);
@@ -1089,25 +1088,16 @@ void MainFrame::CalculateSubTotal()
 }
 
 
+///TODO: delete this function
 /**
  * Initializes the database and stores default settings if needed.
  * @return 0 if some error
  */
 int MainFrame::InitializeDatabase()
 {
-	std::ostringstream sstr;
 
-
-	if (m_settingsdb->GetKey("highscoresize") == "") { //check if we need to create a new high score table
-		m_highscoredb->SetSize(DEF_HIGHSCORESIZE);
-		sstr<<DEF_HIGHSCORESIZE<<std::flush;
-		m_settingsdb->SetKey("highscoresize", sstr.str());
-	} else {
-		int highscoresize = atoi((m_settingsdb->GetKey("highscoresize")).c_str());
-		//m_highscoredb->SetSize((highscoresize>0)?highscoresize:DEF_HIGHSCORESIZE);
-		m_highscoredb->SetSize(highscoresize);
-	}
-	
+	int highscoresize = atoi((m_config->get("highscore-list-size")).c_str());
+	m_highscoredb->SetSize(highscoresize);
 
 	return 1;
 }
@@ -1356,7 +1346,6 @@ void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
 MainFrame::~MainFrame() {
 	// free pointers
 	delete m_config;
-	delete m_settingsdb;
 	delete m_highscoredb;
 	delete m_evt_handler;
 }

@@ -24,7 +24,6 @@
  * This File contains the declaration of the class MainFrame
 */
 
-#include "SettingsDB.h"
 #include "HighScoreTableDB.h"
 #include "ScoreDice.h"
 #include "dice_graphics.h"
@@ -109,7 +108,6 @@ private:
 	short int m_lastmove; //stores the ID of the last button pressed.
 	short int m_rollsundo; //holds the number of remaining rolls for use with the undo option
 
-	SettingsDB *m_settingsdb; //handles the settings database
 	HighScoreTableDB *m_highscoredb; //handles the highscore database managment
 	
 	bool m_skiproll; ///used to prevent the user from accidently rolling the dice twice

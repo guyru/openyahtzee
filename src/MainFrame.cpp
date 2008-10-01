@@ -40,6 +40,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <wx/version.h>
+#include <wx/filename.h>
 
 //include the icon file
 #include "Icon.h"
@@ -90,12 +91,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 
 	m_config = new configuration::Configuration(config_file);
 
-	m_highscoredb = new HighScoreTableDB();
-
 	m_evt_handler = new MainFrameEvtHandler(this);
 	
-	InitializeDatabase();//this must come _after_ m_settingsdb and m_highscoredb are created
-
 	//bitmap_dices[0] = new wxBitmap(one_xpm);
 	//bitmap_dices[1] = new wxBitmap(two_xpm);
 	//bitmap_dices[2] = new wxBitmap(three_xpm);
@@ -1000,32 +997,35 @@ void MainFrame::HighScoreHandler(int score)
 	std::string name,date;
 	wxCommandEvent newevent;
 
-
-	place = m_highscoredb->IsHighScore(score);
 	
-	if(!place)  //if the score didn't make it to the highscore table do nothing
+	if(!m_config->isHighscore(score)) {
 		return;
+	}
 	
 	wxString msg;
-	msg.Printf(wxT("Your score made it to the high score table. Your place is number %i.\nPlease enter your name below:"),place);
+	msg.Printf(wxT("Your score made it to the high score table.\nPlease enter your name below:"),place);
 
-	wxTextEntryDialog infodialog(this,msg,wxT("Please enter your name"),wxT(""),wxOK | wxCENTRE);
+	wxString last_name = wxString::FromUTF8(m_config->get("last-name").c_str());
+
+	wxTextEntryDialog infodialog(this,msg,wxT("Please enter your name"),last_name ,wxOK | wxCENTRE);
 	infodialog.ShowModal();
 
 	name = infodialog.GetValue().mb_str();
 
 	//get the date
 	wxDateTime now = wxDateTime::Now();
-	date = now.FormatISOTime().mb_str();
-	date +=" ";
-	date += now.FormatDate().mb_str();
+	date = now.FormatDate().mb_str();
+	date += " ";
+	date += now.FormatISOTime().SubString(0,5).mb_str();
 
-	m_highscoredb->SendHighScore(name,date,score);
+	int rank = m_config->submitHighscore(score, name, date);
 
 	//now show the high score table
-	newevent.SetId(ID_SHOWHIGHSCORE);
-	newevent.SetEventType(wxEVT_COMMAND_MENU_SELECTED);
-	ProcessEvent(newevent);
+	highscores_dialog::HighscoresDialog *dialog = new highscores_dialog::HighscoresDialog(this,m_config,rank);
+
+	dialog->ShowModal();
+
+	delete dialog;
 
 }
 
@@ -1090,20 +1090,6 @@ void MainFrame::CalculateSubTotal()
 	((wxTextCtrl*) FindWindow(ID_LOWERTOTAL)) -> SetValue(tempstr);
 }
 
-
-///TODO: delete this function
-/**
- * Initializes the database and stores default settings if needed.
- * @return 0 if some error
- */
-int MainFrame::InitializeDatabase()
-{
-
-	int highscoresize = atoi((m_config->get("highscore-list-size")).c_str());
-	m_highscoredb->SetSize(highscoresize);
-
-	return 1;
-}
 
 void MainFrame::Relayout()
 {
@@ -1349,6 +1335,5 @@ void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
 MainFrame::~MainFrame() {
 	// free pointers
 	delete m_config;
-	delete m_highscoredb;
 	delete m_evt_handler;
 }

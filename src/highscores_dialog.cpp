@@ -44,7 +44,7 @@ HighscoresDialog::HighscoresDialog(wxWindow* parent,configuration::Configuration
 
 void HighscoresDialog::createControls()
 {
-	highscoreslist = new wxListCtrl(this,wxID_ANY,wxDefaultPosition,wxSize(400,400),wxLC_REPORT);
+	highscoreslist = new wxListCtrl(this,wxID_ANY,wxDefaultPosition,wxSize(400,400),wxLC_REPORT | wxBORDER_SUNKEN );
 
 	wxListItem itemCol;
 

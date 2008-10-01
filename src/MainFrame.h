@@ -24,7 +24,6 @@
  * This File contains the declaration of the class MainFrame
 */
 
-#include "HighScoreTableDB.h"
 #include "ScoreDice.h"
 #include "dice_graphics.h"
 #include "configuration.h"
@@ -87,7 +86,6 @@ private:
 	inline void EnableUndo(int id);
 	void PostScore(int id);
 	void CalculateSubTotal();
-	int InitializeDatabase();
 	void Relayout();
 	void AddMenus();
 	void ConnectEventTable();
@@ -108,8 +106,6 @@ private:
 	short int m_lastmove; //stores the ID of the last button pressed.
 	short int m_rollsundo; //holds the number of remaining rolls for use with the undo option
 
-	HighScoreTableDB *m_highscoredb; //handles the highscore database managment
-	
 	bool m_skiproll; ///used to prevent the user from accidently rolling the dice twice
 
 	class MainFrameEvtHandler *m_evt_handler;

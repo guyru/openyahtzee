@@ -31,7 +31,6 @@
 #include "wxDynamicBitmap.h"
 #include "ObjectsID.h"
 #include "highscores_dialog.h"
-#include "dice_theme_dialog.h"
 #include "About.h"
 #include "UtilityFunctions.h"
 #include "configuration.h"
@@ -41,6 +40,16 @@
 #include <cstdlib>
 #include <wx/version.h>
 #include <wx/filename.h>
+
+ //include the images for the dice 	 
+ namespace dice {
+ #include "one.xpm"
+ #include "two.xpm"
+ #include "three.xpm"
+ #include "four.xpm"
+ #include "five.xpm"
+ #include "six.xpm"
+ } // namespace dice
 
 //include the icon file
 #include "Icon.h"
@@ -93,12 +102,12 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 
 	m_evt_handler = new MainFrameEvtHandler(this);
 	
-	//bitmap_dices[0] = new wxBitmap(one_xpm);
-	//bitmap_dices[1] = new wxBitmap(two_xpm);
-	//bitmap_dices[2] = new wxBitmap(three_xpm);
-	//bitmap_dices[3] = new wxBitmap(four_xpm);
-	//bitmap_dices[4] = new wxBitmap(five_xpm);
-	//bitmap_dices[5] = new wxBitmap(six_xpm);
+	bitmap_dice[0] = new wxBitmap(dice::one_xpm);
+	bitmap_dice[1] = new wxBitmap(dice::two_xpm);
+	bitmap_dice[2] = new wxBitmap(dice::three_xpm);
+	bitmap_dice[3] = new wxBitmap(dice::four_xpm);
+	bitmap_dice[4] = new wxBitmap(dice::five_xpm);
+	bitmap_dice[5] = new wxBitmap(dice::six_xpm);
 	
 	//randomize the random-number generator based on the time
 	srand( (unsigned)time( NULL ) );
@@ -151,7 +160,6 @@ void MainFrame::AddMenus()
 	gameMenu->Append(wxID_UNDO,wxT("&Undo\tCTRL+Z"),wxT("Undo the last move"));
 	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
 	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
-	gameMenu->Append(ID_THEMES,wxT("Dice Theme..."),wxT("Select a dice theme"));
 	gameMenu->Append(wxID_EXIT);
 	
 	// Declare the menu-bar and append the freshly created menus to the menu bar...
@@ -272,15 +280,15 @@ void MainFrame::AddControlsAndLayout()
 	//BEGIN layout for the dice section of the score board
 	if (m_config->get("horizontal-layout")=="True") {
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE1,
-			m_dice_graphics.GetDice(1)), 0, wxALL, DICE_SPACE);
+			bitmap_dice[0]), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE2, m_dice_graphics.GetDice(2)), 0, wxALL, DICE_SPACE);
+			ID_DICE2, bitmap_dice[1]), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE3, m_dice_graphics.GetDice(3)), 0, wxALL,DICE_SPACE);
+			ID_DICE3, bitmap_dice[2]), 0, wxALL,DICE_SPACE);
 		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE4, m_dice_graphics.GetDice(4)), 0, wxALL,DICE_SPACE);
+			ID_DICE4, bitmap_dice[3]), 0, wxALL,DICE_SPACE);
 		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE5, m_dice_graphics.GetDice(5)), 0, wxALL,DICE_SPACE);
+			ID_DICE5, bitmap_dice[4]), 0, wxALL,DICE_SPACE);
 		diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),
 			wxDefaultPosition, wxSize(64,64)), 0, wxALL,DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP,
@@ -295,27 +303,27 @@ void MainFrame::AddControlsAndLayout()
 			wxT("Keep")), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
 	} else {
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE1,
-			m_dice_graphics.GetDice(1)), 0, wxALL, DICE_SPACE);
+			bitmap_dice[0]), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
 		diceSizer->Add(new wxDynamicBitmap(panel,ID_DICE2,
-			m_dice_graphics.GetDice(2)), 0, wxALL, DICE_SPACE);
+			bitmap_dice[1]), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE3,
-			m_dice_graphics.GetDice(3)), 0, wxALL, DICE_SPACE);
+			bitmap_dice[2]), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE4,
-			m_dice_graphics.GetDice(4)), 0, wxALL, DICE_SPACE);
+			bitmap_dice[3]), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
 		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE5, 
-			m_dice_graphics.GetDice(5)), 0, wxALL, DICE_SPACE);
+			bitmap_dice[4]), 0, wxALL, DICE_SPACE);
 		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP,
 			wxT("Keep")), 0, wxLEFT, KEEP_SPACE);
 		diceSizer->AddSpacer(VER_DICE_SPACER);
@@ -348,7 +356,6 @@ void MainFrame::ConnectEventTable()
 	Connect(wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
-	Connect(ID_THEMES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnDiceTheme));
 	//END connecting the menu items' events
 
 	Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
@@ -554,20 +561,6 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 }
 
 /**
- * Shows the dice theme selection dialog. This event-handler is connected to
- * Game->Dice Theme menu item.
- * \param event 
- */
-void MainFrame::OnDiceTheme( wxCommandEvent& event)
-{
-	DiceThemeDialog *dialog = new DiceThemeDialog(this,wxID_ANY);
-
-	if(dialog->ShowModal()!=wxID_OK)
-		return;
-
-}
-
-/**
  * Event handler for the Roll button. It checks the settings if it should
  * animate the dice and then rolls them accordingly. It also checks for the
  * status of the "keep" checkboxes.
@@ -608,7 +601,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 					dice[i] = (int)(6.0*rand()/RAND_MAX)+1;
 					((wxDynamicBitmap*) FindWindow(i + 
 						ID_DICE1)) -> SetBitmap(
-						m_dice_graphics.GetDice(dice[i]));
+						bitmap_dice[dice[i]-1]);
 				}
 			}
 			::wxMilliSleep(100);
@@ -618,7 +611,7 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
 				dice[i] = (int)(6.0*rand()/RAND_MAX)+1;
 				((wxDynamicBitmap*) FindWindow(i + ID_DICE1))->
-					SetBitmap(m_dice_graphics.GetDice(dice[i]));
+					SetBitmap(bitmap_dice[dice[i]-1]);
 			}
 		}
 	}

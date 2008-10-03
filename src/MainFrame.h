@@ -25,7 +25,6 @@
 */
 
 #include "ScoreDice.h"
-#include "dice_graphics.h"
 #include "configuration.h"
 #ifndef MAINFRAME_INC
 #define MAINFRAME_INC
@@ -51,7 +50,6 @@ public:
 	void OnUndo (wxCommandEvent& event);
 	void OnShowHighscore (wxCommandEvent& event);
 	void OnSettings (wxCommandEvent& event);
-	void OnDiceTheme( wxCommandEvent& event);
 	void OnCheckForUpdates (wxCommandEvent& event);
 	void OnSendComment (wxCommandEvent& event);
 
@@ -95,8 +93,7 @@ private:
 	wxBoxSizer *sectionsSizer;
 
 	//pointers to hold bitmap data for the dices
-	wxBitmap *bitmap_dices[6];
-	DiceGraphics m_dice_graphics;
+	wxBitmap *bitmap_dice[6];
 
 	short int m_rolls;	//holds how many rolls left
 	short int m_numofplaysleft; //holds how many times the user got to score untill the end of the game

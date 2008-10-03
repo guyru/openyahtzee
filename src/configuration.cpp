@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <cstdlib> // used in the back-compatibility code
+#include <sstream>
 #include "configuration.h"
 #include "../config.h"
 
@@ -102,6 +103,10 @@ void Configuration::parseHighscores(ifstream *file)
 	int score;
 	string date,hour,name;
 	HighscoreItem temp_item;
+
+	temp_chr = file->get();
+	file->unget();
+
 	while(file->good()) {
 		temp_chr = file->get();
 		file->unget();
@@ -322,6 +327,7 @@ int Configuration::submitHighscore(int score, string name, string date) {
 	if (place>highscore_list_size) {
 		return 0;
 	}
+	save();
 	return place;
 }
 
@@ -329,4 +335,24 @@ const HighscoresList* Configuration::getHighscores() const
 {
 	const HighscoresList * ptr = &m_highscores;
 	return ptr;
+}
+
+void Configuration::clearHighscores()
+{
+	m_highscores.clear();
+	save();
+}
+
+void Configuration::setHighscoresSize(int size)
+{
+
+	std::ostringstream o;
+	o << size;
+	m_settings["highscore-list-size"] = o.str();
+
+	while (m_highscores.size()>size) {
+		m_highscores.pop_back();
+	}
+
+	save();
 }

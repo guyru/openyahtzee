@@ -74,6 +74,10 @@ public:
 	int submitHighscore(int score, std::string name, std::string date);
 
 	const HighscoresList* getHighscores() const;
+
+	void clearHighscores();
+
+	void setHighscoresSize(int size);
 private:
 	/**
 	 * Imports old style configuration from sqllite database.

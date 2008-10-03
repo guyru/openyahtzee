@@ -540,6 +540,7 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 	settings_dialog::SettingsDialog* settings_dialog = new settings_dialog::SettingsDialog(this, m_config);
 
 	if (settings_dialog->ShowModal()!=wxID_OK) {
+		delete settings_dialog;
 		return;
 	}
 
@@ -1016,7 +1017,7 @@ void MainFrame::HighScoreHandler(int score)
 	wxDateTime now = wxDateTime::Now();
 	date = now.FormatDate().mb_str();
 	date += " ";
-	date += now.FormatISOTime().SubString(0,5).mb_str();
+	date += now.FormatISOTime().SubString(0,4).mb_str();
 
 	int rank = m_config->submitHighscore(score, name, date);
 

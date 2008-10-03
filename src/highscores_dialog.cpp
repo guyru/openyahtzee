@@ -67,6 +67,7 @@ void HighscoresDialog::createControls()
 
 void HighscoresDialog::loadData()
 {
+	highscoreslist->DeleteAllItems();
 	const configuration::HighscoresList *list = m_config->getHighscores();
 
 	configuration::HighscoresList::const_iterator it;
@@ -109,29 +110,93 @@ void HighscoresDialog::doLayout()
 	
 	top_sizer->Add(highscoreslist, 1, wxALL, 10); 
 
-	top_sizer->Add(
-		new wxButton(this,wxID_CLOSE),
-		0, //no streching
-		wxALL, //we want border around everything
-		10);
+	wxBoxSizer *button_sizer = new wxBoxSizer( wxHORIZONTAL );
+
+	wxSizerFlags flags = wxSizerFlags().Border(wxALL & ~wxLEFT, 10);
+
+	button_sizer->AddStretchSpacer();
+	button_sizer->Add(new wxButton(this,wxID_CLEAR),flags);
+	button_sizer->Add(new wxButton(this,ID_CONFIGURE,wxT("Configure")),flags);
+	button_sizer->Add( new wxButton(this,wxID_CLOSE), flags);
+
+	top_sizer->Add(button_sizer,0,wxEXPAND);
 	
-	SetAutoLayout(true);
 	SetSizer(top_sizer);
-
-	top_sizer->Fit(this);
 	top_sizer->SetSizeHints(this);
-
-	Layout();
 }
 
 
 void HighscoresDialog::connectEventTable()
 {
 	Connect(wxID_CLOSE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HighscoresDialog::onClose));
-}
 
+	Connect(wxID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HighscoresDialog::onClear));
+	Connect(ID_CONFIGURE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HighscoresDialog::onConfigure));
+}
 void HighscoresDialog::onClose(wxCommandEvent& event)
 {
 	Close();
 }
 
+void HighscoresDialog::onConfigure(wxCommandEvent& event)
+{
+	HighscoresSettingsDialog *dialog = new HighscoresSettingsDialog(this, m_config);
+	
+	if (dialog->ShowModal() == wxID_OK) {
+		loadData();
+	}
+
+	delete dialog;
+}
+
+void HighscoresDialog::onClear(wxCommandEvent& event)
+{
+	int answer = wxMessageBox(
+		wxT("Are you sure you want to clear the Highscores table?\nThis action cannot be reversed."),
+		wxT("Are You Sure?"),
+		wxYES | wxNO,
+		this);
+	
+	if (answer == wxYES) {
+		m_config->clearHighscores();
+		loadData();
+	}
+}
+
+
+HighscoresSettingsDialog::HighscoresSettingsDialog(wxWindow* parent, configuration::Configuration* config) :
+	wxDialog(parent, wxID_ANY, wxT("Highscores Table Settings"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
+{
+	this->m_config = config;
+	doLayout();
+
+	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HighscoresSettingsDialog::onOk));
+}
+
+void HighscoresSettingsDialog::doLayout()
+{
+	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
+
+	wxBoxSizer* size_sizer = new wxBoxSizer(wxHORIZONTAL);
+
+	size_sizer->Add(new wxStaticText(this, wxID_ANY, wxT("High score table size:")), wxSizerFlags().Border(wxALL,10));
+	
+	int size = atoi(m_config->get("highscore-list-size").c_str());
+	spin_ctrl = new wxSpinCtrl(this, wxID_ANY);
+	spin_ctrl->SetRange(10,200);
+	spin_ctrl->SetValue(size);
+
+	size_sizer->Add(spin_ctrl,wxSizerFlags().Border(wxALL & ~wxLEFT,10));
+
+	top_sizer->Add(size_sizer);
+	top_sizer->Add(CreateButtonSizer(wxOK|wxCANCEL), 1, wxBOTTOM, 10);
+
+	SetSizer(top_sizer);
+	top_sizer->SetSizeHints(this);
+}
+
+void HighscoresSettingsDialog::onOk(wxCommandEvent& event) {
+	int size = spin_ctrl->GetValue();
+	m_config->setHighscoresSize(size);
+	event.Skip();
+}

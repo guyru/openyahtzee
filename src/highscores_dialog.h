@@ -24,6 +24,7 @@
 #include <wx/wx.h>
 #include <wx/dialog.h>
 #include <wx/listctrl.h>
+#include <wx/spinctrl.h>
 
 namespace highscores_dialog {
 
@@ -33,6 +34,8 @@ public:
 	HighscoresDialog(wxWindow* parent,configuration::Configuration* config, int highlight_rank = 0);
 
 	void onClose(wxCommandEvent& event);	
+	void onClear(wxCommandEvent& event);	
+	void onConfigure(wxCommandEvent& event);	
 private:
 	void createControls();
 	void loadData( );
@@ -43,6 +46,25 @@ private:
 	configuration::Configuration* m_config;
 
 	wxListCtrl *highscoreslist;
+};
+
+
+class HighscoresSettingsDialog : public wxDialog
+{
+public:
+	HighscoresSettingsDialog(wxWindow* parent, configuration::Configuration* config);
+
+	void onOk(wxCommandEvent& event);
+private:
+	void doLayout();
+	wxSpinCtrl *spin_ctrl;
+
+	configuration::Configuration* m_config;
+};
+
+
+enum {
+	ID_CONFIGURE,
 };
 
 }

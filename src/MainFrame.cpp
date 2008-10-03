@@ -1012,6 +1012,7 @@ void MainFrame::HighScoreHandler(int score)
 	infodialog.ShowModal();
 
 	name = infodialog.GetValue().mb_str();
+	m_config->set("last-name",name)->save();
 
 	//get the date
 	wxDateTime now = wxDateTime::Now();

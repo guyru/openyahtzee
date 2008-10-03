@@ -13,7 +13,6 @@ openyahtzee_SOURCES = \
 	settings_dialog.cpp \
 	settings_dialog.h \
 	ScoreDice.cpp \
-	UtilityFunctions.cpp \
 	wxDynamicBitmap.cpp \
 	one.xpm \
 	two.xpm \
@@ -35,7 +34,6 @@ noinst_HEADERS = \
 	MainFrame.h \
 	ObjectsID.h \
 	ScoreDice.h \
-	UtilityFunctions.h \
 	wxDynamicBitmap.h
 
 AM_CXXFLAGS = `wx-config --cxxflags`

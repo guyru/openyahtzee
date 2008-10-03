@@ -18,7 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <iostream>
 #include <cstdlib> // used in the back-compatibility code
 #include <sstream>
 #include "configuration.h"
@@ -36,19 +35,19 @@ void Configuration::load(string file)
 {
 	m_file = file;
 
-	cerr<<"loading file: "<<file<<endl;
 	ifstream conf_file (file.c_str());
 	if (!conf_file.is_open()) {
 		// file couldn't be opened, this is due to missing file or
 		// permission error.
-		cerr<<"Error openning configuration file for reading: "<<m_file<<endl;
+		loadDefaultSettings();
+		save();
+		return;
 	}
 	
 	// the file was opened successfully. we need to check if it is an
 	// Open Yahtzee configuration file.
 	string header;
 	getline(conf_file,header);
-	cerr<<"line: "<<header.substr(0,11)<<endl;
 	if (header.substr(0,11) != "openyahtzee") {
 		// this is probably an old sqllite file import it.
 		conf_file.close();
@@ -58,7 +57,6 @@ void Configuration::load(string file)
 	
 	while(!conf_file.eof()) {
 		getline(conf_file,header);
-		cerr<<"line: "<<header<<endl;
 		if (header == "[settings]") {
 			parseSettings(&conf_file);
 		} else if (header == "[highscores]") {
@@ -72,7 +70,6 @@ void Configuration::load(string file)
 void Configuration::parseSettings(ifstream *file)
 {
 	loadDefaultSettings();
-	cerr<<"parsing settings"<<endl;
 	string temp_line;
 	size_t pos; // used to loacate the '=' sign
 
@@ -90,8 +87,6 @@ void Configuration::parseSettings(ifstream *file)
 			 */
 			return;
 		}
-		cerr<<"key: "<<temp_line.substr(0,pos)<<endl;
-		cerr<<"value: "<<temp_line.substr(pos+1)<<endl;
 		m_settings[temp_line.substr(0,pos)] = temp_line.substr(pos+1);
 	}
 }
@@ -123,7 +118,6 @@ void Configuration::parseHighscores(ifstream *file)
 		temp_item.name = name;
 		temp_item.date = date+" "+hour;
 		m_highscores.push_back(temp_item);
-		cerr<<score<<" "<<name<<" "<<temp_item.date<<endl;
 
 		// The following two lines read one character forword and
 		// return it. This is done in order to raise the eofbit if
@@ -138,9 +132,8 @@ void Configuration::save()
 {
 	ofstream conf_file (m_file.c_str());
 	if (!conf_file.is_open()) {
-		// file couldn't be opened, this is due to missing file or
-		// permission error.
-		cerr<<"Error openning configuration file for writing: "<<m_file<<endl;
+		// file couldn't be opened, probably due to permission error
+		return;
 	}
 	conf_file<<"openyahtzee="<<VERSION<<endl;
 

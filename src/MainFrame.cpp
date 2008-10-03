@@ -32,9 +32,9 @@
 #include "ObjectsID.h"
 #include "highscores_dialog.h"
 #include "About.h"
-#include "UtilityFunctions.h"
 #include "configuration.h"
 #include "settings_dialog.h"
+#include "../config.h"
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -67,10 +67,6 @@
 	#define VERTICAL_ROLL_SIZEY 64
 #endif
 #define VER_DICE_SPACER 10
-
-//default values - settings
-#define DEF_HIGHSCORESIZE 20
-#define OY_VERSION "1.8.0"
 
 const wxEventType wxEVT_ENABLE_ROLL = wxNewEventType();
 
@@ -412,7 +408,7 @@ void MainFrame::OnCheckForUpdates (wxCommandEvent& event)
 	
 	wxString link = wxT("http://openyahtzee.sourceforge.net/download/check-for-updates/");
 	
-	link += wxT(OY_VERSION);
+	link += wxT(VERSION);
 
 	wxLaunchDefaultBrowser(link);
 }
@@ -1331,4 +1327,8 @@ MainFrame::~MainFrame() {
 	// free pointers
 	delete m_config;
 	delete m_evt_handler;
+
+	for (int i = 0; i<6; i++) {
+		delete bitmap_dice[i];
+	}
 }

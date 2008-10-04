@@ -32,8 +32,8 @@ wxDynamicBitmap::wxDynamicBitmap(wxWindow* parent, wxWindowID id, wxBitmap *bitm
 	wxControl::Create(parent,id,pos,size,style,wxDefaultValidator,name);
 	Connect(id, wxEVT_PAINT, wxPaintEventHandler(wxDynamicBitmap::OnPaint));
 	Connect(id, wxEVT_LEFT_UP,wxMouseEventHandler(wxDynamicBitmap::OnClick));
-	SetBitmap( bitmap);
 	m_grayscale=false;
+	SetBitmap( bitmap);
 	
 }
 

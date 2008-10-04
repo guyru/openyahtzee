@@ -8,6 +8,7 @@ m4_include(macros/wxwin.m4)
 
 dnl AC_LANG_CPLUSPLUS
 AC_PROG_CXX
+AC_PROG_CC # this is only needed for the SQLite support
 dnl AM_PROG_LIBTOOL
 
 AM_OPTIONS_WXCONFIG

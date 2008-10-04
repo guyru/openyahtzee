@@ -30,7 +30,7 @@ the DBwrapper class is a c++ wrapper for databases. It is designed
 to allow to access different kinds of data bases seamlessly
 */
 
-#include <sqlite3.h>
+#include "sqlite/sqlite3.h"
 #include <string>
 #include <list>
 

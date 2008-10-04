@@ -19,7 +19,9 @@ openyahtzee_SOURCES = \
 	three.xpm \
 	four.xpm \
 	five.xpm \
-	six.xpm 
+	six.xpm \
+	sqlite/sqlite3.c \
+	sqlite/sqlite3.h
 
 # set the include path found by configure
 AM_CPPFLAGS = $(all_includes)
@@ -37,5 +39,4 @@ noinst_HEADERS = \
 	wxDynamicBitmap.h
 
 AM_CXXFLAGS = `wx-config --cxxflags`
-openyahtzee_LDADD = -lsqlite3
 openyahtzee_LDFLAGS = `wx-config --libs`

@@ -44,7 +44,7 @@ HighscoresDialog::HighscoresDialog(wxWindow* parent,configuration::Configuration
 
 void HighscoresDialog::createControls()
 {
-	highscoreslist = new wxListCtrl(this,wxID_ANY,wxDefaultPosition,wxSize(400,400),wxLC_REPORT | wxBORDER_SUNKEN );
+	highscoreslist = new wxListCtrl(this,wxID_ANY,wxDefaultPosition,wxSize(450,400),wxLC_REPORT | wxBORDER_SUNKEN );
 
 	wxListItem itemCol;
 
@@ -63,6 +63,11 @@ void HighscoresDialog::createControls()
 	itemCol.SetText(wxT("Date"));
 	itemCol.SetImage(-1);
 	highscoreslist->InsertColumn(3, itemCol);
+
+	highscoreslist->SetColumnWidth(0, 50 );
+	highscoreslist->SetColumnWidth(1, 195 );
+	highscoreslist->SetColumnWidth(2, 60 );
+	highscoreslist->SetColumnWidth(3, 140 );
 }
 
 void HighscoresDialog::loadData()
@@ -97,11 +102,6 @@ void HighscoresDialog::loadData()
 	if (highlight_rank) {
 		highscoreslist->SetItemTextColour(highlight_rank-1,*wxRED);
 	}
-
-	highscoreslist->SetColumnWidth(0, wxLIST_AUTOSIZE_USEHEADER );
-	highscoreslist->SetColumnWidth(1, wxLIST_AUTOSIZE );
-	highscoreslist->SetColumnWidth(2, wxLIST_AUTOSIZE_USEHEADER );
-	highscoreslist->SetColumnWidth(3, wxLIST_AUTOSIZE );
 }
 
 void HighscoresDialog::doLayout()

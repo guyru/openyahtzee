@@ -142,20 +142,17 @@ void MainFrame::AddMenus()
 	
 	
 	//insert menu items into menu Help
-	helpMenu->Append(ID_CHECK_FOR_UPDATES, wxT("&Check for Updates"),
-			wxT("Check for new version of the game via the web"));
+	helpMenu->Append(ID_CHECK_FOR_UPDATES, wxT("&Check for Updates"));
 	helpMenu->AppendSeparator();
-	helpMenu->Append(ID_SENDCOMMENT, wxT("&Send a Comment to Developers"),
-			wxT("Send a comment to the developers of the game"));
+	helpMenu->Append(ID_SENDCOMMENT, wxT("&Send a Comment to Developers"));
 	helpMenu->AppendSeparator();
-	helpMenu->Append(wxID_ABOUT, wxT("&About...\tF1"),
-			wxT("Show about dialog"));
+	helpMenu->Append(wxID_ABOUT, wxT("&About...\tF1"));
 
 	//insert menu items into menu Game
-	gameMenu->Append(wxID_NEW,wxT("&New Game\tF2"),wxT("Start a new game"));
-	gameMenu->Append(wxID_UNDO,wxT("&Undo\tCTRL+Z"),wxT("Undo the last move"));
-	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("High &Scores"),wxT("Show high-scores table"));
-	gameMenu->Append(ID_SETTINGS,wxT("Settings"),wxT("Show settings dialog"));
+	gameMenu->Append(wxID_NEW,wxT("&New Game\tF2"));
+	gameMenu->Append(wxID_UNDO,wxT("&Undo\tCtrl+Z"));
+	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("Show Highscores\tCtrl+H"));
+	gameMenu->Append(ID_SETTINGS,wxT("Settings"));
 	gameMenu->Append(wxID_EXIT);
 	
 	// Declare the menu-bar and append the freshly created menus to the menu bar...

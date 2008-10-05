@@ -42,10 +42,8 @@ void SettingsDialog::createControls()
 	// note that child windows are automatically deleted by wxWidgets, so
 	// need to delete them manually
 	animate_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Dice animation"));
-	subtotal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Calculate "
-		"sub-total score for the upper and lower sections"));
-	score_hints_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Display "
-		"score hints."));
+	subtotal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Calculate sub-total score for the upper and lower sections"));
+	score_hints_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Display score hints."));
 	horizontal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Enable horizontal layout for user interface."));
 }
 

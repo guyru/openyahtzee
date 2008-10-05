@@ -1,6 +1,7 @@
 bin_PROGRAMS = openyahtzee
 openyahtzee_SOURCES = \
 	About.cpp \
+	../config.h \
 	configuration.cpp \
 	configuration.h \
 	DBwrapper.cpp \
@@ -36,7 +37,9 @@ noinst_HEADERS = \
 	MainFrame.h \
 	ObjectsID.h \
 	ScoreDice.h \
-	wxDynamicBitmap.h
+	wxDynamicBitmap.h \
+	../openyahtzee.vcproj \
+	../openyahtzee.sln
 
 AM_CXXFLAGS = `wx-config --cxxflags`
 openyahtzee_LDFLAGS = `wx-config --libs`

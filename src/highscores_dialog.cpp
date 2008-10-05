@@ -86,7 +86,7 @@ void HighscoresDialog::loadData()
 		highscoreslist->InsertItem(i,buf,-1);
 
 		// name
-		buf = wxString(it->name.c_str(),wxConvUTF8);
+		buf = wxString::FromUTF8(it->name.c_str());
 		highscoreslist->SetItem(i,1,buf);
 
 		// score
@@ -95,7 +95,7 @@ void HighscoresDialog::loadData()
 		highscoreslist->SetItem(i,2,buf);
 
 		// date
-		buf = wxString(it->date.c_str(),wxConvUTF8);
+		buf = wxString::FromUTF8(it->date.c_str());
 		highscoreslist->SetItem(i,3,buf);
 	}
 

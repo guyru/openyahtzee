@@ -87,7 +87,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 
 	
 	std::string config_file;
-	config_file = (home_path.mb_str());
+	config_file = (home_path.utf8_str());
 	#ifndef PORTABLE
 		config_file += "/.openyahtzee.new";
 	#else
@@ -997,14 +997,14 @@ void MainFrame::HighScoreHandler(int score)
 	wxTextEntryDialog infodialog(this,msg,wxT("Please enter your name"),last_name ,wxOK | wxCENTRE);
 	infodialog.ShowModal();
 
-	name = infodialog.GetValue().mb_str();
+	name = infodialog.GetValue().utf8_str();
 	m_config->set("last-name",name)->save();
 
 	//get the date
 	wxDateTime now = wxDateTime::Now();
-	date = now.FormatDate().mb_str();
+	date = now.FormatDate().utf8_str();
 	date += " ";
-	date += now.FormatISOTime().SubString(0,4).mb_str();
+	date += now.FormatISOTime().SubString(0,4).utf8_str();
 
 	int rank = m_config->submitHighscore(score, name, date);
 

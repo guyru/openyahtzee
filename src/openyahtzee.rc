@@ -1,0 +1,3 @@
+wxicon icon openyahtzee.ico
+
+#include "wx/msw/wx.rc"

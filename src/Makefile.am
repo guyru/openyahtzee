@@ -8,8 +8,8 @@ openyahtzee_SOURCES = \
 	MainFrame.cpp \
 	highscores_dialog.cpp \
 	highscores_dialog.h \
-	icon.xpm \
 	icon32.xpm \
+	icon64.xpm \
 	openyahtzee.cpp \
 	settings_dialog.cpp \
 	settings_dialog.h \
@@ -32,14 +32,15 @@ AM_CPPFLAGS = $(all_includes)
 noinst_HEADERS = \
 	About.h \
 	DBwrapper.h \
-	Icon.h \
-	icon32.ico \
+	openyahtzee.ico \
 	MainFrame.h \
 	ObjectsID.h \
 	ScoreDice.h \
 	wxDynamicBitmap.h \
 	../openyahtzee.vcproj \
-	../openyahtzee.sln
+	../openyahtzee.sln \
+	openyahtzee.ico \
+	openyahtzee.rc
 
 AM_CXXFLAGS = `wx-config --cxxflags`
 openyahtzee_LDFLAGS = `wx-config --libs`

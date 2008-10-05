@@ -51,8 +51,7 @@
  #include "six.xpm"
  } // namespace dice
 
-//include the icon file
-#include "Icon.h"
+#include "icon32.xpm"
 
 //default values - design
 #define SPACE_SIZE 1
@@ -74,7 +73,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
 {
 	//give the frame an icon
-	SetIcon(wxIcon(ICON));
+	SetIcon(wxIcon(icon32_xpm));
 
 	/* Check if there is configuration file under old-name and
 	 * rename it
@@ -673,8 +672,10 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 		}
 	
 		out.Printf(wxT("%i"),temp);
-		((wxTextCtrl*) FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT))->SetValue(out);
-		((wxTextCtrl*) FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT))->SetBackgroundColour(*wxWHITE);
+		wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT));
+		text_ctrl->SetValue(out);
+		text_ctrl->SetBackgroundColour(*wxWHITE);
+		text_ctrl->Refresh();
 		
 		PostScore(event.GetId());
 	}
@@ -696,8 +697,10 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 	wxString out;
 	
 	out.Printf(wxT("%i"),m_score_dice.ThreeOfAKind());
-	((wxTextCtrl*) FindWindow(ID_THREEOFAKINDTEXT))->SetValue(out);
-	((wxTextCtrl*) FindWindow(ID_THREEOFAKINDTEXT))->SetBackgroundColour(*wxWHITE);
+	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_THREEOFAKINDTEXT));
+	text_ctrl->SetValue(out);
+	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
 }
@@ -716,8 +719,10 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 	wxString out;
 
 	out.Printf(wxT("%i"),m_score_dice.FourOfAKind());
-	((wxTextCtrl*) FindWindow(ID_FOUROFAKINDTEXT))->SetValue(out);
-	((wxTextCtrl*) FindWindow(ID_FOUROFAKINDTEXT))->SetBackgroundColour(*wxWHITE);
+	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_FOUROFAKINDTEXT));
+	text_ctrl->SetValue(out);
+	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
 }
@@ -737,8 +742,10 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 	YahtzeeBonus();
 
 	out.Printf(wxT("%i"), m_score_dice.FullHouse());
-	((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetValue(out);
-	((wxTextCtrl*) FindWindow(ID_FULLHOUSETEXT))->SetBackgroundColour(*wxWHITE);
+	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_FULLHOUSETEXT));
+	text_ctrl->SetValue(out);
+	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
 }
@@ -759,8 +766,10 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 	YahtzeeBonus();
 	
 	out.Printf(wxT("%i"), m_score_dice.SmallSequence());
-	((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetValue(out);
-	((wxTextCtrl*) FindWindow(ID_SMALLSEQUENCETEXT))->SetBackgroundColour(*wxWHITE);
+	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_SMALLSEQUENCETEXT));
+	text_ctrl->SetValue(out);
+	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
 }
@@ -781,8 +790,11 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 	YahtzeeBonus();
 
 	out.Printf(wxT("%i"), m_score_dice.LargeSequence());
-	((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetValue(out);
-	((wxTextCtrl*) FindWindow(ID_LARGESEQUENCETEXT))->SetBackgroundColour(*wxWHITE);
+	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_LARGESEQUENCETEXT));
+	text_ctrl->SetValue(out);
+	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->Refresh();
+
 	
 	PostScore(event.GetId());
 }
@@ -802,8 +814,10 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 	
 	if (m_score_dice.IsYahtzee()) m_yahtzee = true;
 	out.Printf(wxT("%i"), m_score_dice.Yahtzee());
-	((wxTextCtrl*) FindWindow(ID_YAHTZEETEXT))->SetValue(out);
-	((wxTextCtrl*) FindWindow(ID_YAHTZEETEXT))->SetBackgroundColour(*wxWHITE);
+	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_YAHTZEETEXT));
+	text_ctrl->SetValue(out);
+	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->Refresh();
 
 	PostScore(event.GetId());
 }
@@ -820,9 +834,10 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 		YahtzeeBonus();
 	
 		out.Printf(wxT("%i"),m_score_dice.Chance());
-		((wxTextCtrl*) FindWindow(ID_CHANCETEXT))->SetValue(out);
-		((wxTextCtrl*) FindWindow(ID_CHANCETEXT))->SetBackgroundColour(*wxWHITE);
-		
+		wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_CHANCETEXT));
+		text_ctrl->SetValue(out);
+		text_ctrl->SetBackgroundColour(*wxWHITE);
+		text_ctrl->Refresh();
 		PostScore(event.GetId());
 	}
 	else 
@@ -980,7 +995,6 @@ void MainFrame::EndofGame()
  */
 void MainFrame::HighScoreHandler(int score)
 {
-	int place;
 	std::string name,date;
 	wxCommandEvent newevent;
 
@@ -989,8 +1003,7 @@ void MainFrame::HighScoreHandler(int score)
 		return;
 	}
 	
-	wxString msg;
-	msg.Printf(wxT("Your score made it to the high score table.\nPlease enter your name below:"),place);
+	wxString msg = wxT("Your score made it to the high score table.\nPlease enter your name below:");
 
 	wxString last_name = wxString::FromUTF8(m_config->get("last-name").c_str());
 

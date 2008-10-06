@@ -74,18 +74,18 @@ void Configuration::parseSettings(ifstream *file)
 	size_t pos; // used to loacate the '=' sign
 
 	while(!file->eof()) {
+		char temp_chr = file->get();
+		file->unget();
+		if (temp_chr == '[') { //new section started
+			// we already called unget
+			return;
+		}
 		getline(*file,temp_line);
 		pos = temp_line.find('=');
 		if (pos == string::npos) {
-			// this isn't a configuration line.
-			// set the get pointer of the file to the beginning
-			// of the line
-			file->seekg(-1-temp_line.length(),ios_base::cur);
-			/* I didn't use ifstream::gcount in the above line
-			 * because I used the getline from string.h and not
-			 * ifstream::getline
-			 */
-			return;
+			// this isn't a configuration line, but it isn't a new section
+			// as we checked this before, just skip
+			continue;
 		}
 		m_settings[temp_line.substr(0,pos)] = temp_line.substr(pos+1);
 	}
@@ -94,7 +94,6 @@ void Configuration::parseSettings(ifstream *file)
 void Configuration::parseHighscores(ifstream *file)
 {
 	char temp_chr;
-	size_t pos; // used to loacate the '=' sign
 	int score;
 	string date,hour,name;
 	HighscoreItem temp_item;

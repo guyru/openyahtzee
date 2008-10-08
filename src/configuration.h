@@ -77,7 +77,7 @@ public:
 
 	void clearHighscores();
 
-	void setHighscoresSize(int size);
+	void setHighscoresSize(size_t size);
 private:
 	/**
 	 * Imports old style configuration from sqllite database.

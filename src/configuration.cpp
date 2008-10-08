@@ -274,7 +274,7 @@ void Configuration::importHighscores()
 }
 
 bool Configuration::isHighscore(int score) {
-	const int highscore_list_size = atoi(m_settings["highscore-list-size"].c_str());
+	const unsigned int highscore_list_size = atoi(m_settings["highscore-list-size"].c_str());
 	if (m_highscores.size()<highscore_list_size) {
 		// we have extra room in the highscore list
 		return true;
@@ -289,8 +289,8 @@ bool Configuration::isHighscore(int score) {
 }
 
 int Configuration::submitHighscore(int score, string name, string date) {
-	const int highscore_list_size = atoi(m_settings["highscore-list-size"].c_str());
-	int place = 1;
+	const unsigned int highscore_list_size = atoi(m_settings["highscore-list-size"].c_str());
+	unsigned int place = 1;
 	HighscoreItem temp_item;
 
 	//create sentinel in end of list, we'll remove when we finish
@@ -335,7 +335,7 @@ void Configuration::clearHighscores()
 	save();
 }
 
-void Configuration::setHighscoresSize(int size)
+void Configuration::setHighscoresSize(size_t size)
 {
 
 	std::ostringstream o;

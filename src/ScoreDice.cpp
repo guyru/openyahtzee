@@ -140,7 +140,6 @@ short int ScoreDice::Sixes() const
 short int ScoreDice::ThreeOfAKind() const
 {
 	bool three = false;
-	short int temp = 0;
 	
 	for (int i=0; i<6; i++)
 		if (m_dicehash[i] >= 3)
@@ -157,7 +156,6 @@ short int ScoreDice::ThreeOfAKind() const
 short int ScoreDice::FourOfAKind() const
 {
 	bool four = false;
-	short int temp = 0;
 	
 	for (int i=0; i<6; i++)
 		if (m_dicehash[i] >= 4)

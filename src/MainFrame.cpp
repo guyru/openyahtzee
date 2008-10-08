@@ -829,7 +829,6 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 void MainFrame::OnChanceButton (wxCommandEvent& event)
 {
 	wxString out;
-	int temp = 0;
 	if(m_rolls < 3){
 		YahtzeeBonus();
 	

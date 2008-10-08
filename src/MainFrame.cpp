@@ -40,6 +40,7 @@
 #include <cstdlib>
 #include <wx/version.h>
 #include <wx/filename.h>
+#include <wx/stdpaths.h>
 
  //include the images for the dice 	 
  namespace dice {
@@ -75,25 +76,21 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	//give the frame an icon
 	SetIcon(wxIcon(icon32_xpm));
 
-	/* Check if there is configuration file under old-name and
-	 * rename it
-	 */
-	wxString home_path = wxFileName::GetHomeDir();
-	if (wxFileExists(home_path+wxT("/.OpenYahtzee"))) {
-		// we don't won't to overwrite newer files.
-		wxRenameFile(home_path+wxT("/.OpenYahtzee"),home_path+wxT("/.openyahtzee"),false);
-	}
-
-	
-	std::string config_file;
-	config_file = (home_path.utf8_str());
 	#ifndef PORTABLE
-		config_file += "/.openyahtzee.new";
+		wxString config_file = wxStandardPaths::Get().GetUserConfigDir() + wxT("/.openyahtzee");
+		wxString old_config_file = wxFileName::GetHomeDir() + wxT("/.OpenYahtzee");
+		//rename old configuration file
+		if (wxFileExists(old_config_file)) {
+			wxRenameFile(old_config_file,config_file,false);
+		}
 	#else
-		config_file += "/openyahtzee.dat";
+		wxString config_file = wxStandardPaths::Get().GetExecutablePath() + wxT("/openyahtzee.dat");
 	#endif
 
-	m_config = new configuration::Configuration(config_file);
+	
+	std::string config_file_str;
+	config_file_str = config_file.utf8_str();
+	m_config = new configuration::Configuration(config_file_str);
 
 	m_evt_handler = new MainFrameEvtHandler(this);
 	

@@ -134,15 +134,14 @@ void MainFrame::AddMenus()
 {
 	/*Create the menus*/
 	wxMenu *gameMenu = new wxMenu;	//create Game menu
-	wxMenu *helpMenu = new wxMenu;	//create Help menu
+	wxMenu *help_menu = new wxMenu;	//create Help menu
 	
 	
 	//insert menu items into menu Help
-	helpMenu->Append(ID_CHECK_FOR_UPDATES, wxT("&Check for Updates"));
-	helpMenu->AppendSeparator();
-	helpMenu->Append(ID_SENDCOMMENT, wxT("&Send a Comment to Developers"));
-	helpMenu->AppendSeparator();
-	helpMenu->Append(wxID_ABOUT, wxT("&About...\tF1"));
+	help_menu->Append(ID_HOWTOPLAY, wxT("How to Play\tF1"));
+	help_menu->Append(ID_FAQ, wxT("Frequently Asked Questions"));
+	help_menu->Append(ID_SENDCOMMENT, wxT("&Send Feedback"));
+	help_menu->Append(wxID_ABOUT);
 
 	//insert menu items into menu Game
 	gameMenu->Append(wxID_NEW,wxT("&New Game\tF2"));
@@ -154,7 +153,7 @@ void MainFrame::AddMenus()
 	// Declare the menu-bar and append the freshly created menus to the menu bar...
 	wxMenuBar *menuBar = new wxMenuBar();
 	menuBar->Append(gameMenu, wxT("&Game"));
-	menuBar->Append(helpMenu, wxT("&Help"));
+	menuBar->Append(help_menu, wxT("&Help"));
 	
 	// ... and attach this menu bar to the frame
 	SetMenuBar(menuBar);
@@ -339,7 +338,8 @@ void MainFrame::ConnectEventTable()
 	//BEGIN connecting the menu items' events
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnQuit));
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnAbout));
-	Connect(ID_CHECK_FOR_UPDATES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnCheckForUpdates));
+	Connect(ID_HOWTOPLAY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnHelpMenuLink));
+	Connect(ID_FAQ, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnHelpMenuLink));
 	Connect(ID_SENDCOMMENT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSendComment));
 	Connect(wxID_NEW, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
 	Connect(wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
@@ -391,18 +391,18 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 	about->ShowModal();
 }
 
-/**
- * Connects to the Open Yahtzee website on sourceforge.net and checks for 
- * updates to the game.
- * \param event 
- */
-void MainFrame::OnCheckForUpdates (wxCommandEvent& event)
+void MainFrame::OnHelpMenuLink (wxCommandEvent& event)
 {
+	wxString link;
+	switch (event.GetId()) {
+	case ID_HOWTOPLAY:
+		link = wxT("http://www.openyahtzee.org/wiki/HowToPlay");
+		break;
+	case ID_FAQ:
+		link = wxT("http://www.openyahtzee.org/wiki/FAQ");
+		break;
+	}
 	
-	wxString link = wxT("http://openyahtzee.sourceforge.net/download/check-for-updates/");
-	
-	link += wxT(VERSION);
-
 	wxLaunchDefaultBrowser(link);
 }
 
@@ -414,7 +414,7 @@ void MainFrame::OnCheckForUpdates (wxCommandEvent& event)
  */
 void MainFrame::OnSendComment (wxCommandEvent& event)
 {
-	wxString link = wxT("http://openyahtzee.sourceforge.net/feedback/");
+	wxString link = wxT("http://www.guyrutenberg.com/contact-me");
 	
 	wxLaunchDefaultBrowser(link);
 }

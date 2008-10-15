@@ -34,7 +34,6 @@ noinst_HEADERS = \
 	DBwrapper.h \
 	openyahtzee.ico \
 	MainFrame.h \
-	ObjectsID.h \
 	ScoreDice.h \
 	wxDynamicBitmap.h \
 	../openyahtzee.vcproj \

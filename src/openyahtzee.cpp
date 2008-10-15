@@ -61,7 +61,7 @@ bool MyApp::OnInit()
 	::wxInitAllImageHandlers();
 
 	// Create the main application window
-	MainFrame *frame = new MainFrame(wxT("Open Yahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE & (~wxRESIZE_BORDER));
+	main_frame::MainFrame *frame = new main_frame::MainFrame(wxT("Open Yahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE & (~wxRESIZE_BORDER));
 	
 	//Show it
 	frame->Show(true);	

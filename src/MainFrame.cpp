@@ -29,7 +29,6 @@
 
 #include "MainFrame.h"
 #include "wxDynamicBitmap.h"
-#include "ObjectsID.h"
 #include "highscores_dialog.h"
 #include "About.h"
 #include "configuration.h"
@@ -68,6 +67,7 @@
 #endif
 #define VER_DICE_SPACER 10
 
+using namespace main_frame;
 const wxEventType wxEVT_ENABLE_ROLL = wxNewEventType();
 
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)

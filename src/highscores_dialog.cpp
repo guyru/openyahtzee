@@ -28,8 +28,10 @@
 using namespace std;
 using namespace highscores_dialog;
 
+const int HIGHSCORELIST_BORDER = 10;
+
 HighscoresDialog::HighscoresDialog(wxWindow* parent,configuration::Configuration* config, int highlight_rank) :
-	wxDialog(parent, wxID_ANY, wxT("Highscores Table"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
+	wxDialog(parent, wxID_ANY, wxT("Highscores Table"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 	this->highlight_rank = highlight_rank;
 	m_config = config;
@@ -108,7 +110,7 @@ void HighscoresDialog::doLayout()
 {
 	wxBoxSizer *top_sizer = new wxBoxSizer( wxVERTICAL );
 	
-	top_sizer->Add(highscoreslist, 1, wxALL, 10); 
+	top_sizer->Add(highscoreslist, 1, wxEXPAND | wxALL, HIGHSCORELIST_BORDER); 
 
 	wxBoxSizer *button_sizer = new wxBoxSizer( wxHORIZONTAL );
 
@@ -132,6 +134,7 @@ void HighscoresDialog::connectEventTable()
 
 	Connect(wxID_CLEAR, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HighscoresDialog::onClear));
 	Connect(ID_CONFIGURE, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HighscoresDialog::onConfigure));
+	Connect(this->GetId(), wxEVT_SIZE, wxSizeEventHandler(HighscoresDialog::onResize));
 }
 void HighscoresDialog::onClose(wxCommandEvent& event)
 {
@@ -198,5 +201,17 @@ void HighscoresSettingsDialog::doLayout()
 void HighscoresSettingsDialog::onOk(wxCommandEvent& event) {
 	int size = spin_ctrl->GetValue();
 	m_config->setHighscoresSize(size);
+	event.Skip();
+}
+
+void HighscoresDialog::onResize(wxSizeEvent &event) {
+
+	const int width = event.GetSize().GetWidth();
+	const int rank_width = highscoreslist->GetColumnWidth(0);
+	const int score_width = highscoreslist->GetColumnWidth(2);
+	const int date_width = highscoreslist->GetColumnWidth(3);
+	const int new_width = width - 2*HIGHSCORELIST_BORDER - rank_width - score_width - date_width;
+	
+	highscoreslist->SetColumnWidth(1,new_width);
 	event.Skip();
 }

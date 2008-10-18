@@ -36,6 +36,7 @@ public:
 	void onClose(wxCommandEvent& event);	
 	void onClear(wxCommandEvent& event);	
 	void onConfigure(wxCommandEvent& event);	
+	void onResize(wxSizeEvent& event);
 private:
 	void createControls();
 	void loadData( );

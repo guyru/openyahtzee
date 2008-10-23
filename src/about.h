@@ -23,7 +23,6 @@
 
 #include <wx/wx.h>
 #include <wx/image.h>
-#include "wxDynamicBitmap.h"
 
 #include <wx/notebook.h>
 
@@ -31,27 +30,14 @@ namespace about {
 
 class AboutDialog: public wxDialog {
 public:
-    AboutDialog(wxWindow* parent);
+	AboutDialog(wxWindow* parent);
 
 private:
-    void set_properties();
-    void do_layout();
-
-protected:
-    wxDynamicBitmap* bitmap_1;
-    wxStaticText* app_label;
-    wxStaticText* label_desc;
-    wxStaticText* label_copyright;
-    wxStaticText* label_1;
-    wxPanel* notebook_main_pane_about;
-    wxStaticText* label_7;
-    wxScrolledWindow* notebook_main_pane_authors;
-    wxStaticText* label_6;
-    wxScrolledWindow* notebook_main_pane_thanks;
-    wxStaticText* label_15;
-    wxScrolledWindow* notebook_main_pane_license;
-    wxNotebook* notebook_main;
-    wxButton* close_button;
+	void addControlsAndLayout();
+	void notebookAboutTab(wxNotebook *notebook);
+	void notebookAuthorTab(wxNotebook *notebook);
+	void notebookThanksTab(wxNotebook *notebook);
+	void notebookLicenseTab(wxNotebook *notebook);
 };
 
 static const wxString OY_URL = wxT("http://www.openyahtzee.org/");

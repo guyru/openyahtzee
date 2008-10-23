@@ -43,14 +43,14 @@
 #include <wx/mstream.h>
 
  //include the images for the dice 	 
- namespace dice {
- #include "one.xpm"
- #include "two.xpm"
- #include "three.xpm"
- #include "four.xpm"
- #include "five.xpm"
- #include "six.xpm"
- } // namespace dice
+namespace dice {
+#include "one.xpm"
+#include "two.xpm"
+#include "three.xpm"
+#include "four.xpm"
+#include "five.xpm"
+#include "six.xpm"
+} // namespace dice
 
 #include "icon32.xpm"
 
@@ -125,7 +125,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	m_yahtzee = false;
 	m_yahtzeebonus = false;
 	m_numofplaysleft = 13;
-
+	m_skiproll = false; // the roll button hasn't been pressed yet, no need for skipping
 }
 
 /**
@@ -386,6 +386,7 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 {
 	about::AboutDialog *about = new about::AboutDialog(this);
 	about->ShowModal();
+	delete about;
 }
 
 void MainFrame::OnHelpMenuLink (wxCommandEvent& event)

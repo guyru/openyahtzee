@@ -30,7 +30,7 @@
 #include "MainFrame.h"
 #include "wxDynamicBitmap.h"
 #include "highscores_dialog.h"
-#include "About.h"
+#include "about.h"
 #include "configuration.h"
 #include "settings_dialog.h"
 #include "../config.h"
@@ -40,6 +40,8 @@
 #include <wx/version.h>
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
+#include <wx/aboutdlg.h>
+#include <wx/mstream.h>
 
  //include the images for the dice 	 
  namespace dice {
@@ -52,6 +54,7 @@
  } // namespace dice
 
 #include "icon32.xpm"
+#include "openyahtzee_logo.png.h"
 
 //default values - design
 #define SPACE_SIZE 1
@@ -383,10 +386,28 @@ void MainFrame::ConnectEventTable()
 
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
+	wxAboutDialogInfo info;
+	info.SetName(wxT(PACKAGE_NAME));
+	info.SetVersion(wxT(PACKAGE_VERSION));
+	info.SetDescription(wxT("A cross-platform Yahtzee game."));
+	info.SetCopyright(wxT("(C) 2006-2008 Guy Rutenberg"));
+	info.SetWebSite(wxT("http://www.openyahtzee.org/"));
+
+	wxMemoryInputStream istream(openyahtzee_logo_png, sizeof openyahtzee_logo_png);
+	wxImage myimage_img(istream, wxBITMAP_TYPE_PNG);
+
+	wxIcon logo;
+	logo.CopyFromBitmap(wxBitmap(myimage_img));
+	info.SetIcon(logo);
+
+	info.AddDeveloper(wxT("Guy Rutenberg <guyrutenberg@gmail.com>"));
+	info.AddArtist(wxT("Seamous Mc\nGill <johndoe@gmail.com>"));
+
+	//wxAboutBox(info);
 #ifdef PORTABLE
-	AboutDialog *about = new AboutDialog(this,wxID_ANY,wxT("About Open Yahtzee PE"));
+	about::AboutDialog *about = new about::AboutDialog(this);
 #else
-	AboutDialog *about = new AboutDialog(this,wxID_ANY,wxT("About Open Yahtzee"));
+	about::AboutDialog *about = new about::AboutDialog(this);
 #endif
 	about->ShowModal();
 }

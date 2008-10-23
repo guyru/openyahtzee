@@ -1,6 +1,7 @@
 bin_PROGRAMS = openyahtzee
 openyahtzee_SOURCES = \
-	About.cpp \
+	about.cpp \
+	about.h \
 	../config.h \
 	configuration.cpp \
 	configuration.h \
@@ -30,7 +31,6 @@ AM_CPPFLAGS = $(all_includes)
 # the library search path.
 
 noinst_HEADERS = \
-	About.h \
 	DBwrapper.h \
 	openyahtzee.ico \
 	MainFrame.h \

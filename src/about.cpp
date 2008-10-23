@@ -26,7 +26,7 @@
 
 using namespace about;
 AboutDialog::AboutDialog(wxWindow* parent):
-    wxDialog(parent, wxID_ANY, wxT("About " PACKAGE_NAME), wxDefaultPosition, wxSize(-1,300), wxDEFAULT_DIALOG_STYLE)
+    wxDialog(parent, wxID_ANY, wxT("About ") wxT(PACKAGE_NAME), wxDefaultPosition, wxSize(-1,300), wxDEFAULT_DIALOG_STYLE)
 {
 	addControlsAndLayout();
 	SetEscapeId(wxID_CLOSE);
@@ -38,7 +38,7 @@ void AboutDialog::addControlsAndLayout()
 	wxStaticBitmap* logo = new wxStaticBitmap(this, wxID_ANY,wxBitmap(icon64_xpm));
 	title_sizer->Add(logo, 0, wxALL|wxALIGN_CENTER_VERTICAL, 10);
 
-	wxStaticText* app_label = new wxStaticText(this,wxID_ANY,wxT("Open Yahtzee " VERSION));
+	wxStaticText* app_label = new wxStaticText(this,wxID_ANY,wxT("Open Yahtzee ") wxT(VERSION));
 	app_label->SetFont(wxFont(14, wxDEFAULT, wxNORMAL, wxBOLD, false));
 	title_sizer->Add(app_label, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE, 10);
 
@@ -98,23 +98,23 @@ void AboutDialog::notebookThanksTab(wxNotebook *notebook)
 void AboutDialog::notebookLicenseTab(wxNotebook *notebook)
 {
 	wxTextCtrl* text = new wxTextCtrl(notebook, wxID_ANY,wxT(""),wxDefaultPosition,wxDefaultSize,wxTE_MULTILINE|wxTE_READONLY);
-	*text << wxT("This program is free software; you can redistribute "
-		"it and/or modify it under the terms of the GNU General "
-		"Public License as published by the Free Software "
-		"Foundation; either version 2 of the License, or (at your "
-		"option) any later version.\n\n"
+	*text << wxT("This program is free software; you can redistribute ")
+		wxT("it and/or modify it under the terms of the GNU General ")
+		wxT("Public License as published by the Free Software ")
+		wxT("Foundation; either version 2 of the License, or (at your ")
+		wxT("option) any later version.\n\n")
 
-		"This program is distributed in the hope that it will be "
-		"useful, but WITHOUT ANY WARRANTY; without even the "
-		"implied warranty of MERCHANTABILITY or FITNESS FOR A "
-		"PARTICULAR PURPOSE.  See the GNU General Public License "
-		"for more details. \n\n"
+		wxT("This program is distributed in the hope that it will be ")
+		wxT("useful, but WITHOUT ANY WARRANTY; without even the ")
+		wxT("implied warranty of MERCHANTABILITY or FITNESS FOR A ")
+		wxT("PARTICULAR PURPOSE.  See the GNU General Public License ")
+		wxT("for more details. \n\n")
 
-		"You should have received a copy of the GNU General "
-		"Public License along with this program; if not, write to "
-		"the\n"
-		"Free Software Foundation, Inc.,\n"
-		"59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.");
+		wxT("You should have received a copy of the GNU General ")
+		wxT("Public License along with this program; if not, write to ")
+		wxT("the\n")
+		wxT("Free Software Foundation, Inc.,\n")
+		wxT("59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.");
 
 	notebook->AddPage(text, wxT("License Agreement"));
 }

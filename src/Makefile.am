@@ -41,5 +41,5 @@ noinst_HEADERS = \
 	openyahtzee.ico \
 	openyahtzee.rc
 
-AM_CXXFLAGS = `wx-config --cxxflags`
-openyahtzee_LDFLAGS = `wx-config --libs`
+AM_CXXFLAGS = @WX_CXXFLAGS@
+openyahtzee_LDFLAGS = @WX_LIBS@

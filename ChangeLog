@@ -7,9 +7,19 @@ complete list of changes see the SVN changelog of the project.
 
 Open Yahtzee 1.9:
 -----------------
-- Fixed bug #1775620 (Settings dialog enables roll button).
+- Show scoring tip on mouse over.
+- Immediately apply the bonus for the upper-section when 63 points are
+  reached.
+- Display the number of rolls left.
+- Add link to the FAQ and HowToPlay pages from the Open Yahtzee website.
 - Improved randomness of the dice.
+- Better Windows Vista compatibility.
+- Improved autoconf package.
+- Fixed bug #1775620 (Settings dialog enables roll button).
 - Fixed window's title caption (bug #1836473).
+- Fixed the display of the About dialog.
+- Simple text-based settings storage.
+- Major code refactoring
 
 Open Yahtzee 1.8:
 -----------------

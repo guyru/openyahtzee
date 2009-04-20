@@ -5,22 +5,22 @@
 ;
 ; 
 ;--------------------------------
-!define version 1.8
+!define version 1.9
 ;--------------------------------
 ;Include Modern UI
 
-  !include "MUI.nsh"
+  !include "MUI2.nsh"
 
 ;--------------------------------
 
 ; The name of the installer
-Name "OpenYahtzee ${version}"
+Name "Open Yahtzee ${version}"
 
 ; The file to write
-OutFile "OpenYahtzee-${version}.exe"
+OutFile "openyahtzee-${version}.exe"
 
 ; The default installation directory
-InstallDir $PROGRAMFILES\OpenYahtzee
+InstallDir "$PROGRAMFILES\Open Yahtzee"
 
 ;hides details of the install and uninstall but allows the users to see them if he wants
 ShowInstDetails hide
@@ -28,7 +28,7 @@ ShowUninstDetails hide
 
 ; Registry key to check for directory (so if you install again, it will 
 ; overwrite the old one automatically)
-InstallDirRegKey HKLM "Software\OpenYahtzee" "Install_Dir"
+InstallDirRegKey HKLM "Software\Open Yahtzee" "Install_Dir"
 
 ; set the icon for installer
 ;Icon "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
@@ -54,7 +54,7 @@ InstallDirRegKey HKLM "Software\OpenYahtzee" "Install_Dir"
 ;--------------------------------
 
 ; The stuff to install
-Section "OpenYahtzee-${version} (required)" SecOpenYahtzee
+Section "Open Yahtzee-${version} (required)" SecOpenYahtzee
 
   SectionIn RO
   
@@ -63,20 +63,22 @@ Section "OpenYahtzee-${version} (required)" SecOpenYahtzee
   
   ; Put file there
   File "openyahtzee.exe"
-  File "mingwm10.dll"
-  File "openyahtzee.exe.manifest"
   File "COPYING.txt"
   File "ChangeLog.txt"
-  File "icon32.ico"
+
+  ; Copy the runtime dlls
+  SetOutPath "$INSTDIR\Microsoft.VC90.CRT"
+  File "Microsoft.VC90.CRT\*.dll"
+  File "Microsoft.VC90.CRT\*.manifest"
   
   ; Write the installation path into the registry
-  WriteRegStr HKLM SOFTWARE\OpenYahtzee "Install_Dir" "$INSTDIR"
+  WriteRegStr HKLM "Software\Open Yahtzee" "Install_Dir" "$INSTDIR"
   
   ; Write the uninstall keys for Windows
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenYahtzee" "DisplayName" "OpenYahtzee"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenYahtzee" "UninstallString" '"$INSTDIR\uninstall.exe"'
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenYahtzee" "NoModify" 1
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenYahtzee" "NoRepair" 1
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Open Yahtzee" "DisplayName" "Open Yahtzee"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Open Yahtzee" "UninstallString" '"$INSTDIR\uninstall.exe"'
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Open Yahtzee" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Open Yahtzee" "NoRepair" 1
   WriteUninstaller "uninstall.exe"
   
 SectionEnd
@@ -85,10 +87,11 @@ SectionEnd
 Section "Start Menu Shortcuts" SecStartMenu
   ; Remove old shortcuts, if any
   Delete "$SMPROGRAMS\OpenYahtzee\*.*"
+  Delete "$SMPROGRAMS\Open Yahtzee\*.*"
 
-  CreateDirectory "$SMPROGRAMS\OpenYahtzee"
-  CreateShortCut "$SMPROGRAMS\OpenYahtzee\OpenYahtzee.lnk" "$INSTDIR\openyahtzee.exe" "" "$INSTDIR\icon32.ico" 0
-  CreateShortCut "$SMPROGRAMS\OpenYahtzee\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
+  CreateDirectory "$SMPROGRAMS\Open Yahtzee"
+  CreateShortCut "$SMPROGRAMS\Open Yahtzee\Open Yahtzee.lnk" "$INSTDIR\openyahtzee.exe" "" "$INSTDIR\openyahtzee.exe" 0
+  CreateShortCut "$SMPROGRAMS\Open Yahtzee\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   
 SectionEnd
 ;--------------------------------
@@ -100,7 +103,7 @@ SectionEnd
 ;Descriptions
 
   ;Language strings
-  LangString DESC_SecOpenYahtzee ${LANG_ENGLISH} "The OpenYahtzee game files and the required libraries."
+  LangString DESC_SecOpenYahtzee ${LANG_ENGLISH} "The Open Yahtzee game files and the required libraries."
   LangString DESC_SecStartMenu ${LANG_ENGLISH} "Create shortcuts in the Start menu"
 
   ;Assign language strings to sections
@@ -116,24 +119,29 @@ SectionEnd
 Section "Uninstall"
   
   ; Remove registry keys
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenYahtzee"
-  DeleteRegKey HKLM SOFTWARE\OpenYahtzee
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Open Yahtzee"
+  DeleteRegKey HKLM "SOFTWARE\Open Yahtzee"
 
   ; Remove files and uninstaller
   Delete "$INSTDIR\openyahtzee.exe"
-  Delete "$INSTDIR\openyahtzee.exe.manifest"
-  Delete "$INSTDIR\mingwm10.dll"
   Delete "$INSTDIR\COPYING.txt"
   Delete "$INSTDIR\ChangeLog.txt"
-  Delete "$INSTDIR\icon32.ico"
   Delete "$INSTDIR\uninstall.exe"
+  Delete "$INSTDIR\Microsoft.VC90.CRT\*.*"
+  ; Remove old files
+  Delete "$INSTDIR\openyahtzee.exe.manifest"
+  Delete "$INSTDIR\mingwm10.dll"
+  Delete "$INSTDIR\icon32.ico"
+
+  RMDir "$INSTDIR\Microsoft.VC90.CRT"
   Delete "$INSTDIR\*"
 
+
   ; Remove shortcuts, if any
-  Delete "$SMPROGRAMS\OpenYahtzee\*.*"
+  Delete "$SMPROGRAMS\Open Yahtzee\*.*"
 
   ; Remove directories used
-  RMDir "$SMPROGRAMS\OpenYahtzee"
+  RMDir "$SMPROGRAMS\Open Yahtzee"
   RMDir "$INSTDIR"
 
 SectionEnd

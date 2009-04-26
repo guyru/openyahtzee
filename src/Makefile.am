@@ -5,7 +5,6 @@ openyahtzee_SOURCES = \
 	../config.h \
 	configuration.cpp \
 	configuration.h \
-	DBwrapper.cpp \
 	MainFrame.cpp \
 	highscores_dialog.cpp \
 	highscores_dialog.h \
@@ -21,9 +20,7 @@ openyahtzee_SOURCES = \
 	three.xpm \
 	four.xpm \
 	five.xpm \
-	six.xpm \
-	sqlite/sqlite3.c \
-	sqlite/sqlite3.h
+	six.xpm
 
 # set the include path found by configure
 AM_CPPFLAGS = $(all_includes)
@@ -31,7 +28,6 @@ AM_CPPFLAGS = $(all_includes)
 # the library search path.
 
 noinst_HEADERS = \
-	DBwrapper.h \
 	openyahtzee.ico \
 	MainFrame.h \
 	ScoreDice.h \
@@ -42,4 +38,4 @@ noinst_HEADERS = \
 	openyahtzee.rc
 
 AM_CXXFLAGS = @WX_CXXFLAGS@
-openyahtzee_LDFLAGS = @WX_LIBS@
+openyahtzee_LDADD = @WX_LIBS@

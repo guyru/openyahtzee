@@ -21,7 +21,6 @@
 #ifndef OPENYAHTZEE_CONFIGURATION_INC
 #define OPENYAHTZEE_CONFIGURATION_INC
 
-#include "DBwrapper.h" // used in the back-compatibility code
 #include <string>
 #include <fstream>
 #include <map>
@@ -79,11 +78,6 @@ public:
 
 	void setHighscoresSize(size_t size);
 private:
-	/**
-	 * Imports old style configuration from sqllite database.
-	 */
-	void importOldFile();
-
 	void parseSettings(std::ifstream *file);
 	void parseHighscores(std::ifstream *file);
 
@@ -99,14 +93,6 @@ private:
 	HighscoresList m_highscores;
 
 	std::string m_file;
-
-	/* The following functions and variables are used for legacy SQLite
-	 * configuration file, and could be dropped.
-	 */
-	DBwrapper old_db;
-	std::string getKeyFromDb(std::string key);
-	void importSettings();
-	void importHighscores();
 };
 
 struct HighscoreItem {

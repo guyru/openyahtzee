@@ -85,7 +85,9 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 			wxRenameFile(old_config_file,config_file,false);
 		}
 	#else
-		wxString config_file = wxStandardPaths::Get().GetExecutablePath() + wxT("/openyahtzee.dat");
+		wxFileName tmp_config_file(wxStandardPaths::Get().GetExecutablePath());
+		tmp_config_file.SetFullName(wxT("openyahtzee.dat"));
+		wxString config_file = tmp_config_file.GetFullPath();
 	#endif
 
 	

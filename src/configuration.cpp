@@ -49,9 +49,11 @@ void Configuration::load(string file)
 	string header;
 	getline(conf_file,header);
 	if (header.substr(0,11) != "openyahtzee") {
-		// this is probably an old sqllite file import it.
-		conf_file.close();
-		importOldFile();
+		/* The file might be an old configuration file or
+		 * currupted, anyway re-create it
+		 */
+		loadDefaultSettings();
+		save();
 		return;
 	}
 	
@@ -187,90 +189,6 @@ void Configuration::loadDefaultSettings()
 	m_settings["horizontal-layout"] = "True";
 	m_settings["score-hints"] = "True";
 	m_settings["highscore-list-size"] = DEFAULT_HIGHSCORE_SIZE;
-}
-
-
-void Configuration::importOldFile()
-{
-	loadDefaultSettings();
-	if (old_db.Open(m_file)!=SQLITE_OK) {
-		return;
-	}
-	importSettings();
-	// importHighscores is called after importSettings() so the
-	// highscore size settings will be known
-	importHighscores();
-}
-
-string Configuration::getKeyFromDb(string key)
-{
-	string tmp_query;
-	std::list<string> tmp_value;
-	
-	tmp_query = "SELECT value FROM settings WHERE key = \"" + key + "\"";
-
-	tmp_value = old_db.Query(tmp_query);
-	if (tmp_value.empty()) { //if there was no result return an empty string
-		tmp_query = "";	//use tmp_query for holding a tmp_string
-		return tmp_query;
-	}
-	return	*(tmp_value.begin());
-}
-
-void Configuration::importSettings()
-{
-	string temp_value;
-
-	temp_value = getKeyFromDb("animate");
-	if (temp_value=="No") {
-		set("dice-animation","False");
-	}
-
-	temp_value = getKeyFromDb("calculatesubtotal");
-	if (temp_value=="No") {
-		set("calculate-subtotal","False");
-	}
-
-	temp_value = getKeyFromDb("horizontalayout");
-	if (temp_value=="No") {
-		set("horizontal-layout","False");
-	}
-
-	temp_value = getKeyFromDb("score_hints");
-	if (temp_value=="No") {
-		set("score-hints","False");
-	}
-
-	temp_value = getKeyFromDb("highscoresize");
-	if (temp_value=="") {
-		set("highscore-list-size",DEFAULT_HIGHSCORE_SIZE);
-	}
-}
-
-void Configuration::importHighscores()
-{
-	string tmp_query = "SELECT name,date,score FROM highscore LIMIT "
-		+ m_settings["highscore-list-size"];
-	
-	list<string> res = old_db.Query(tmp_query);
-	HighscoreItem temp_item;
-
-	list<string>::iterator it = res.begin();
-	size_t pos;
-	while(it!=res.end()) {
-		temp_item.name = (*it++);
-
-		// the database saved the the hour before the date,
-		// we need to reverse this
-		pos = it->find(' ');
-		temp_item.date = it->substr(pos+1); // date
-		temp_item.date += " " + it->substr(0,pos-3); // time, without seconds
-		it++;
-
-		temp_item.score = atoi((*it++).c_str());
-
-		m_highscores.push_back(temp_item);
-	}
 }
 
 bool Configuration::isHighscore(int score) {

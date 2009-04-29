@@ -195,7 +195,7 @@
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;D:\wxWidgets-2.8.7\include&quot;;&quot;D:\wxWidgets-2.8.7\include\msvc&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;PORTABLE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

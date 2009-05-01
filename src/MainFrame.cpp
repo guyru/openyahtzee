@@ -69,7 +69,6 @@ namespace dice {
 #define VER_DICE_SPACER 10
 
 using namespace main_frame;
-const wxEventType wxEVT_ENABLE_ROLL = wxNewEventType();
 
 MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
@@ -128,7 +127,6 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	m_yahtzee = false;
 	m_yahtzeebonus = false;
 	m_numofplaysleft = 13;
-	m_skiproll = false; // the roll button hasn't been pressed yet, no need for skipping
 }
 
 /**
@@ -351,8 +349,7 @@ void MainFrame::ConnectEventTable()
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
 	//END connecting the menu items' events
 
-	Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnRollButton));
-	Connect(ID_ROLL, wxEVT_ENABLE_ROLL, wxCommandEventHandler (MainFrame::OnRollButton));
+	Connect(ID_ROLL, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::DoubleRollLock));
 
 	//BEGIN connecting the scoreboard buttons to the events
 	Connect(ID_ACES,ID_SIXES, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler (MainFrame::OnUpperButtons));
@@ -556,20 +553,10 @@ void MainFrame::OnSettings( wxCommandEvent& event)
  * status of the "keep" checkboxes.
  * \param event 
  */
-void MainFrame::OnRollButton (wxCommandEvent& event)
+void MainFrame::OnRollButton ()
 {
 	short int dice[5];	//holds the dices score
 	
-	if (event.GetEventType() == wxEVT_IDLE) {
-		m_skiproll = false;
-		Disconnect(wxEVT_IDLE,  wxCommandEventHandler(MainFrame::OnRollButton));
-		return;
-	}
-	
-	//skip rolling the dice if the user accidently rolled the dice before they finished spinning.
-	if (m_skiproll) return;
-	m_skiproll = true;
-
 	if (m_numofplaysleft == 13)
 		m_stats->game_started();
 
@@ -632,8 +619,29 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	//we rolled the dices so undoing isn't allowed
 	(GetMenuBar()->FindItem(wxID_UNDO))->Enable(false);
 	m_yahtzeebonus = false; //if we scored yahtzee bonus before we don't care anymore.
+}
+
+void MainFrame::DoubleRollLock(wxCommandEvent& event)
+{
+	/* The function works by connecting to idle event, and raising a
+	 * flag when it process a valid click on the Roll button. When the
+	 * another click happens and the flag is up, it means it is
+	 * accidental. When the idle events is triggered it means that we
+	 * no longer roll the dice, so we lower the flag.
+	 */
+	static bool skip_roll = false;
+	if (event.GetEventType() == wxEVT_IDLE) {
+		skip_roll = false;
+		Disconnect(wxEVT_IDLE,  wxCommandEventHandler(MainFrame::DoubleRollLock));
+		return;
+	}
 	
-	Connect(wxEVT_IDLE, wxCommandEventHandler(MainFrame::OnRollButton));
+	if (skip_roll)
+		return;
+	skip_roll = true;
+	
+	Connect(wxEVT_IDLE, wxCommandEventHandler(MainFrame::DoubleRollLock));
+	OnRollButton();
 }
 
 /**

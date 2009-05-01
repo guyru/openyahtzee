@@ -56,7 +56,12 @@ public:
 	void OnSendComment (wxCommandEvent& event);
 	void OnHelpMenuLink (wxCommandEvent& event);
 
-	void OnRollButton (wxCommandEvent& event);
+	/**
+	 * Prevent accidental roll of the dice by double clicking the button.
+	 * \param event The event that was send to the ::OnRollButton()
+	 */
+	void DoubleRollLock(wxCommandEvent& event);
+
 	void OnUpperButtons (wxCommandEvent& event);
 	void On3ofakindButton (wxCommandEvent& event);
 	void On4ofakindButton (wxCommandEvent& event);	
@@ -93,6 +98,8 @@ private:
 	void ConnectEventTable();
 	void AddControlsAndLayout();
 
+	void OnRollButton ();
+
 	wxStaticBoxSizer *uppersection, *lowersection;
 	wxBoxSizer *sectionsSizer;
 
@@ -106,8 +113,6 @@ private:
 
 	short int m_lastmove; //stores the ID of the last button pressed.
 	short int m_rollsundo; //holds the number of remaining rolls for use with the undo option
-
-	bool m_skiproll; ///used to prevent the user from accidently rolling the dice twice
 
 	class MainFrameEvtHandler *m_evt_handler;
 };

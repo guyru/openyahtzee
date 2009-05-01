@@ -94,6 +94,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	std::string config_file_str;
 	config_file_str = config_file.utf8_str();
 	m_config = new configuration::Configuration(config_file_str);
+	m_stats = new statistics::Statistics(m_config);
 
 	m_evt_handler = new MainFrameEvtHandler(this);
 	
@@ -569,6 +570,9 @@ void MainFrame::OnRollButton (wxCommandEvent& event)
 	if (m_skiproll) return;
 	m_skiproll = true;
 
+	if (m_numofplaysleft == 13)
+		m_stats->game_started();
+
 	//fill the dice array with the old values
 	dice[0]=m_score_dice.GetDice(1);
 	dice[1]=m_score_dice.GetDice(2);
@@ -979,6 +983,8 @@ void MainFrame::EndofGame()
 	tempstr.Printf(wxT("Your final score is %i points!"),lowerscore+upperscore);
 	wxMessageBox(tempstr, wxT("Game Ended"), wxOK | wxICON_INFORMATION, this);
 
+	m_stats->game_finished(lowerscore+upperscore);
+
 	//submit to high score
 	HighScoreHandler(lowerscore+upperscore);
 	
@@ -1331,6 +1337,7 @@ void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
 
 MainFrame::~MainFrame() {
 	// free pointers
+	delete m_stats;
 	delete m_config;
 	delete m_evt_handler;
 

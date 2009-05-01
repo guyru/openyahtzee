@@ -1,6 +1,5 @@
-// $Header$
 /***************************************************************************
- *   Copyright (C) 2006-2008 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2009 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +28,7 @@
 #define OPENYAHTZEE_MAIN_FRAME_INC
 #include "ScoreDice.h"
 #include "configuration.h"
+#include "statistics.h"
 
 namespace main_frame {
 
@@ -76,6 +76,7 @@ public:
 	ScoreDice m_score_dice;
 
 	configuration::Configuration *m_config;
+	statistics::Statistics *m_stats;
 
 private:
 	void ClearDiceHash();

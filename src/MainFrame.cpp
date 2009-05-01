@@ -657,39 +657,39 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 {
 	wxString out;
 	short int temp;
-	if(m_rolls < 3){
-		YahtzeeBonus();
-		switch(event.GetId()) {
-		case ID_ACES:
-			temp = m_score_dice.Aces();
-			break;
-		case ID_TWOS:
-			temp = m_score_dice.Twos();
-			break;
-		case ID_THREES:
-			temp = m_score_dice.Threes();
-			break;
-		case ID_FOURS:
-			temp = m_score_dice.Fours();
-			break;
-		case ID_FIVES:
-			temp = m_score_dice.Fives();
-			break;
-		case ID_SIXES:
-			temp = m_score_dice.Sixes();
-			break;
-		}
-	
-		out.Printf(wxT("%i"),temp);
-		wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT));
-		text_ctrl->SetValue(out);
-		text_ctrl->SetBackgroundColour(*wxWHITE);
-		text_ctrl->Refresh();
-		
-		PostScore(event.GetId());
+	if (!IsValidClick())
+		return;
+
+	YahtzeeBonus();
+
+	switch(event.GetId()) {
+	case ID_ACES:
+		temp = m_score_dice.Aces();
+		break;
+	case ID_TWOS:
+		temp = m_score_dice.Twos();
+		break;
+	case ID_THREES:
+		temp = m_score_dice.Threes();
+		break;
+	case ID_FOURS:
+		temp = m_score_dice.Fours();
+		break;
+	case ID_FIVES:
+		temp = m_score_dice.Fives();
+		break;
+	case ID_SIXES:
+		temp = m_score_dice.Sixes();
+		break;
 	}
-	else 
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+	
+	out.Printf(wxT("%i"),temp);
+	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT));
+	text_ctrl->SetValue(out);
+	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->Refresh();
+	
+	PostScore(event.GetId());
 }
 
 /**
@@ -698,10 +698,9 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
  */
 void MainFrame::On3ofakindButton(wxCommandEvent& event)
 {
-	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+	if (!IsValidClick())
 		return;
-	}
+	
 	YahtzeeBonus();
 	wxString out;
 	
@@ -720,10 +719,9 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
  */
 void MainFrame::On4ofakindButton(wxCommandEvent& event)
 {
-	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+	if (!IsValidClick())
 		return;
-	}
+	
 	YahtzeeBonus();
 	wxString out;
 
@@ -744,10 +742,9 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 {
 	wxString out;
 
-	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+	if (!IsValidClick())
 		return;
-	}
+	
 	YahtzeeBonus();
 
 	out.Printf(wxT("%i"), m_score_dice.FullHouse());
@@ -767,10 +764,8 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 {
 	wxString out;
 
-	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+	if (!IsValidClick())
 		return;
-	}
 
 	YahtzeeBonus();
 	
@@ -791,10 +786,8 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 {
 	wxString out;
 	
-	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+	if (!IsValidClick())
 		return;
-	}
 
 	YahtzeeBonus();
 
@@ -816,10 +809,8 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 {
 	wxString out;
 	
-	if(m_rolls>=3) {
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+	if (!IsValidClick())
 		return;
-	}
 	
 	if (m_score_dice.IsYahtzee()) m_yahtzee = true;
 	out.Printf(wxT("%i"), m_score_dice.Yahtzee());
@@ -838,19 +829,17 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 void MainFrame::OnChanceButton (wxCommandEvent& event)
 {
 	wxString out;
-	if(m_rolls < 3){
-		YahtzeeBonus();
-	
-		out.Printf(wxT("%i"),m_score_dice.Chance());
-		wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_CHANCETEXT));
-		text_ctrl->SetValue(out);
-		text_ctrl->SetBackgroundColour(*wxWHITE);
-		text_ctrl->Refresh();
-		PostScore(event.GetId());
-	}
-	else 
-		wxMessageBox(wxT("First you need to roll, and after you roll you may score"), wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+	if (!IsValidClick())
+		return;
 
+	YahtzeeBonus();
+
+	out.Printf(wxT("%i"),m_score_dice.Chance());
+	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_CHANCETEXT));
+	text_ctrl->SetValue(out);
+	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->Refresh();
+	PostScore(event.GetId());
 }
 
 /**
@@ -1341,6 +1330,16 @@ void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
 	}
 
 	event.Skip(); //allow default proccesing
+}
+
+bool MainFrame::IsValidClick()
+{
+	if (m_rolls >= 3) {
+		wxMessageBox(wxT("First you need to roll, and after you roll you may score."),
+			wxT("Open Yahtzee"), wxOK | wxICON_INFORMATION, this);
+		return false;
+	}
+	return true;
 }
 
 MainFrame::~MainFrame() {

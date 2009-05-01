@@ -97,6 +97,12 @@ private:
 	void AddMenus();
 	void ConnectEventTable();
 	void AddControlsAndLayout();
+	/**
+	 * Check if a click on a score button is valid or should
+	 * be ignored.
+	 * \returns true if the click is valid and should be scored.
+	 */
+	bool IsValidClick();
 
 	void OnRollButton ();
 

@@ -22,6 +22,7 @@
 #define OPENYAHTZEE_STATISTICS_INC
 
 #include "configuration.h"
+#include <vector> 
 namespace statistics {
 
 class Statistics {
@@ -51,8 +52,14 @@ private:
 
 	int games_started;
 	int games_finished;
+	std::vector<int> score_distribution;
 	configuration::Configuration *backend;
 };
+
+const int score_distribution_granuality = 50;
+// anything above the following score will be in the same slot
+const int score_distribution_max = 500;
+const int score_distributions_slots = score_distribution_max/score_distribution_granuality+1;
 
 } //namespace
 

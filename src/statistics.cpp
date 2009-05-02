@@ -20,15 +20,19 @@
 
 #include <string>
 #include <cstdlib>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
 #include "statistics.h"
 #include "utility.h"
 
 using namespace std;
 using namespace statistics;
+using namespace boost;
 
 Statistics::Statistics(configuration::Configuration *backend)
 {
 	string tmp;
+	vector<string> tmp_vec;
 	this->backend = backend;
 	
 	tmp = backend->get("statistics_games_started");
@@ -36,6 +40,18 @@ Statistics::Statistics(configuration::Configuration *backend)
 
 	tmp = backend->get("statistics_games_finished");
 	games_finished = atoi(tmp.c_str());
+
+	tmp = backend->get("statistics_score_distribution");
+	split(tmp_vec, tmp, is_any_of(","));
+	if (tmp_vec.size() != score_distributions_slots) {
+		reset();
+		return;
+	}
+
+	for (vector<string>::iterator iter = tmp_vec.begin();
+		iter != tmp_vec.end(); iter++) {
+		score_distribution.push_back(atoi(iter->c_str()));
+	}
 	
 }
 
@@ -47,20 +63,37 @@ void Statistics::game_started()
 
 void Statistics::game_finished(int score)
 {	
+	int score_slot;
 	games_finished++;
+
+	score_slot = score/score_distribution_granuality;
+	score_slot = score_slot<score_distributions_slots ? score_slot : score_slot;
+	score_distribution[score_slot]++;
 	save();
 }
 
 void Statistics::save() {
+	string tmp;
 	backend->set("statistics_games_started", stringify(games_started));
 	backend->set("statistics_games_finished", stringify(games_finished));
+
+	tmp = "";
+	for (vector<int>::iterator iter = score_distribution.begin();
+		iter != score_distribution.end(); iter++) {
+		tmp += stringify(*iter) + ",";
+	}
+	//delete trailing comma
+	tmp = tmp.substr(0, tmp.size()-1);
+	backend->set("statistics_score_distribution", tmp);
 
 	backend->save();
 }
 
 void Statistics::reset() {
-	backend->set("statistics_games_started", 0);
-	backend->set("statistics_games_finished", 0);
+	games_started = 0;
+	games_finished = 0;
 
-	backend->save();
+	score_distribution = vector<int>(score_distributions_slots, 0);
+	
+	save();
 }

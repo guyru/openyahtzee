@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include <string>
+#include <sstream>
 #include <cstdlib>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string/split.hpp>
@@ -37,10 +38,10 @@ Statistics::Statistics(configuration::Configuration *backend)
 	this->backend = backend;
 	
 	tmp = backend->get("statistics_games_started");
-	games_started = atoi(tmp.c_str());
+	_games_started = atoi(tmp.c_str());
 
 	tmp = backend->get("statistics_games_finished");
-	games_finished = atoi(tmp.c_str());
+	_games_finished = atoi(tmp.c_str());
 
 	tmp = backend->get("statistics_score_distribution");
 	split(tmp_vec, tmp, is_any_of(","));
@@ -52,18 +53,21 @@ Statistics::Statistics(configuration::Configuration *backend)
 	BOOST_FOREACH(string i, tmp_vec) {
 		score_distribution.push_back(atoi(i.c_str()));
 	}
+
+	istringstream i(tmp);
+	i >> _last_reset;
 }
 
 void Statistics::game_started()
 {	
-	games_started++;
+	_games_started++;
 	save();
 }
 
 void Statistics::game_finished(int score)
 {	
 	int score_slot;
-	games_finished++;
+	_games_finished++;
 
 	score_slot = score/score_distribution_granuality;
 	score_slot = score_slot<score_distributions_slots ? score_slot : score_slot;
@@ -73,8 +77,9 @@ void Statistics::game_finished(int score)
 
 void Statistics::save() {
 	string tmp;
-	backend->set("statistics_games_started", stringify(games_started));
-	backend->set("statistics_games_finished", stringify(games_finished));
+	backend->set("statistics_games_started", stringify(_games_started));
+	backend->set("statistics_games_finished", stringify(_games_finished));
+	backend->set("statistics_last_reset", stringify(_last_reset));
 
 	tmp = "";
 	BOOST_FOREACH(int i, score_distribution) {
@@ -88,8 +93,9 @@ void Statistics::save() {
 }
 
 void Statistics::reset() {
-	games_started = 0;
-	games_finished = 0;
+	_games_started = 0;
+	_games_finished = 0;
+	_last_reset = time(NULL);
 
 	score_distribution = vector<int>(score_distributions_slots, 0);
 	

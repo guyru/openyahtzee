@@ -33,6 +33,7 @@
 #include "about.h"
 #include "configuration.h"
 #include "settings_dialog.h"
+#include "statistics_dialog.h"
 #include "../config.h"
 #include <iostream>
 #include <sstream>
@@ -149,6 +150,7 @@ void MainFrame::AddMenus()
 	gameMenu->Append(wxID_NEW,wxT("&New Game\tF2"));
 	gameMenu->Append(wxID_UNDO,wxT("&Undo\tCtrl+Z"));
 	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("Show Highscores\tCtrl+H"));
+	gameMenu->Append(ID_STATISTICS,wxT("Statistics..."));
 	gameMenu->Append(ID_SETTINGS,wxT("Settings"));
 	gameMenu->Append(wxID_EXIT);
 	
@@ -346,6 +348,7 @@ void MainFrame::ConnectEventTable()
 	Connect(wxID_NEW, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
 	Connect(wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
+	Connect(ID_STATISTICS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnStatistics));
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
 	//END connecting the menu items' events
 
@@ -521,6 +524,13 @@ void MainFrame::OnShowHighscore(wxCommandEvent& event)
 
 	dialog->ShowModal();
 
+	delete dialog;
+}
+
+void MainFrame::OnStatistics(wxCommandEvent &event)
+{
+	statistics_dialog::StatisticsDialog *dialog = new statistics_dialog::StatisticsDialog(this, m_stats);
+	dialog->ShowModal();
 	delete dialog;
 }
 

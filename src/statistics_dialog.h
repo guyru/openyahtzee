@@ -17,57 +17,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef OPENYAHTZEE_STATISTICS_DIALOG_INC
+#define OPENYAHTZEE_STATISTICS_DIALOG_INC
 
-#ifndef OPENYAHTZEE_STATISTICS_INC
-#define OPENYAHTZEE_STATISTICS_INC
+#include "statistics.h"
+#include <wx/wx.h>
+#include <wx/dialog.h>
+#include <wx/listctrl.h>
+#include <wx/spinctrl.h>
 
-#include "configuration.h"
-#include <vector> 
-namespace statistics {
+namespace statistics_dialog {
 
-class Statistics {
+class StatisticsDialog : public wxDialog
+{
 public:
-	Statistics(configuration::Configuration *backend);
-	/**
-	 * Records that a new game has been started.
-	 */
-	void game_started();
+	StatisticsDialog(wxWindow* parent, statistics::Statistics* stats);
 
-	/**
-	 * Records that a game was ended.
-	 * \param score The score the game ended with.
-	 */
-	void game_finished(int score);
-
-	/**
-	 * Resets the statistics data.
-	 */
-	void reset();
-
-	int games_started() { return _games_started; }
-	int games_finished() { return _games_finished; }
-	time_t last_reset() { return _last_reset; }
-
+	void OnClose(wxCommandEvent& event);
+	void OnReset(wxCommandEvent& event);
+	void OnConfigure(wxCommandEvent& event);
 private:
-	/**
-	 * Saves the current status of the statistics object.
-	 */
-	void save();
+	void CreateControls();
+	void LoadData( );
+	void DoLayout();
+	void ConnectEventTable();
 
-	int _games_started;
-	int _games_finished;
-	time_t _last_reset;
+	wxStaticText *games_started;
+	wxStaticText *games_finished;
+	wxStaticText *statistics_reset_date;
 
-	std::vector<int> score_distribution;
-	configuration::Configuration *backend;
+	statistics::Statistics* m_stats;
 };
 
-const int score_distribution_granuality = 50;
-// anything above the following score will be in the same slot
-const int score_distribution_max = 500;
-const int score_distributions_slots = score_distribution_max/score_distribution_granuality+1;
+} // namespace statistics_dialog
 
-} //namespace
 
 #endif
-

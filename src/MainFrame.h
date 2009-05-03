@@ -52,6 +52,7 @@ public:
 	void OnNewGame (wxCommandEvent& event);
 	void OnUndo (wxCommandEvent& event);
 	void OnShowHighscore (wxCommandEvent& event);
+	void OnStatistics (wxCommandEvent& event);
 	void OnSettings (wxCommandEvent& event);
 	void OnSendComment (wxCommandEvent& event);
 	void OnHelpMenuLink (wxCommandEvent& event);
@@ -141,6 +142,7 @@ private:
 enum {
 	ID_PANEL,
 	ID_SHOWHIGHSCORE,
+	ID_STATISTICS,
 	ID_SETTINGS,
 	ID_THEMES,
 	ID_HOWTOPLAY,

@@ -20,6 +20,7 @@
 
 #include <string>
 #include <cstdlib>
+#include <boost/foreach.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include "statistics.h"
@@ -48,11 +49,9 @@ Statistics::Statistics(configuration::Configuration *backend)
 		return;
 	}
 
-	for (vector<string>::iterator iter = tmp_vec.begin();
-		iter != tmp_vec.end(); iter++) {
-		score_distribution.push_back(atoi(iter->c_str()));
+	BOOST_FOREACH(string i, tmp_vec) {
+		score_distribution.push_back(atoi(i.c_str()));
 	}
-	
 }
 
 void Statistics::game_started()
@@ -78,9 +77,8 @@ void Statistics::save() {
 	backend->set("statistics_games_finished", stringify(games_finished));
 
 	tmp = "";
-	for (vector<int>::iterator iter = score_distribution.begin();
-		iter != score_distribution.end(); iter++) {
-		tmp += stringify(*iter) + ",";
+	BOOST_FOREACH(int i, score_distribution) {
+		tmp += stringify(i) + ",";
 	}
 	//delete trailing comma
 	tmp = tmp.substr(0, tmp.size()-1);

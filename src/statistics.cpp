@@ -33,6 +33,15 @@ using namespace boost;
 
 Statistics::Statistics(configuration::Configuration *backend)
 {
+	try {
+		load_data();
+	} catch (exception &e) {
+		reset();
+	}
+}
+
+void Statistics::load_data() 
+{
 	string tmp;
 	vector<string> tmp_vec;
 	this->backend = backend;
@@ -45,10 +54,8 @@ Statistics::Statistics(configuration::Configuration *backend)
 
 	tmp = backend->get("statistics_score_distribution");
 	split(tmp_vec, tmp, is_any_of(","));
-	if (tmp_vec.size() != score_distributions_slots) {
-		reset();
-		return;
-	}
+	if (tmp_vec.size() != score_distributions_slots)
+		throw BadConfiguration();
 
 	BOOST_FOREACH(string i, tmp_vec) {
 		score_distribution.push_back(atoi(i.c_str()));
@@ -56,6 +63,9 @@ Statistics::Statistics(configuration::Configuration *backend)
 
 	istringstream i(tmp);
 	i >> _last_reset;
+	if (!_last_reset)
+		throw BadConfiguration();
+		
 }
 
 void Statistics::game_started()

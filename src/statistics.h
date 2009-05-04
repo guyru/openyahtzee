@@ -23,6 +23,7 @@
 
 #include "configuration.h"
 #include <vector> 
+#include <exception> 
 namespace statistics {
 
 class Statistics {
@@ -54,12 +55,24 @@ private:
 	 */
 	void save();
 
+	/**
+	 * Loads data from the backend.
+	 */
+	void load_data();
+
 	int _games_started;
 	int _games_finished;
 	time_t _last_reset;
 
 	std::vector<int> score_distribution;
 	configuration::Configuration *backend;
+};
+
+class BadConfiguration : public std::exception {
+	virtual const char* what() const throw()
+	{
+		return "Bad Configuration";
+	}
 };
 
 const int score_distribution_granuality = 50;

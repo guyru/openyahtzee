@@ -48,6 +48,7 @@ public:
 	int games_started() { return _games_started; }
 	int games_finished() { return _games_finished; }
 	time_t last_reset() { return _last_reset; }
+	std::vector<int> score_distribution() { return _score_distribution; }
 
 private:
 	/**
@@ -64,7 +65,7 @@ private:
 	int _games_finished;
 	time_t _last_reset;
 
-	std::vector<int> score_distribution;
+	std::vector<int> _score_distribution;
 	configuration::Configuration *backend;
 };
 

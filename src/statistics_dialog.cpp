@@ -45,6 +45,7 @@ void StatisticsDialog::CreateControls()
 {
 	games_started = new wxStaticText(this, wxID_ANY, wxT(""));
 	games_finished = new wxStaticText(this, wxID_ANY, wxT(""));
+	histogram = new SimpleHistogram(this, wxID_ANY);
 	statistics_reset_date = new wxStaticText(this, wxID_ANY, wxT(""));
 }
 
@@ -60,6 +61,10 @@ void StatisticsDialog::LoadData()
 	wxDateTime reset_time(m_stats->last_reset());
 	tmp = wxT("Last reset: ") + reset_time.Format();
 	statistics_reset_date->SetLabel(tmp);
+
+	vector<int> score_dist = m_stats->score_distribution();
+	vector<double> dist (score_dist.begin(), score_dist.end());
+	histogram->SetData(dist);
 }
 
 void StatisticsDialog::DoLayout()
@@ -70,12 +75,13 @@ void StatisticsDialog::DoLayout()
 	game_counts->Add(games_started);
 	game_counts->AddStretchSpacer(10);
 	game_counts->Add(games_finished);
-	top_sizer->Add(game_counts,10,wxEXPAND);
+	top_sizer->Add(game_counts,0,wxEXPAND,10);
 
 	wxStaticBoxSizer* score_distribution = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Score Distribution") ), wxHORIZONTAL);
-	top_sizer->Add(score_distribution,10,wxEXPAND);
+	score_distribution->Add(histogram, 1, wxEXPAND, 10);
+	top_sizer->Add(score_distribution,10,wxEXPAND, 10);
 
-	top_sizer->Add(statistics_reset_date,10,wxEXPAND);
+	top_sizer->Add(statistics_reset_date,0,wxEXPAND,10);
 	
 	wxBoxSizer *button_sizer = new wxBoxSizer( wxHORIZONTAL );
 	wxSizerFlags flags = wxSizerFlags().Border(wxALL & ~wxLEFT, 10);

@@ -33,6 +33,7 @@ using namespace boost;
 
 Statistics::Statistics(configuration::Configuration *backend)
 {
+	this->backend = backend;
 	try {
 		load_data();
 	} catch (exception &e) {
@@ -44,7 +45,6 @@ void Statistics::load_data()
 {
 	string tmp;
 	vector<string> tmp_vec;
-	this->backend = backend;
 	
 	tmp = backend->get("statistics_games_started");
 	_games_started = atoi(tmp.c_str());
@@ -58,7 +58,7 @@ void Statistics::load_data()
 		throw BadConfiguration();
 
 	BOOST_FOREACH(string i, tmp_vec) {
-		score_distribution.push_back(atoi(i.c_str()));
+		_score_distribution.push_back(atoi(i.c_str()));
 	}
 
 	istringstream i(tmp);
@@ -81,7 +81,7 @@ void Statistics::game_finished(int score)
 
 	score_slot = score/score_distribution_granuality;
 	score_slot = score_slot<score_distributions_slots ? score_slot : score_slot;
-	score_distribution[score_slot]++;
+	_score_distribution[score_slot]++;
 	save();
 }
 
@@ -92,7 +92,7 @@ void Statistics::save() {
 	backend->set("statistics_last_reset", stringify(_last_reset));
 
 	tmp = "";
-	BOOST_FOREACH(int i, score_distribution) {
+	BOOST_FOREACH(int i, _score_distribution) {
 		tmp += stringify(i) + ",";
 	}
 	//delete trailing comma
@@ -107,7 +107,7 @@ void Statistics::reset() {
 	_games_finished = 0;
 	_last_reset = time(NULL);
 
-	score_distribution = vector<int>(score_distributions_slots, 0);
+	_score_distribution = vector<int>(score_distributions_slots, 0);
 	
 	save();
 }

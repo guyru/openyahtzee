@@ -26,6 +26,8 @@
 
 #ifndef OPENYAHTZEE_MAIN_FRAME_INC
 #define OPENYAHTZEE_MAIN_FRAME_INC
+#include <memory>
+#include <boost/scoped_ptr.hpp>
 #include "ScoreDice.h"
 #include "configuration.h"
 #include "statistics.h"
@@ -81,8 +83,8 @@ public:
 
 	ScoreDice m_score_dice;
 
-	configuration::Configuration *m_config;
-	statistics::Statistics *m_stats;
+	boost::scoped_ptr<configuration::Configuration> m_config;
+	boost::scoped_ptr<statistics::Statistics> m_stats;
 
 private:
 	void ClearDiceHash();

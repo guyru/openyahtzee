@@ -93,8 +93,8 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	
 	std::string config_file_str;
 	config_file_str = config_file.utf8_str();
-	m_config = new configuration::Configuration(config_file_str);
-	m_stats = new statistics::Statistics(m_config);
+	m_config.reset(new configuration::Configuration(config_file_str));
+	m_stats.reset(new statistics::Statistics(m_config.get()));
 
 	m_evt_handler = new MainFrameEvtHandler(this);
 	
@@ -520,7 +520,7 @@ inline void MainFrame::EnableUndo(int id)
  */
 void MainFrame::OnShowHighscore(wxCommandEvent& event)
 {
-	highscores_dialog::HighscoresDialog *dialog = new highscores_dialog::HighscoresDialog(this,m_config);
+	highscores_dialog::HighscoresDialog *dialog = new highscores_dialog::HighscoresDialog(this, m_config.get());
 
 	dialog->ShowModal();
 
@@ -529,7 +529,7 @@ void MainFrame::OnShowHighscore(wxCommandEvent& event)
 
 void MainFrame::OnStatistics(wxCommandEvent &event)
 {
-	statistics_dialog::StatisticsDialog *dialog = new statistics_dialog::StatisticsDialog(this, m_stats);
+	statistics_dialog::StatisticsDialog *dialog = new statistics_dialog::StatisticsDialog(this, m_stats.get());
 	dialog->ShowModal();
 	delete dialog;
 }
@@ -541,7 +541,7 @@ void MainFrame::OnStatistics(wxCommandEvent &event)
  */
 void MainFrame::OnSettings( wxCommandEvent& event)
 {
-	settings_dialog::SettingsDialog* settings_dialog = new settings_dialog::SettingsDialog(this, m_config);
+	settings_dialog::SettingsDialog* settings_dialog = new settings_dialog::SettingsDialog(this, m_config.get());
 
 	if (settings_dialog->ShowModal()!=wxID_OK) {
 		delete settings_dialog;
@@ -1031,7 +1031,7 @@ void MainFrame::HighScoreHandler(int score)
 	int rank = m_config->submitHighscore(score, name, date);
 
 	//now show the high score table
-	highscores_dialog::HighscoresDialog *dialog = new highscores_dialog::HighscoresDialog(this,m_config,rank);
+	highscores_dialog::HighscoresDialog *dialog = new highscores_dialog::HighscoresDialog(this, m_config.get(),rank);
 
 	dialog->ShowModal();
 
@@ -1354,8 +1354,6 @@ bool MainFrame::IsValidClick()
 
 MainFrame::~MainFrame() {
 	// free pointers
-	delete m_stats;
-	delete m_config;
 	delete m_evt_handler;
 
 	for (int i = 0; i<6; i++) {

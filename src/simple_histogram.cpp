@@ -20,6 +20,7 @@
 
 #include "simple_histogram.h"
 #include <boost/foreach.hpp>
+#include <memory>
 using namespace std;
 
 SimpleHistogram::SimpleHistogram(wxWindow* parent, wxWindowID id,
@@ -35,7 +36,7 @@ SimpleHistogram::SimpleHistogram(wxWindow* parent, wxWindowID id,
 void SimpleHistogram::OnPaint(wxPaintEvent& event)
 {
 	wxPaintDC pdc(this);
-	wxGraphicsContext* dc = wxGraphicsContext::Create(pdc);
+	auto_ptr<wxGraphicsContext> dc(wxGraphicsContext::Create(pdc));
 	
 	dc->SetBrush(*wxBLUE_BRUSH);
 	int width, height;

@@ -1,6 +1,5 @@
-// $Header$
 /***************************************************************************
- *   Copyright (C) 2006 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2009 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,7 +17,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 
 // This is the main source file for the project. It includes the creation of the main window
 // but all other stuff is done on other files.
@@ -47,12 +45,10 @@ public:
 	virtual bool OnInit();
 };
 
-
-
 	// Implements MyApp& GetApp()
-	DECLARE_APP(MyApp) /*just to satisfy kdevelop*/;
+	DECLARE_APP(MyApp)
 	// Give wxWidgets the means to create a MyApp object
-	IMPLEMENT_APP(MyApp) /*just to satisfy kdevelop*/;
+	IMPLEMENT_APP(MyApp)
 	// Initialize the application
 
 bool MyApp::OnInit()
@@ -63,7 +59,8 @@ bool MyApp::OnInit()
 	// Create the main application window
 	main_frame::MainFrame *frame = new main_frame::MainFrame(wxT("Open Yahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE & (~wxRESIZE_BORDER));
 	
-	//Show it
+	//Center the frame and show it
+	frame->Centre(true);
 	frame->Show(true);	
 	return true;
 }

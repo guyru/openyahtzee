@@ -61,7 +61,7 @@ void Statistics::load_data()
 		_score_distribution.push_back(atoi(i.c_str()));
 	}
 
-	istringstream i(tmp);
+	istringstream i( backend->get("statistics_last_reset"));
 	i >> _last_reset;
 	if (!_last_reset)
 		throw BadConfiguration();

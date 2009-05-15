@@ -567,7 +567,9 @@ void MainFrame::OnRollButton ()
 {
 	short int dice[5];	//holds the dices score
 	
-	if (m_numofplaysleft == 13)
+	// If this is the first roll of the game, notify the statistics
+	// object
+	if (m_numofplaysleft == 13 && m_rolls == 3)
 		m_stats->game_started();
 
 	//fill the dice array with the old values

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2009 by Guy Rutenberg   *
+ *   Copyright (C) 2009 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,41 +17,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef OPENYAHTZEE_STATISTICS_DIALOG_INC
-#define OPENYAHTZEE_STATISTICS_DIALOG_INC
 
-#include "statistics.h"
-#include "simple_pie_plot.h"
 #include <wx/wx.h>
-#include <wx/dialog.h>
-#include <wx/listctrl.h>
-#include <wx/spinctrl.h>
+#include <vector>
 
-namespace statistics_dialog {
+#ifndef SIMPLE_HISTOGRAM_INC
+#define SIMPLE_HISTOGRAM_INC
 
-class StatisticsDialog : public wxDialog
-{
+namespace simple_pie_plot {
+
+class SimplePiePlot : public wxPanel {
 public:
-	StatisticsDialog(wxWindow* parent, statistics::Statistics* stats);
-
-	void OnClose(wxCommandEvent& event);
-	void OnReset(wxCommandEvent& event);
-	void OnConfigure(wxCommandEvent& event);
+	SimplePiePlot (wxWindow* parent, wxWindowID id,
+		 const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
+		 long style = wxNO_BORDER, const wxString& name = wxPanelNameStr);
+	void SetData(std::vector<double> d);
+	void OnPaint(wxPaintEvent& event);
+	void OnResize(wxSizeEvent& event);
 private:
-	void CreateControls();
-	void LoadData( );
-	void DoLayout();
-	void ConnectEventTable();
+	/**
+	 * Gets the color suiting the \a i th segment.
+	 * \param i The segment number.
+	 * \param hightlight Return color suiting for highlighting.
+	 */
+	wxColour GetSegmentColor(int i, bool highlight);
 
-	wxStaticText *games_started;
-	wxStaticText *games_finished;
-	wxStaticText *statistics_reset_date;
-	simple_pie_plot::SimplePiePlot* histogram;
-
-	statistics::Statistics* m_stats;
+	std::vector<double> m_data;
+	double m_data_total;
 };
 
-} // namespace statistics_dialog
-
+} // namespace
 
 #endif

@@ -36,7 +36,7 @@ Statistics::Statistics(configuration::Configuration *backend)
 	this->backend = backend;
 	try {
 		load_data();
-	} catch (exception &e) {
+	} catch (std::exception &e) {
 		reset();
 	}
 }

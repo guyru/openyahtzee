@@ -45,7 +45,7 @@ void StatisticsDialog::CreateControls()
 {
 	games_started = new wxStaticText(this, wxID_ANY, wxT(""));
 	games_finished = new wxStaticText(this, wxID_ANY, wxT(""));
-	histogram = new SimpleHistogram(this, wxID_ANY);
+	histogram = new simple_pie_plot::SimplePiePlot(this, wxID_ANY);
 	statistics_reset_date = new wxStaticText(this, wxID_ANY, wxT(""));
 }
 

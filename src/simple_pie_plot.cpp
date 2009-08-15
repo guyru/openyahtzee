@@ -21,12 +21,11 @@
 #include "simple_pie_plot.h"
 #include <boost/foreach.hpp>
 #include <memory>
-#include <iostream>
 #include <cmath>
 using namespace std;
 using namespace simple_pie_plot;
 
-#define PI 3.14159265
+const double PI = 4.0 * atan(1.0);
 
 /**
  * Draws a pie slice with origin in (\a x,\a y), radius (\a r) from
@@ -58,41 +57,33 @@ SimplePiePlot::SimplePiePlot(wxWindow* parent, wxWindowID id,
 				long style, const wxString& name)
 				: wxPanel(parent, id, pos, size, style, name)
 {
+	m_highlight = -1;
 	Connect(this->GetId(), wxEVT_PAINT, wxPaintEventHandler(SimplePiePlot::OnPaint));
 	Connect(this->GetId(), wxEVT_SIZE, wxSizeEventHandler(SimplePiePlot::OnResize));
-	
+
+	Connect(this->GetId(), wxEVT_MOTION, wxMouseEventHandler(SimplePiePlot::OnMouseMove));
+	Connect(this->GetId(), wxEVT_LEAVE_WINDOW, wxMouseEventHandler(SimplePiePlot::OnMouseLeaveWindow));
 }
 
 void SimplePiePlot::OnPaint(wxPaintEvent& event)
 {
 	wxPaintDC pdc(this);
 	auto_ptr<wxGraphicsContext> dc(wxGraphicsContext::Create(pdc));
-	
-	int width, height;
-	GetClientSize(&width, &height);
-
 	wxBrush color_brush;
-	int i = 0;
-	double item_x, item_y, item_ratio, item_height;
+	int width, height;
+
+	GetClientSize(&width, &height);
 
 	// radius should be set so it fits exactly
 	double radius = (width>height? height : width)/2.0;
-	double start_angle = 0;
-	double end_angle;
 
-	BOOST_FOREACH(double d, m_data) {
+	for (int i = 1; i<m_angles.size(); i++) {
 		// create brush
-		color_brush.SetColour(GetSegmentColor(i, false));
+		color_brush.SetColour(GetSegmentColor(i-1));
 		dc->SetBrush(color_brush);
 
-		item_ratio = m_data_total ? d/m_data_total : 0;
-		end_angle = start_angle + 2*PI* (item_ratio);
-
-		DrawPieSlice(width/2.0, height/2.0, radius, start_angle,
-			     end_angle, dc.get());
-
-		start_angle = end_angle;
-		i++;
+		DrawPieSlice(width/2.0, height/2.0, radius, m_angles[i-1],
+			     m_angles[i], dc.get());
 	}
 }
 
@@ -104,20 +95,28 @@ void SimplePiePlot::OnResize(wxSizeEvent& event)
 
 void SimplePiePlot::SetData(vector<double> d)
 {
-	//m_data.assign(d.begin(), d.end());
+	m_data.clear();
 	m_data_total = 0;
 	BOOST_FOREACH(double tmp, d) {
 		m_data_total += tmp;
 		if (tmp!=0)
 			m_data.push_back(tmp);
 	}
+
+	m_angles.clear();
+	double new_angle = 0;
+	m_angles.push_back(new_angle);
+	BOOST_FOREACH(double tmp, m_data) {
+		new_angle = new_angle + 2 * PI * (tmp/m_data_total);
+		m_angles.push_back(new_angle);
+	}
 }
 
-wxColour SimplePiePlot::GetSegmentColor(int i, bool highlight)
+wxColour SimplePiePlot::GetSegmentColor(int i)
 {
 	double hue_step = 1.0/(m_data.size());
 	double hue = i * hue_step;
-	double value = highlight ? 1.0 : 0.8;
+	double value = m_highlight == i ? 1.0 : 0.8;
 	wxColour color;
 	wxImage::RGBValue rgb;
 	wxImage::HSVValue hsv(hue, 1, value);
@@ -125,4 +124,50 @@ wxColour SimplePiePlot::GetSegmentColor(int i, bool highlight)
 	color.Set(rgb.red, rgb.green, rgb.blue);
 
 	return color;
+}
+
+void SimplePiePlot::OnMouseMove(wxMouseEvent& event)
+{
+	//check if the move is even in the plot
+	int width, height;
+	GetClientSize(&width, &height);
+	// radius should be set so it fits exactly
+	const double radius = (width>height? height : width)/2.0;
+
+	const double dist_mouse = (width/2.0-event.m_x)*(width/2.0-event.m_x) + 
+			    (height/2.0-event.m_y)*(height/2.0-event.m_y);
+	if (dist_mouse > (radius*radius)) { 
+		ClearHighlight();
+		return;
+	}
+
+	//angles are clockwise from the x-axis
+	double angle = acos((event.m_x-width/2.0)/sqrt(dist_mouse));
+	if (event.m_y < height/2.0)
+		angle = 2*PI - angle;
+	int i;
+	for (i = 1; i<m_angles.size(); i++) {
+		if (angle<=m_angles[i])
+			break;
+	}
+	Highlight(i-1);
+}
+
+void SimplePiePlot::OnMouseLeaveWindow(wxMouseEvent& event)
+{
+	ClearHighlight();
+}
+
+void SimplePiePlot::Highlight(int i)
+{
+	m_highlight = i;
+	Refresh();
+}
+
+void SimplePiePlot::ClearHighlight()
+{
+	if (m_highlight != -1) {
+		m_highlight = -1;
+		Refresh();
+	}
 }

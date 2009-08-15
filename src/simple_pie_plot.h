@@ -34,16 +34,22 @@ public:
 	void SetData(std::vector<double> d);
 	void OnPaint(wxPaintEvent& event);
 	void OnResize(wxSizeEvent& event);
+	void OnMouseLeaveWindow(wxMouseEvent& event);
+	void OnMouseMove(wxMouseEvent& event);
 private:
 	/**
 	 * Gets the color suiting the \a i th segment.
 	 * \param i The segment number.
-	 * \param hightlight Return color suiting for highlighting.
 	 */
-	wxColour GetSegmentColor(int i, bool highlight);
+	wxColour GetSegmentColor(int i);
+
+	void Highlight(int i);
+	void ClearHighlight();
 
 	std::vector<double> m_data;
+	std::vector<double> m_angles;
 	double m_data_total;
+	int m_highlight;
 };
 
 } // namespace

@@ -31,11 +31,12 @@ public:
 	SimplePiePlot (wxWindow* parent, wxWindowID id,
 		 const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
 		 long style = wxNO_BORDER, const wxString& name = wxPanelNameStr);
-	void SetData(std::vector<double> d);
+	void SetData(std::vector<double> d, std::vector<wxString> labels);
 	void OnPaint(wxPaintEvent& event);
 	void OnResize(wxSizeEvent& event);
 	void OnMouseLeaveWindow(wxMouseEvent& event);
 	void OnMouseMove(wxMouseEvent& event);
+	wxSize GetMinSize() const;
 private:
 	/**
 	 * Gets the color suiting the \a i th segment.
@@ -43,13 +44,48 @@ private:
 	 */
 	wxColour GetSegmentColor(int i);
 
+	/**
+	 * Calculate the angles in the plot and populate the m_angles array.
+	 */
+	void CalculateAngles();
+
+	/**
+	 * Calculate the maximum widht and height for a label in the legend.
+	 */
+	void CalculateLegendDimensions(wxGraphicsContext *dc);
+
+	/**
+	 * Calculate the location and radius of the pie plot.
+	 */
+	void CalculatePiePlotLocation();
+
+	void DrawLegend(wxGraphicsContext *dc);
+
 	void Highlight(int i);
 	void ClearHighlight();
 
 	std::vector<double> m_data;
+	std::vector<wxString> m_labels;
 	std::vector<double> m_angles;
 	double m_data_total;
 	int m_highlight;
+
+	/// maximum width for a label in the legend.
+	double m_max_legend_width;
+	/// maximum height for a label in the legend.
+	double m_max_legend_height;
+	/// total width of the legend
+	double m_legend_width;
+	/// the line height of each legend entry including padding
+	double m_legend_line_height;
+
+	static const double m_legend_left_padding = 10;
+
+	// The center point of the pie plot
+	double m_pie_x;
+	double m_pie_y;
+	double m_radius;
+
 };
 
 } // namespace

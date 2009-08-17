@@ -46,7 +46,7 @@ private:
 	wxStaticText *games_started;
 	wxStaticText *games_finished;
 	wxStaticText *statistics_reset_date;
-	simple_pie_plot::SimplePiePlot* histogram;
+	simple_pie_plot::SimplePiePlot* pie_plot;
 
 	statistics::Statistics* m_stats;
 };

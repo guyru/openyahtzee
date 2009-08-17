@@ -45,7 +45,7 @@ void StatisticsDialog::CreateControls()
 {
 	games_started = new wxStaticText(this, wxID_ANY, wxT(""));
 	games_finished = new wxStaticText(this, wxID_ANY, wxT(""));
-	histogram = new simple_pie_plot::SimplePiePlot(this, wxID_ANY);
+	pie_plot = new simple_pie_plot::SimplePiePlot(this, wxID_ANY);
 	statistics_reset_date = new wxStaticText(this, wxID_ANY, wxT(""));
 }
 
@@ -63,8 +63,19 @@ void StatisticsDialog::LoadData()
 	statistics_reset_date->SetLabel(tmp);
 
 	vector<int> score_dist = m_stats->score_distribution();
-	vector<double> dist (score_dist.begin(), score_dist.end());
-	histogram->SetData(dist);
+	vector<double> dist;
+	vector<wxString> labels;
+	for (int i; i<score_dist.size(); i++) {
+		if (score_dist[i]) {
+			assert(score_dist[i]>0);
+			dist.push_back(score_dist[i]);
+			tmp = wxString::Format(wxT("%i - %i"),
+				i*statistics::score_distribution_granuality,
+				(i+1)*statistics::score_distribution_granuality);
+			labels.push_back(tmp);
+		}
+	}
+	pie_plot->SetData(dist, labels);
 }
 
 void StatisticsDialog::DoLayout()
@@ -78,7 +89,7 @@ void StatisticsDialog::DoLayout()
 	top_sizer->Add(game_counts,0,wxEXPAND,10);
 
 	wxStaticBoxSizer* score_distribution = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Score Distribution") ), wxHORIZONTAL);
-	score_distribution->Add(histogram, 1, wxEXPAND, 10);
+	score_distribution->Add(pie_plot, 1, wxEXPAND, 10);
 	top_sizer->Add(score_distribution,10,wxEXPAND, 10);
 
 	top_sizer->Add(statistics_reset_date,0,wxEXPAND,10);

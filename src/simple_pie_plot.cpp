@@ -37,19 +37,8 @@ void DrawPieSlice(double x, double y, double r, double start_angle,
 		  double end_angle, wxGraphicsContext *dc)
 {
 	wxGraphicsPath path = dc->CreatePath();
-	double x1 = x + r * cos(start_angle);
-	double y1 = y + r * sin(start_angle);
-	double x2 = x + r * cos(end_angle);
-	double y2 = y + r * sin(end_angle);
-
-	path.AddArc(x, y, r, start_angle, end_angle, true);
-	path.CloseSubpath();
-
 	path.MoveToPoint(x,y);
-	path.AddLineToPoint(x1,y1);
-	path.AddLineToPoint(x2,y2);
-	path.CloseSubpath();
-
+	path.AddArc(x, y, r, start_angle, end_angle, true);
 	dc->DrawPath(path);
 }
 

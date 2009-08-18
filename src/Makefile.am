@@ -14,7 +14,6 @@ openyahtzee_SOURCES = \
 	settings_dialog.cpp \
 	settings_dialog.h \
 	ScoreDice.cpp \
-	simple_histogram.cpp \
 	simple_pie_plot.cpp \
 	statistics.cpp \
 	statistics_dialog.cpp \
@@ -35,7 +34,6 @@ noinst_HEADERS = \
 	openyahtzee.ico \
 	MainFrame.h \
 	ScoreDice.h \
-	simple_histogram.h \
 	simple_pie_plot.h \
 	statistics.h \
 	statistics_dialog.h \

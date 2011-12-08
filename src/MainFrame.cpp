@@ -80,8 +80,9 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	#ifndef PORTABLE
 		wxString config_file = wxStandardPaths::Get().GetUserConfigDir() + wxT("/.openyahtzee");
 		wxString old_config_file = wxFileName::GetHomeDir() + wxT("/.OpenYahtzee");
-		//rename old configuration file
-		if (wxFileExists(old_config_file)) {
+		// Move the configuration file from the old name to the new one
+		// if there isn't a file with that name already.
+		if (wxFileExists(old_config_file) && !wxFileExists(config_file)) {
 			wxRenameFile(old_config_file,config_file,false);
 		}
 	#else

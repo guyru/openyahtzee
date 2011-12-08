@@ -1,5 +1,5 @@
 /* XPM */
-static char *icon64_xpm[] = {
+static const char *icon64_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "64 64 256 2",
 "   c #0E3A0E450F00",

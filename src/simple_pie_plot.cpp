@@ -66,6 +66,10 @@ void SimplePiePlot::OnPaint(wxPaintEvent& event)
 	auto_ptr<wxGraphicsContext> dc(wxGraphicsContext::Create(pdc));
 	wxBrush color_brush;
 
+	if (m_labels.size() == 0) {
+		return;
+	}
+
 	if (!m_max_legend_width || !m_max_legend_height) {
 		CalculateLegendDimensions(dc.get());
 		// This might have caused a new minimum size to occure, tell

@@ -57,7 +57,7 @@ void Configuration::load(string file)
 		return;
 	}
 	
-	while(!conf_file.eof()) {
+	while(!(conf_file.eof() || conf_file.fail())) {
 		getline(conf_file,header);
 		if (header == "[settings]") {
 			parseSettings(&conf_file);
@@ -103,7 +103,7 @@ void Configuration::parseHighscores(ifstream *file)
 	temp_chr = file->get();
 	file->unget();
 
-	while(file->good()) {
+	while(file->eof()) {
 		temp_chr = file->get();
 		file->unget();
 		if (temp_chr == '[') {

@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include "simple_pie_plot.h"
-#include <boost/foreach.hpp>
 #include <memory>
 #include <algorithm>
 #include <cmath>
@@ -124,7 +123,7 @@ void SimplePiePlot::SetData(vector<double> d, vector<wxString> labels)
 
 	m_data.clear();
 	m_data_total = 0;
-	BOOST_FOREACH(double tmp, d) {
+	for (double &tmp : d) {
 		// we can't plot negative values
 		assert(tmp >= 0);
 		m_data_total += tmp;
@@ -144,7 +143,7 @@ void SimplePiePlot::CalculateAngles()
 
 	m_angles.clear();
 	m_angles.push_back(new_angle);
-	BOOST_FOREACH(double tmp, m_data) {
+	for (double &tmp : m_data) {
 		new_angle = new_angle + 2 * PI * (tmp/m_data_total);
 		m_angles.push_back(new_angle);
 	}
@@ -159,7 +158,7 @@ void SimplePiePlot::CalculateLegendDimensions(wxGraphicsContext *dc)
 
 	dc->SetFont(*wxNORMAL_FONT, *wxBLACK);
 	
-	BOOST_FOREACH(wxString label, m_labels) {
+	for (wxString &label : m_labels) {
 		dc->GetTextExtent(label, &tmp_width, &tmp_height, NULL, NULL);
 		m_max_legend_width = max(m_max_legend_width, tmp_width);
 		m_max_legend_height = max(m_max_legend_height, tmp_height);

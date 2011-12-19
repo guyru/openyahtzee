@@ -21,7 +21,6 @@
 #include <string>
 #include <sstream>
 #include <cstdlib>
-#include <boost/foreach.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include "statistics.h"
@@ -57,7 +56,7 @@ void Statistics::load_data()
 	if (tmp_vec.size() != score_distributions_slots)
 		throw BadConfiguration();
 
-	BOOST_FOREACH(string i, tmp_vec) {
+	for (string &i : tmp_vec) {
 		_score_distribution.push_back(atoi(i.c_str()));
 	}
 
@@ -92,7 +91,7 @@ void Statistics::save() {
 	backend->set("statistics_last_reset", stringify(_last_reset));
 
 	tmp = "";
-	BOOST_FOREACH(int i, _score_distribution) {
+	for (int &i : _score_distribution) {
 		tmp += stringify(i) + ",";
 	}
 	//delete trailing comma

@@ -25,6 +25,7 @@
 #include <fstream>
 #include <map>
 #include <list>
+#include <boost/range/iterator_range.hpp>
 
 namespace configuration {
 
@@ -78,8 +79,11 @@ public:
 
 	void setHighscoresSize(size_t size);
 private:
-	void parseSettings(std::ifstream *file);
-	void parseHighscores(std::ifstream *file);
+	typedef std::list<std::string> lines_container;
+	typedef lines_container::iterator lines_iterator;
+
+	lines_iterator parseSettings(boost::iterator_range<lines_iterator> range);
+	lines_iterator parseHighscores(boost::iterator_range<lines_iterator> range);
 
 	void saveSettings(std::ofstream *file);
 	void saveHighscores(std::ofstream *file);

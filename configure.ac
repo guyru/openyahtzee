@@ -5,10 +5,13 @@ AC_CONFIG_SRCDIR([src/openyahtzee.cpp])
 AC_CONFIG_HEADER([config.h])
 
 m4_include(macros/wxwin.m4)
+m4_include(macros/ax_check_compile_flag.m4)
 
 dnl AC_LANG_CPLUSPLUS
 AC_PROG_CXX
-AC_PROG_CC # this is only needed for the SQLite support
+
+AX_CHECK_COMPILE_FLAG([-std=c++0x], [CXXFLAGS="$CXXFLAGS -std=c++0x"])
+
 dnl AM_PROG_LIBTOOL
 
 AM_OPTIONS_WXCONFIG

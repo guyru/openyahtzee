@@ -79,7 +79,7 @@ private:
 	/// the line height of each legend entry including padding
 	double m_legend_line_height;
 
-	static const double m_legend_left_padding = 10;
+	static const double m_legend_left_padding;
 
 	// The center point of the pie plot
 	double m_pie_x;

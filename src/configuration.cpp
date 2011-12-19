@@ -20,11 +20,16 @@
 
 #include <cstdlib> // used in the back-compatibility code
 #include <sstream>
+#include <iostream>
+#include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
 #include "configuration.h"
 #include "../config.h"
 
 using namespace std;
 using namespace configuration;
+using namespace boost;
+
 
 Configuration::Configuration(string file)
 {
@@ -35,7 +40,7 @@ void Configuration::load(string file)
 {
 	m_file = file;
 
-	ifstream conf_file (file.c_str());
+	ifstream conf_file(file.c_str());
 	if (!conf_file.is_open()) {
 		// file couldn't be opened, this is due to missing file or
 		// permission error.
@@ -43,90 +48,88 @@ void Configuration::load(string file)
 		save();
 		return;
 	}
+
+	lines_container conf_lines;
+	string line;
+	while(getline(conf_file, line).good()) {
+		conf_lines.push_back(line);
+	}
+
+	if (conf_file.is_open())
+		conf_file.close();
 	
-	// the file was opened successfully. we need to check if it is an
-	// Open Yahtzee configuration file.
-	string header;
-	getline(conf_file,header);
-	if (header.substr(0,11) != "openyahtzee") {
+	// check it's an Open Yahtzee configuration file
+	if (conf_lines.begin()->substr(0,11) != "openyahtzee") {
 		/* The file might be an old configuration file or
-		 * currupted, anyway re-create it
+		 * corrupted, anyway re-create it
 		 */
 		loadDefaultSettings();
 		save();
 		return;
 	}
-	
-	while(!(conf_file.eof() || conf_file.fail())) {
-		getline(conf_file,header);
-		if (header == "[settings]") {
-			parseSettings(&conf_file);
-		} else if (header == "[highscores]") {
-			parseHighscores(&conf_file);
+
+	lines_iterator conf_line = conf_lines.begin();
+	while (conf_line != conf_lines.end()) {
+		if (*conf_line == "[settings]") {
+			conf_line = parseSettings(make_iterator_range(conf_line, conf_lines.end()));
+		} else if (*conf_line == "[highscores]") {
+			conf_line = 
+				parseHighscores(make_iterator_range(conf_line, conf_lines.end()));
+		} else {
+			++conf_line;
 		}
 	}
-
-	conf_file.close();
 }
 
-void Configuration::parseSettings(ifstream *file)
+Configuration::lines_iterator Configuration::parseSettings(iterator_range<Configuration::lines_iterator> range)
 {
 	loadDefaultSettings();
-	string temp_line;
-	size_t pos; // used to loacate the '=' sign
-
-	while(!file->eof()) {
-		char temp_chr = file->get();
-		file->unget();
-		if (temp_chr == '[') { //new section started
-			// we already called unget
-			return;
-		}
-		getline(*file,temp_line);
-		pos = temp_line.find('=');
-		if (pos == string::npos) {
-			// this isn't a configuration line, but it isn't a new section
-			// as we checked this before, just skip
+	auto start = range.begin();
+	while (++start != range.end()) {
+		// check if we reached the start of a new section
+		if (algorithm::starts_with(*start, "[") &&
+			algorithm::ends_with(*start, "]"))
+			break;
+		size_t pos = start->find('=');
+		if (pos == std::string::npos)
 			continue;
-		}
-		m_settings[temp_line.substr(0,pos)] = temp_line.substr(pos+1);
+
+		m_settings[start->substr(0,pos)] = 
+			start->substr(pos + 1);
 	}
+	return start;
 }
 
-void Configuration::parseHighscores(ifstream *file)
+Configuration::lines_iterator Configuration::parseHighscores(iterator_range<Configuration::lines_iterator> range)
 {
-	char temp_chr;
-	int score;
-	string date,hour,name;
+
 	HighscoreItem temp_item;
+	auto start = range.begin();
 
-	temp_chr = file->get();
-	file->unget();
-
-	while(file->eof()) {
-		temp_chr = file->get();
-		file->unget();
-		if (temp_chr == '[') {
-			// we already called unget
-			return;
+	while (++start != range.end()) {
+		// check if we reached the start of a new section
+		if (algorithm::starts_with(*start, "[") &&
+			algorithm::ends_with(*start, "]"))
+			break;
+		vector<string> line_parts;
+		boost::split(line_parts, *start, boost::is_any_of(" "));
+		if (line_parts.size() < 4) {
+			// The line has missing parts, ignore it
+			cerr << boost::format("%s:%s Couldn't parse: %s") % __FILE__ % __LINE__ % *start << endl;
+			continue;
 		}
-		(*file)>>score;
-		(*file)>>date;
-		(*file)>>hour;
-		(*file).get(); // discard space before name
-		getline(*file,name);
-		temp_item.score = score;
-		temp_item.name = name;
-		temp_item.date = date+" "+hour;
-		m_highscores.push_back(temp_item);
+		auto line_parts_itr = line_parts.begin();
+		temp_item.score = atoi((line_parts_itr++)->c_str());
+		temp_item.date = *line_parts_itr + " " + *(line_parts_itr+1);
+		line_parts_itr += 2;
+		temp_item.name = algorithm::join(make_iterator_range(line_parts_itr,
+		                                                     line_parts.end()),
+		                                 " ");
 
-		// The following two lines read one character forword and
-		// return it. This is done in order to raise the eofbit if
-		// we reached the eof (it is raised only after reading
-		// operation failed).
-		temp_chr = file->get();
-		file->unget();
+		m_highscores.push_back(temp_item);
 	}
+
+	return start;
 }
 
 void Configuration::save()

@@ -28,6 +28,8 @@ using namespace simple_pie_plot;
 
 const double PI = 4.0 * atan(1.0);
 
+const double SimplePiePlot::m_legend_left_padding = 10;
+
 /**
  * Draws a pie slice with origin in (\a x,\a y), radius (\a r) from
  * from \a start_angle to \a end_angle, where angles are in radians measured

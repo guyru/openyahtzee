@@ -1,0 +1,6 @@
+*.o
+.deps
+Makefile
+*.in
+tags
+autom4te.cache

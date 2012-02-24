@@ -151,7 +151,7 @@ void MainFrame::AddMenus()
 	gameMenu->Append(wxID_NEW,wxT("&New Game\tF2"));
 	gameMenu->Append(wxID_UNDO,wxT("&Undo\tCtrl+Z"));
 	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("Show Highscores\tCtrl+H"));
-	gameMenu->Append(ID_STATISTICS,wxT("Statistics..."));
+	//gameMenu->Append(ID_STATISTICS,wxT("Statistics..."));
 	gameMenu->Append(ID_SETTINGS,wxT("Settings"));
 	gameMenu->Append(wxID_EXIT);
 	

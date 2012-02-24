@@ -2,7 +2,7 @@
 # have all needed files, that a GNU package needs
 AUTOMAKE_OPTIONS = foreign 1.4
 
-SUBDIRS = src
+SUBDIRS = src man
 
 appicondir = $(datadir)/pixmaps
 dist_appicon_DATA = icons/openyahtzee.png

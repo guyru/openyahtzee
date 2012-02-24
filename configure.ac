@@ -7,14 +7,21 @@ AC_CONFIG_HEADER([config.h])
 m4_include(macros/wxwin.m4)
 m4_include(macros/ax_check_compile_flag.m4)
 
-dnl AC_LANG_CPLUSPLUS
+# Checks for programs.
 AC_PROG_CXX
 
 AX_CHECK_COMPILE_FLAG([-std=c++0x], [CXXFLAGS="$CXXFLAGS -std=c++0x"])
 
-dnl AM_PROG_LIBTOOL
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_INLINE
+AC_TYPE_SIZE_T
+
+# Checks for library functions.
+AC_CHECK_FUNCS([sqrt])
 
 AM_OPTIONS_WXCONFIG
+
 #Detect wxWidgets
 MIN_WX_VERSION="2.8.0"
 AM_PATH_WXCONFIG($MIN_WX_VERSION, wxWin=1)
@@ -31,5 +38,7 @@ AC_MSG_ERROR([
 fi
 
 
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile
+                 man/Makefile
+                 src/Makefile])
 AC_OUTPUT

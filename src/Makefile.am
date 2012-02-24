@@ -37,6 +37,7 @@ noinst_HEADERS = \
 	simple_pie_plot.h \
 	statistics.h \
 	statistics_dialog.h \
+	utility.h \
 	wxDynamicBitmap.h \
 	../openyahtzee.vcproj \
 	../openyahtzee.sln \

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2012 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -151,30 +151,27 @@ void Configuration::save()
 
 void Configuration::saveSettings(ofstream *file)
 {
-	map<string,string>::iterator it;
-	for (it = m_settings.begin(); it!=m_settings.end(); it++) {
-		(*file)<<(*it).first<<"="<<(*it).second<<"\n";
+	for (auto &it : m_settings) {
+		(*file) << it.first << "=" << it.second << endl;
 	}
 }
 
 void Configuration::saveHighscores(ofstream *file)
 {
-	HighscoresList::iterator it;
-	for (it = m_highscores.begin(); it!=m_highscores.end(); it++) {
-		(*file)<<(*it).score<<" ";
-		(*file)<<(*it).date<<" ";
-		(*file)<<(*it).name<<"\n";
+	for (auto &it : m_highscores) {
+		(*file) << it.score << " ";
+		(*file) << it.date << " ";
+		(*file) << it.name << endl;
 	}
 }
 
-string Configuration::get(string key)
+string Configuration::get(string key, string default_value)
 {
-	map<string,string>::iterator obj;
+	auto obj = m_settings.find(key);
 
-	obj = m_settings.find(key);
 	if (obj == m_settings.end()) {
 		// key is missing return empty string
-		return "";
+		return default_value;
 	}
 	return obj->second;
 }
@@ -196,13 +193,13 @@ void Configuration::loadDefaultSettings()
 
 bool Configuration::isHighscore(int score) {
 	const unsigned int highscore_list_size = atoi(m_settings["highscore-list-size"].c_str());
-	if (m_highscores.size()<highscore_list_size) {
+	if (m_highscores.size() < highscore_list_size) {
 		// we have extra room in the highscore list
 		return true;
 	}
 
-	HighscoresList::iterator it= m_highscores.end();
-	if ((--it)->score<score) {
+	auto it= m_highscores.end();
+	if ((--it)->score < score) {
 		return true;
 	}
 

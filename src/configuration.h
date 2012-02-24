@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2012 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,7 +53,7 @@ public:
 	 * \return the value associated with the specified key, or empty
 	 * string if that key is missing
 	 */
-	std::string get(std::string key);
+	std::string get(std::string key, std::string default_value = "");
 	/**
 	 * Associates the given value with the given key. You must call
 	 * save() in order to make the change permanent.

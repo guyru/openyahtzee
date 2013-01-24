@@ -38,6 +38,8 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
+#include <random>
+#include <chrono>
 #include <wx/version.h>
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
@@ -105,9 +107,6 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	bitmap_dice[3] = new wxBitmap(dice::four_xpm);
 	bitmap_dice[4] = new wxBitmap(dice::five_xpm);
 	bitmap_dice[5] = new wxBitmap(dice::six_xpm);
-	
-	//randomize the random-number generator based on the time
-	srand( (unsigned)time( NULL ) );
 	
 	AddMenus();
 
@@ -567,45 +566,46 @@ void MainFrame::OnSettings( wxCommandEvent& event)
 void MainFrame::OnRollButton ()
 {
 	short int dice[5];	//holds the dices score
+
+	static std::mt19937::result_type seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	static auto dice_rand = std::bind(std::uniform_int_distribution<int>(1,6),
+				          std::mt19937(seed));
+	static auto num_throws_rand = std::bind(std::uniform_int_distribution<int>(5,18),
+					        std::mt19937(seed * 0x101010101));
 	
 	// If this is the first roll of the game, notify the statistics
 	// object
 	if (m_numofplaysleft == 13 && m_rolls == 3)
 		m_stats->game_started();
 
-	//fill the dice array with the old values
-	dice[0]=m_score_dice.GetDice(1);
-	dice[1]=m_score_dice.GetDice(2);
-	dice[2]=m_score_dice.GetDice(3);
-	dice[3]=m_score_dice.GetDice(4);
-	dice[4]=m_score_dice.GetDice(5);
-	//roll the dice...
-	if (m_config->get("dice-animation")=="True") {
-		int dice_throws[5] = {0,0,0,0,0};
-		for (int i=0; i<5; i++) { //set the number of rolls for each dice
-			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
-				dice_throws[i] = (rand()%15)+3; //ensures the number is at least one.
+	// fill the dice array with the old values
+	int dice_throws[5];
+	for (int i = 0 ; i < 5; ++i) {
+		dice[i]=m_score_dice.GetDice(i+1);
+		dice_throws[i] = 0;
+		if ( ((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked() ) {
+			dice_throws[i] = 0;
+		} else {
+			dice_throws[i] = 1;
+			if (m_config->get("dice-animation") == "True") {
+				dice_throws[i] = num_throws_rand();
 			}
 		}
-		while (dice_throws[0] || dice_throws[1] || dice_throws[2] || dice_throws[3] || dice_throws[4]) {
-			for (int i=0 ; i<5; i++){
-				if(dice_throws[i]){
-					dice_throws[i]--;
-					dice[i] = (int)(6.0*rand()/RAND_MAX)+1;
-					((wxDynamicBitmap*) FindWindow(i + 
-						ID_DICE1)) -> SetBitmap(
-						bitmap_dice[dice[i]-1]);
-				}
+	}
+
+	while (dice_throws[0] || dice_throws[1] || dice_throws[2] || dice_throws[3] || dice_throws[4]) {
+		for (int i=0 ; i<5; i++){
+			if(dice_throws[i]){
+				dice_throws[i]--;
+				dice[i] = dice_rand();
+				std::cout<<i << dice[i]<< std::endl;
+				((wxDynamicBitmap*) FindWindow(i + 
+					ID_DICE1)) -> SetBitmap(
+					bitmap_dice[dice[i]-1]);
 			}
-			::wxMilliSleep(100);
 		}
-	} else {
-		for (int i=0; i<5; i++) {
-			if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked()) {
-				dice[i] = (int)(6.0*rand()/RAND_MAX)+1;
-				((wxDynamicBitmap*) FindWindow(i + ID_DICE1))->
-					SetBitmap(bitmap_dice[dice[i]-1]);
-			}
+		if (m_config->get("dice-animation")=="True") {
+			wxMilliSleep(100);
 		}
 	}
 

@@ -464,7 +464,7 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 		((wxButton*) FindWindow(ID_ROLL)) -> Enable(false);
 	
 	// change the displayed roll counter
-	wxString caption = wxString::Format(wxT("Roll! (%i)"),m_rolls);
+	wxString caption = wxString::Format(wxT("Roll! (%hi)"),m_rolls);
 	FindWindow(ID_ROLL)->SetLabel(caption);
 
 	//restore the 'keep' checkboxes
@@ -490,7 +490,7 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 		tempstr = ((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> GetValue();
 		tempstr.ToLong(&temp,10);
 		temp -= 100; //this line reduces the points given for the yahtzee bonus
-		tempstr.Printf(wxT("%i"),temp);
+		tempstr.Printf(wxT("%li"),temp);
 		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
 	}
 
@@ -614,7 +614,7 @@ void MainFrame::OnRollButton ()
 	--m_rolls;
 	
 	// change the displayed roll counter
-	wxString caption = wxString::Format(wxT("Roll! (%i)"),m_rolls);
+	wxString caption = wxString::Format(wxT("Roll! (%hi)"),m_rolls);
 	FindWindow(ID_ROLL)->SetLabel(caption);
 
 	#ifndef DEBUG
@@ -696,7 +696,7 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 		break;
 	}
 	
-	out.Printf(wxT("%i"),temp);
+	out.Printf(wxT("%hi"),temp);
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT));
 	text_ctrl->SetValue(out);
 	text_ctrl->SetBackgroundColour(*wxWHITE);
@@ -717,7 +717,7 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 	YahtzeeBonus();
 	wxString out;
 	
-	out.Printf(wxT("%i"),m_score_dice.ThreeOfAKind());
+	out.Printf(wxT("%hi"),m_score_dice.ThreeOfAKind());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_THREEOFAKINDTEXT));
 	text_ctrl->SetValue(out);
 	text_ctrl->SetBackgroundColour(*wxWHITE);
@@ -738,7 +738,7 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 	YahtzeeBonus();
 	wxString out;
 
-	out.Printf(wxT("%i"),m_score_dice.FourOfAKind());
+	out.Printf(wxT("%hi"),m_score_dice.FourOfAKind());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_FOUROFAKINDTEXT));
 	text_ctrl->SetValue(out);
 	text_ctrl->SetBackgroundColour(*wxWHITE);
@@ -760,7 +760,7 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 	
 	YahtzeeBonus();
 
-	out.Printf(wxT("%i"), m_score_dice.FullHouse());
+	out.Printf(wxT("%hi"), m_score_dice.FullHouse());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_FULLHOUSETEXT));
 	text_ctrl->SetValue(out);
 	text_ctrl->SetBackgroundColour(*wxWHITE);
@@ -782,7 +782,7 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 
 	YahtzeeBonus();
 	
-	out.Printf(wxT("%i"), m_score_dice.SmallSequence());
+	out.Printf(wxT("%hi"), m_score_dice.SmallSequence());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_SMALLSEQUENCETEXT));
 	text_ctrl->SetValue(out);
 	text_ctrl->SetBackgroundColour(*wxWHITE);
@@ -804,7 +804,7 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 
 	YahtzeeBonus();
 
-	out.Printf(wxT("%i"), m_score_dice.LargeSequence());
+	out.Printf(wxT("%hi"), m_score_dice.LargeSequence());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_LARGESEQUENCETEXT));
 	text_ctrl->SetValue(out);
 	text_ctrl->SetBackgroundColour(*wxWHITE);
@@ -826,7 +826,7 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 		return;
 	
 	if (m_score_dice.IsYahtzee()) m_yahtzee = true;
-	out.Printf(wxT("%i"), m_score_dice.Yahtzee());
+	out.Printf(wxT("%hi"), m_score_dice.Yahtzee());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_YAHTZEETEXT));
 	text_ctrl->SetValue(out);
 	text_ctrl->SetBackgroundColour(*wxWHITE);
@@ -847,7 +847,7 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 
 	YahtzeeBonus();
 
-	out.Printf(wxT("%i"),m_score_dice.Chance());
+	out.Printf(wxT("%hi"),m_score_dice.Chance());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_CHANCETEXT));
 	text_ctrl->SetValue(out);
 	text_ctrl->SetBackgroundColour(*wxWHITE);
@@ -920,7 +920,7 @@ void MainFrame::YahtzeeBonus()
 		tempstr = ((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> GetValue();
 		tempstr.ToLong(&temp,10);
 		temp += 100;
-		tempstr.Printf(wxT("%i"),temp);
+		tempstr.Printf(wxT("%li"),temp);
 		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
 		m_yahtzeebonus = true;
 	}	
@@ -962,7 +962,7 @@ void MainFrame::EndofGame()
 		upperscore +=temp;
 	}
 	
-	tempstr.Printf(wxT("%i"),upperscore);
+	tempstr.Printf(wxT("%li"),upperscore);
 	((wxTextCtrl*) FindWindow(ID_UPPERSECTIONTOTAL)) -> SetValue(tempstr);
 	
 	//check for bonus
@@ -972,7 +972,7 @@ void MainFrame::EndofGame()
 	} else
 		((wxTextCtrl*) FindWindow(ID_BONUS)) -> SetValue(wxT("0"));
 	
-	tempstr.Printf(wxT("%i"),upperscore);
+	tempstr.Printf(wxT("%li"),upperscore);
 	((wxTextCtrl*) FindWindow(ID_UPPERTOTAL)) -> SetValue(tempstr);
 	
 	//calculate total on lower section
@@ -982,15 +982,15 @@ void MainFrame::EndofGame()
 		lowerscore +=temp;
 	}
 	
-	tempstr.Printf(wxT("%i"),lowerscore);
+	tempstr.Printf(wxT("%li"),lowerscore);
 	((wxTextCtrl*) FindWindow(ID_LOWERTOTAL)) -> SetValue(tempstr);
-	tempstr.Printf(wxT("%i"),upperscore + lowerscore);
+	tempstr.Printf(wxT("%li"),upperscore + lowerscore);
 	((wxTextCtrl*) FindWindow(ID_GRANDTOTAL)) -> SetValue(tempstr);
 
 	//disable the roll button;
 	((wxButton*) FindWindow(ID_ROLL)) -> Enable(false);
 
-	tempstr.Printf(wxT("Your final score is %i points!"),lowerscore+upperscore);
+	tempstr.Printf(wxT("Your final score is %li points!"),lowerscore+upperscore);
 	wxMessageBox(tempstr, wxT("Game Ended"), wxOK | wxICON_INFORMATION, this);
 
 	m_stats->game_finished(lowerscore+upperscore);
@@ -1084,7 +1084,7 @@ void MainFrame::CalculateSubTotal()
 		upperscore +=temp;
 	}
 	
-	tempstr.Printf(wxT("%i"),upperscore);
+	tempstr.Printf(wxT("%li"),upperscore);
 	((wxTextCtrl*) FindWindow(ID_UPPERSECTIONTOTAL)) -> SetValue(tempstr);
 	if (upperscore >= 63) {
 		((wxTextCtrl*) FindWindow(ID_BONUS))->SetValue(wxT("35"));
@@ -1099,7 +1099,7 @@ void MainFrame::CalculateSubTotal()
 		lowerscore +=temp;
 	}
 	
-	tempstr.Printf(wxT("%i"),lowerscore);
+	tempstr.Printf(wxT("%li"),lowerscore);
 	((wxTextCtrl*) FindWindow(ID_LOWERTOTAL)) -> SetValue(tempstr);
 }
 
@@ -1193,7 +1193,7 @@ void MainFrame::Relayout()
 
 	// if there are rolls left we should display the count of them
 	if (roll_button_enabled) {
-		wxString caption = wxString::Format(wxT("Roll! (%i)"),m_rolls);
+		wxString caption = wxString::Format(wxT("Roll! (%hi)"),m_rolls);
 		FindWindow(ID_ROLL)->SetLabel(caption);
 	}
 
@@ -1276,43 +1276,43 @@ void MainFrameEvtHandler::OnScoreMouseEnter (wxMouseEvent& event)
 	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(id-ID_ACES+ID_ACESTEXT));
 	switch (id) {
 	case ID_ACES:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Aces());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.Aces());
 		break;
 	case ID_TWOS:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Twos());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.Twos());
 		break;
 	case ID_THREES:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Threes());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.Threes());
 		break;
 	case ID_FOURS:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Fours());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.Fours());
 		break;
 	case ID_FIVES:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Fives());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.Fives());
 		break;
 	case ID_SIXES:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Sixes());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.Sixes());
 		break;
 	case ID_THREEOFAKIND:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.ThreeOfAKind());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.ThreeOfAKind());
 		break;
 	case ID_FOUROFAKIND:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.FourOfAKind());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.FourOfAKind());
 		break;
 	case ID_FULLHOUSE:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.FullHouse());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.FullHouse());
 		break;
 	case ID_SMALLSEQUENCE:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.SmallSequence());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.SmallSequence());
 		break;
 	case ID_LARGESEQUENCE:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.LargeSequence());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.LargeSequence());
 		break;
 	case ID_YAHTZEE:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Yahtzee());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.Yahtzee());
 		break;
 	case ID_CHANCE:
-		out.Printf(wxT("%i"), m_main_frame->m_score_dice.Chance());
+		out.Printf(wxT("%hi"), m_main_frame->m_score_dice.Chance());
 		break;
 	}
 	text_control->SetValue(out); 		

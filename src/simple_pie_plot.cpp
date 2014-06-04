@@ -22,6 +22,7 @@
 #include <memory>
 #include <algorithm>
 #include <cmath>
+#include <wx/graphics.h>
 using namespace std;
 using namespace simple_pie_plot;
 

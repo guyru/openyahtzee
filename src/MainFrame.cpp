@@ -484,13 +484,10 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 
 	//undo also the yahtzee bonus if needed
 	if (m_yahtzeebonus) {
-		long temp;
 		wxString tempstr;
 	
 		tempstr = ((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> GetValue();
-		tempstr.ToLong(&temp,10);
-		temp -= 100; //this line reduces the points given for the yahtzee bonus
-		tempstr.Printf(wxT("%li"),temp);
+		tempstr.Printf(wxT("%li"), wxStrtol(tempstr, NULL, 10) - 100);
 		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
 	}
 
@@ -910,7 +907,6 @@ void MainFrame::ResetRolls()
  */
 void MainFrame::YahtzeeBonus()
 {
-	long temp;
 	wxString tempstr;
 	
 	//if the player didn't have any yathzees yet he can't have the bonus;
@@ -918,9 +914,7 @@ void MainFrame::YahtzeeBonus()
 		return;
 	if (m_score_dice.IsYahtzee()) {
 		tempstr = ((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> GetValue();
-		tempstr.ToLong(&temp,10);
-		temp += 100;
-		tempstr.Printf(wxT("%li"),temp);
+		tempstr.Printf(wxT("%li"), wxStrtol(tempstr, NULL, 10) + 100);
 		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
 		m_yahtzeebonus = true;
 	}	
@@ -952,14 +946,12 @@ void MainFrame::EndofGame()
 		return;
 	
 	wxString tempstr;
-	long temp;
 	long upperscore = 0;
 	long lowerscore = 0;
 
 	for (int i = ID_ACESTEXT; i<=ID_SIXESTEXT; i++){
 		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
-		tempstr.ToLong(&temp,10);
-		upperscore +=temp;
+		upperscore += wxStrtol(tempstr, NULL, 10);
 	}
 	
 	tempstr.Printf(wxT("%li"),upperscore);
@@ -978,8 +970,7 @@ void MainFrame::EndofGame()
 	//calculate total on lower section
 	for (int i = ID_THREEOFAKINDTEXT; i<=ID_YAHTZEEBONUSTEXT; i++) {
 		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
-		tempstr.ToLong(&temp,10);
-		lowerscore +=temp;
+		lowerscore += wxStrtol(tempstr, NULL, 10);
 	}
 	
 	tempstr.Printf(wxT("%li"),lowerscore);
@@ -1075,13 +1066,10 @@ void MainFrame::CalculateSubTotal()
 	long upperscore = 0;
 	long lowerscore = 0;
 	wxString tempstr;
-	long temp;
-
 
 	for (int i = ID_ACESTEXT; i<=ID_SIXESTEXT; i++){
 		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
-		tempstr.ToLong(&temp,10);
-		upperscore +=temp;
+		upperscore += wxStrtol(tempstr, NULL, 10);
 	}
 	
 	tempstr.Printf(wxT("%li"),upperscore);
@@ -1095,8 +1083,7 @@ void MainFrame::CalculateSubTotal()
 
 	for (int i = ID_THREEOFAKINDTEXT; i<=ID_YAHTZEEBONUSTEXT; i++) {
 		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
-		tempstr.ToLong(&temp,10);
-		lowerscore +=temp;
+		lowerscore += wxStrtol(tempstr, NULL, 10);
 	}
 	
 	tempstr.Printf(wxT("%li"),lowerscore);

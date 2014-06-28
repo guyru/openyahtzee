@@ -595,7 +595,6 @@ void MainFrame::OnRollButton ()
 			if(dice_throws[i]){
 				dice_throws[i]--;
 				dice[i] = dice_rand();
-				std::cout<<i << dice[i]<< std::endl;
 				((wxDynamicBitmap*) FindWindow(i + 
 					ID_DICE1)) -> SetBitmap(
 					bitmap_dice[dice[i]-1]);

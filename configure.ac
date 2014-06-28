@@ -1,4 +1,4 @@
-AC_INIT([Open Yahtzee],[1.9.1],[guyrutenberg@gmail.com],[openyahtzee])
+AC_INIT([Open Yahtzee],[1.9.2],[guyrutenberg@gmail.com],[openyahtzee])
 
 AM_INIT_AUTOMAKE([-Wall -Werror])
 AC_CONFIG_SRCDIR([src/openyahtzee.cpp])

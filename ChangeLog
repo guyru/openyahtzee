@@ -1,9 +1,18 @@
-$Header$
-
 OPEN YAHTZEE CHANGELOG
 ===========================
 This file lists the changes betweeen Open Yahtzee releases. For a 
 complete list of changes see the SVN changelog of the project.
+
+Open Yahtzee 1.9.2:
+-------------------
+- wxWidgets-3.0 compatability.
+
+Open Yahtzee 1.9.1:
+-------------------
+- Make the 2s dice more distinguishable from the 3s dice.
+- Install a basic man page.
+- Update desktop file.
+- Use Mersenne Twister from C++11 instead of rand().
 
 Open Yahtzee 1.9:
 -----------------

@@ -31,7 +31,7 @@ namespace highscores_dialog {
 class HighscoresDialog : public wxDialog
 {
 public:
-	HighscoresDialog(wxWindow* parent,configuration::Configuration* config, int highlight_rank = 0);
+	HighscoresDialog(wxWindow* parent, configuration::Configuration* config, int highlight_rank = 0);
 
 	void onClose(wxCommandEvent& event);	
 	void onClear(wxCommandEvent& event);	

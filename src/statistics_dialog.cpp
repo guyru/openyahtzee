@@ -29,7 +29,7 @@
 using namespace std;
 using namespace statistics_dialog;
 
-StatisticsDialog::StatisticsDialog(wxWindow* parent,statistics::Statistics* stats) :
+StatisticsDialog::StatisticsDialog(wxWindow* parent, statistics::Statistics* stats) :
 	wxDialog(parent, wxID_ANY, _("Statistics"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 	m_stats = stats;
@@ -87,20 +87,20 @@ void StatisticsDialog::DoLayout()
 	game_counts->Add(games_started);
 	game_counts->AddStretchSpacer(10);
 	game_counts->Add(games_finished);
-	top_sizer->Add(game_counts,0,wxEXPAND,10);
+	top_sizer->Add(game_counts, 0, wxEXPAND, 10);
 
 	wxStaticBoxSizer* score_distribution = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Score Distribution") ), wxHORIZONTAL);
 	score_distribution->Add(pie_plot, 1, wxEXPAND, 10);
-	top_sizer->Add(score_distribution,10,wxEXPAND, 10);
+	top_sizer->Add(score_distribution, 10, wxEXPAND, 10);
 
-	top_sizer->Add(statistics_reset_date,0,wxEXPAND,10);
+	top_sizer->Add(statistics_reset_date, 0, wxEXPAND, 10);
 	
 	wxBoxSizer *button_sizer = new wxBoxSizer( wxHORIZONTAL );
 	wxSizerFlags flags = wxSizerFlags().Border(wxALL & ~wxLEFT, 10);
 	button_sizer->AddStretchSpacer();
-	button_sizer->Add(new wxButton(this,wxID_CLEAR, _("Reset")),flags);
-	button_sizer->Add( new wxButton(this,wxID_CLOSE), flags);
-	top_sizer->Add(button_sizer,0,wxEXPAND);
+	button_sizer->Add(new wxButton(this, wxID_CLEAR, _("Reset")), flags);
+	button_sizer->Add( new wxButton(this, wxID_CLOSE), flags);
+	top_sizer->Add(button_sizer, 0, wxEXPAND);
 	
 	SetSizer(top_sizer);
 	top_sizer->SetSizeHints(this);

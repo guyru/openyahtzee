@@ -59,12 +59,12 @@ void SettingsDialog::doLayout()
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
 	wxStaticBoxSizer* settings_sizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("General Settings") ), wxVERTICAL);
 
-	settings_sizer->Add(animate_checkbox,0,wxALL,5);
-	settings_sizer->Add(subtotal_checkbox,0,wxALL,5);
-	settings_sizer->Add(score_hints_checkbox,0,wxALL,5);
-	settings_sizer->Add(horizontal_checkbox,0,wxALL,5);
+	settings_sizer->Add(animate_checkbox, 0, wxALL, 5);
+	settings_sizer->Add(subtotal_checkbox, 0, wxALL, 5);
+	settings_sizer->Add(score_hints_checkbox, 0, wxALL, 5);
+	settings_sizer->Add(horizontal_checkbox, 0, wxALL, 5);
 
-	top_sizer->Add(settings_sizer,0,wxALL,5);
+	top_sizer->Add(settings_sizer, 0, wxALL, 5);
 
 	top_sizer->Add(CreateButtonSizer(wxOK|wxCANCEL), 1, wxBOTTOM, 10);
 
@@ -87,10 +87,10 @@ void SettingsDialog::loadSettings()
 }
 void SettingsDialog::onOK(wxCommandEvent& event)
 {
-	m_config->set("dice-animation",animate_checkbox->GetValue()?"True":"False");
-	m_config->set("calculate-subtotal",subtotal_checkbox->GetValue()?"True":"False");
-	m_config->set("score-hints",score_hints_checkbox->GetValue()?"True":"False");
-	m_config->set("horizontal-layout",horizontal_checkbox->GetValue()?"True":"False");
+	m_config->set("dice-animation", animate_checkbox->GetValue()?"True":"False");
+	m_config->set("calculate-subtotal", subtotal_checkbox->GetValue()?"True":"False");
+	m_config->set("score-hints", score_hints_checkbox->GetValue()?"True":"False");
+	m_config->set("horizontal-layout", horizontal_checkbox->GetValue()?"True":"False");
 
 	m_config->save();
 

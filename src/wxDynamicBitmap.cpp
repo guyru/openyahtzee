@@ -28,9 +28,9 @@ wxDynamicBitmap::wxDynamicBitmap(wxWindow* parent, wxWindowID id, wxBitmap *bitm
 				const wxPoint& pos, const wxSize& size,
 				long style, const wxString& name)
 {
-	wxControl::Create(parent,id,pos,size,style,wxDefaultValidator,name);
+	wxControl::Create(parent, id, pos, size, style, wxDefaultValidator, name);
 	Connect(id, wxEVT_PAINT, wxPaintEventHandler(wxDynamicBitmap::OnPaint));
-	Connect(id, wxEVT_LEFT_UP,wxMouseEventHandler(wxDynamicBitmap::OnClick));
+	Connect(id, wxEVT_LEFT_UP, wxMouseEventHandler(wxDynamicBitmap::OnClick));
 	m_grayscale=false;
 	SetBitmap( bitmap);
 	
@@ -73,7 +73,7 @@ void wxDynamicBitmap::PaintBitmap(wxDC& dc)
 wxSize wxDynamicBitmap::DoGetBestSize() const
 {
 	
-	return wxSize(m_bitmap.GetWidth(),m_bitmap.GetHeight());
+	return wxSize(m_bitmap.GetWidth(), m_bitmap.GetHeight());
 }
 
 void wxDynamicBitmap::OnClick(wxMouseEvent& event)
@@ -113,7 +113,7 @@ void wxDynamicBitmap::ConvertToGrayScale(wxImage& image) const
 	double blue2Gray = 0.114;
 	int w = image.GetWidth(), h = image.GetHeight();
 	unsigned char *data = image.GetData();
-	int x,y;
+	int x, y;
 	for (y = 0; y < h; y++)
 		for (x = 0; x < w; x++)
 		{

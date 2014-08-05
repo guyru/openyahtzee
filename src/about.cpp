@@ -27,7 +27,7 @@
 
 using namespace about;
 AboutDialog::AboutDialog(wxWindow* parent):
-    wxDialog(parent, wxID_ANY, _("About " PACKAGE_NAME), wxDefaultPosition, wxSize(-1,300), wxDEFAULT_DIALOG_STYLE & (~wxCLOSE_BOX))
+    wxDialog(parent, wxID_ANY, _("About " PACKAGE_NAME), wxDefaultPosition, wxSize(-1, 300), wxDEFAULT_DIALOG_STYLE & (~wxCLOSE_BOX))
 {
 	addControlsAndLayout();
 	SetEscapeId(wxID_CLOSE);
@@ -36,10 +36,10 @@ AboutDialog::AboutDialog(wxWindow* parent):
 void AboutDialog::addControlsAndLayout()
 {
 	wxBoxSizer* title_sizer = new wxBoxSizer(wxHORIZONTAL);
-	wxStaticBitmap* logo = new wxStaticBitmap(this, wxID_ANY,wxBitmap(icon64_xpm));
+	wxStaticBitmap* logo = new wxStaticBitmap(this, wxID_ANY, wxBitmap(icon64_xpm));
 	title_sizer->Add(logo, 0, wxALL|wxALIGN_CENTER_VERTICAL, 10);
 
-	wxStaticText* app_label = new wxStaticText(this,wxID_ANY,_("Open Yahtzee " VERSION));
+	wxStaticText* app_label = new wxStaticText(this, wxID_ANY, _("Open Yahtzee " VERSION));
 	app_label->SetFont(wxFont(14, wxDEFAULT, wxNORMAL, wxBOLD, false));
 	title_sizer->Add(app_label, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE, 10);
 
@@ -52,7 +52,7 @@ void AboutDialog::addControlsAndLayout()
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
     	top_sizer->Add(title_sizer);
     	top_sizer->Add(notebook_main, 1, wxEXPAND, 0);
-    	top_sizer->Add(new wxButton(this,wxID_CLOSE), 0, wxALL|wxALIGN_RIGHT, 10);
+    	top_sizer->Add(new wxButton(this, wxID_CLOSE), 0, wxALL|wxALIGN_RIGHT, 10);
 
 	SetSizer(top_sizer);
 	Layout();
@@ -69,7 +69,7 @@ void AboutDialog::notebookAboutTab(wxNotebook *notebook)
 	wxStaticText* label_copyright = new wxStaticText(panel, wxID_ANY, _("\xA9 2006-2012 Guy Rutenberg"));
 	sizer->Add(label_copyright, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);
 
-	sizer->Add(new wxHyperlinkCtrl(panel,wxID_ANY,OY_URL,OY_URL),0,wxALL|wxALIGN_CENTER_HORIZONTAL,10);
+	sizer->Add(new wxHyperlinkCtrl(panel, wxID_ANY, OY_URL, OY_URL), 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);
 
 	panel->SetSizer(sizer);
 
@@ -78,7 +78,7 @@ void AboutDialog::notebookAboutTab(wxNotebook *notebook)
 
 void AboutDialog::notebookAuthorTab(wxNotebook *notebook)
 {
-	wxTextCtrl* text = new wxTextCtrl(notebook, wxID_ANY,wxT(""),wxDefaultPosition,wxDefaultSize,wxTE_MULTILINE|wxTE_READONLY);
+	wxTextCtrl* text = new wxTextCtrl(notebook, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY);
 	*text << wxT("Guy Rutenberg <guyrutenberg@gmail.com>\n");
 
 	notebook->AddPage(text, _("Author"));
@@ -86,7 +86,7 @@ void AboutDialog::notebookAuthorTab(wxNotebook *notebook)
 
 void AboutDialog::notebookThanksTab(wxNotebook *notebook)
 {
-	wxTextCtrl* text = new wxTextCtrl(notebook, wxID_ANY,wxT(""),wxDefaultPosition,wxDefaultSize,wxTE_MULTILINE|wxTE_READONLY);
+	wxTextCtrl* text = new wxTextCtrl(notebook, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY);
 	*text << wxT("Seamous McGill <johndoe@ggmail.com>\n");
 	*text << _("    Logo and dice design\n\n");
 
@@ -98,7 +98,7 @@ void AboutDialog::notebookThanksTab(wxNotebook *notebook)
 
 void AboutDialog::notebookLicenseTab(wxNotebook *notebook)
 {
-	wxTextCtrl* text = new wxTextCtrl(notebook, wxID_ANY,wxT(""),wxDefaultPosition,wxDefaultSize,wxTE_MULTILINE|wxTE_READONLY);
+	wxTextCtrl* text = new wxTextCtrl(notebook, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY);
 	*text << wxT("This program is free software; you can redistribute "
 		"it and/or modify it under the terms of the GNU General "
 		"Public License as published by the Free Software "

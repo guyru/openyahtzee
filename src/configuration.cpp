@@ -59,7 +59,7 @@ void Configuration::load(string file)
 		conf_file.close();
 	
 	// check it's an Open Yahtzee configuration file
-	if (conf_lines.begin()->substr(0,11) != "openyahtzee") {
+	if (conf_lines.begin()->substr(0, 11) != "openyahtzee") {
 		/* The file might be an old configuration file or
 		 * corrupted, anyway re-create it
 		 */
@@ -94,7 +94,7 @@ Configuration::lines_iterator Configuration::parseSettings(iterator_range<Config
 		if (pos == std::string::npos)
 			continue;
 
-		m_settings[start->substr(0,pos)] = 
+		m_settings[start->substr(0, pos)] = 
 			start->substr(pos + 1);
 	}
 	return start;

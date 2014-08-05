@@ -31,7 +31,7 @@ using namespace highscores_dialog;
 
 const int HIGHSCORELIST_BORDER = 10;
 
-HighscoresDialog::HighscoresDialog(wxWindow* parent,configuration::Configuration* config, int highlight_rank) :
+HighscoresDialog::HighscoresDialog(wxWindow* parent, configuration::Configuration* config, int highlight_rank) :
 	wxDialog(parent, wxID_ANY, _("Highscores Table"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 	this->highlight_rank = highlight_rank;
@@ -47,7 +47,7 @@ HighscoresDialog::HighscoresDialog(wxWindow* parent,configuration::Configuration
 
 void HighscoresDialog::createControls()
 {
-	highscoreslist = new wxListCtrl(this,wxID_ANY,wxDefaultPosition,wxSize(450,400),wxLC_REPORT | wxBORDER_SUNKEN );
+	highscoreslist = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(450, 400), wxLC_REPORT | wxBORDER_SUNKEN );
 
 	wxListItem itemCol;
 
@@ -86,20 +86,20 @@ void HighscoresDialog::loadData()
 		// rank
 		buf.Clear();
 		buf<<(i+1);
-		highscoreslist->InsertItem(i,buf,-1);
+		highscoreslist->InsertItem(i, buf,-1);
 
 		// name
 		buf = wxString::FromUTF8(it->name.c_str());
-		highscoreslist->SetItem(i,1,buf);
+		highscoreslist->SetItem(i, 1, buf);
 
 		// score
 		buf.Clear();
 		buf<< it->score;
-		highscoreslist->SetItem(i,2,buf);
+		highscoreslist->SetItem(i, 2, buf);
 
 		// date
 		buf = wxString::FromUTF8(it->date.c_str());
-		highscoreslist->SetItem(i,3,buf);
+		highscoreslist->SetItem(i, 3, buf);
 	}
 
 	if (highlight_rank) {
@@ -118,11 +118,11 @@ void HighscoresDialog::doLayout()
 	wxSizerFlags flags = wxSizerFlags().Border(wxALL & ~wxLEFT, 10);
 
 	button_sizer->AddStretchSpacer();
-	button_sizer->Add(new wxButton(this,wxID_CLEAR),flags);
-	button_sizer->Add(new wxButton(this,ID_CONFIGURE,_("Configure")),flags);
-	button_sizer->Add( new wxButton(this,wxID_CLOSE), flags);
+	button_sizer->Add(new wxButton(this, wxID_CLEAR), flags);
+	button_sizer->Add(new wxButton(this, ID_CONFIGURE, _("Configure")), flags);
+	button_sizer->Add( new wxButton(this, wxID_CLOSE), flags);
 
-	top_sizer->Add(button_sizer,0,wxEXPAND);
+	top_sizer->Add(button_sizer, 0, wxEXPAND);
 	
 	SetSizer(top_sizer);
 	top_sizer->SetSizeHints(this);
@@ -183,14 +183,14 @@ void HighscoresSettingsDialog::doLayout()
 
 	wxBoxSizer* size_sizer = new wxBoxSizer(wxHORIZONTAL);
 
-	size_sizer->Add(new wxStaticText(this, wxID_ANY, _("High score table size:")), wxSizerFlags().Border(wxALL,10));
+	size_sizer->Add(new wxStaticText(this, wxID_ANY, _("High score table size:")), wxSizerFlags().Border(wxALL, 10));
 	
 	int size = atoi(m_config->get("highscore-list-size").c_str());
 	spin_ctrl = new wxSpinCtrl(this, wxID_ANY);
-	spin_ctrl->SetRange(10,200);
+	spin_ctrl->SetRange(10, 200);
 	spin_ctrl->SetValue(size);
 
-	size_sizer->Add(spin_ctrl,wxSizerFlags().Border(wxALL & ~wxLEFT,10));
+	size_sizer->Add(spin_ctrl, wxSizerFlags().Border(wxALL & ~wxLEFT, 10));
 
 	top_sizer->Add(size_sizer);
 	top_sizer->Add(CreateButtonSizer(wxOK|wxCANCEL), 1, wxBOTTOM, 10);
@@ -213,6 +213,6 @@ void HighscoresDialog::onResize(wxSizeEvent &event) {
 	const int date_width = highscoreslist->GetColumnWidth(3);
 	const int new_width = width - 2*HIGHSCORELIST_BORDER - rank_width - score_width - date_width;
 	
-	highscoreslist->SetColumnWidth(1,new_width);
+	highscoreslist->SetColumnWidth(1, new_width);
 	event.Skip();
 }

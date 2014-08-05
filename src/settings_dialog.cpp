@@ -18,13 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <wx/intl.h>
 #include "settings_dialog.h"
 #include "icon32.xpm"
 
 using namespace settings_dialog;
 
 SettingsDialog::SettingsDialog(wxWindow* parent, configuration::Configuration* config):
-    wxDialog(parent, wxID_ANY, wxT("Settings Dialog"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
+    wxDialog(parent, wxID_ANY, _("Settings Dialog"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
 {
 
 	SetIcon(wxIcon(icon32_xpm));
@@ -41,10 +42,10 @@ void SettingsDialog::createControls()
 {
 	// note that child windows are automatically deleted by wxWidgets, so
 	// need to delete them manually
-	animate_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Dice animation"));
-	subtotal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Calculate sub-total score for the upper and lower sections"));
-	score_hints_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Display score hints."));
-	horizontal_checkbox = new wxCheckBox(this, wxID_ANY, wxT("Enable horizontal layout for user interface."));
+	animate_checkbox = new wxCheckBox(this, wxID_ANY, _("Dice animation"));
+	subtotal_checkbox = new wxCheckBox(this, wxID_ANY, _("Calculate sub-total score for the upper and lower sections"));
+	score_hints_checkbox = new wxCheckBox(this, wxID_ANY, _("Display score hints."));
+	horizontal_checkbox = new wxCheckBox(this, wxID_ANY, _("Enable horizontal layout for user interface."));
 }
 
 
@@ -56,7 +57,7 @@ void SettingsDialog::connectEventTable()
 void SettingsDialog::doLayout()
 {
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
-	wxStaticBoxSizer* settings_sizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("General Settings") ), wxVERTICAL);
+	wxStaticBoxSizer* settings_sizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("General Settings") ), wxVERTICAL);
 
 	settings_sizer->Add(animate_checkbox,0,wxALL,5);
 	settings_sizer->Add(subtotal_checkbox,0,wxALL,5);

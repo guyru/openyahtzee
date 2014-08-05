@@ -20,6 +20,7 @@
 
 #include <wx/button.h>
 #include <wx/sizer.h>
+#include <wx/intl.h>
 
 #include "statistics_dialog.h"
 
@@ -29,7 +30,7 @@ using namespace std;
 using namespace statistics_dialog;
 
 StatisticsDialog::StatisticsDialog(wxWindow* parent,statistics::Statistics* stats) :
-	wxDialog(parent, wxID_ANY, wxT("Statistics"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	wxDialog(parent, wxID_ANY, _("Statistics"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
 	m_stats = stats;
 
@@ -52,14 +53,14 @@ void StatisticsDialog::CreateControls()
 void StatisticsDialog::LoadData()
 {
 	wxString tmp;
-	tmp = wxString::Format(wxT("Games started: %i"), m_stats->games_started());
+	tmp = wxString::Format(_("Games started: %i"), m_stats->games_started());
 	games_started->SetLabel(tmp);
 
-	tmp = wxString::Format(wxT("Games finished: %i"), m_stats->games_finished());
+	tmp = wxString::Format(_("Games finished: %i"), m_stats->games_finished());
 	games_finished->SetLabel(tmp);
 
 	wxDateTime reset_time(m_stats->last_reset());
-	tmp = wxT("Last reset: ") + reset_time.Format();
+	tmp = _("Last reset: ") + reset_time.Format();
 	statistics_reset_date->SetLabel(tmp);
 
 	vector<int> score_dist = m_stats->score_distribution();
@@ -82,13 +83,13 @@ void StatisticsDialog::DoLayout()
 {
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
 
-	wxStaticBoxSizer* game_counts = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Game Counts") ), wxHORIZONTAL);
+	wxStaticBoxSizer* game_counts = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Game Counts") ), wxHORIZONTAL);
 	game_counts->Add(games_started);
 	game_counts->AddStretchSpacer(10);
 	game_counts->Add(games_finished);
 	top_sizer->Add(game_counts,0,wxEXPAND,10);
 
-	wxStaticBoxSizer* score_distribution = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Score Distribution") ), wxHORIZONTAL);
+	wxStaticBoxSizer* score_distribution = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Score Distribution") ), wxHORIZONTAL);
 	score_distribution->Add(pie_plot, 1, wxEXPAND, 10);
 	top_sizer->Add(score_distribution,10,wxEXPAND, 10);
 
@@ -97,7 +98,7 @@ void StatisticsDialog::DoLayout()
 	wxBoxSizer *button_sizer = new wxBoxSizer( wxHORIZONTAL );
 	wxSizerFlags flags = wxSizerFlags().Border(wxALL & ~wxLEFT, 10);
 	button_sizer->AddStretchSpacer();
-	button_sizer->Add(new wxButton(this,wxID_CLEAR, wxT("Reset")),flags);
+	button_sizer->Add(new wxButton(this,wxID_CLEAR, _("Reset")),flags);
 	button_sizer->Add( new wxButton(this,wxID_CLOSE), flags);
 	top_sizer->Add(button_sizer,0,wxEXPAND);
 	
@@ -121,8 +122,8 @@ void StatisticsDialog::OnClose(wxCommandEvent& event)
 void StatisticsDialog::OnReset(wxCommandEvent& event)
 {
 	int answer = wxMessageBox(
-		wxT("Are you sure you want to clear the statistics data?\nThis action cannot be reversed."),
-		wxT("Are You Sure?"),
+		_("Are you sure you want to clear the statistics data?\nThis action cannot be reversed."),
+		_("Are You Sure?"),
 		wxYES | wxNO,
 		this);
 	

@@ -31,6 +31,7 @@ path prefix and datadir path accordingly.
  */
 
 #include "wx/wx.h"
+#include <wx/intl.h>
 #include "MainFrame.h"
 // #ifdef WIN32 
 // 	#include openyahtzee.rc
@@ -57,7 +58,7 @@ bool MyApp::OnInit()
 	::wxInitAllImageHandlers();
 
 	// Create the main application window
-	main_frame::MainFrame *frame = new main_frame::MainFrame(wxT("Open Yahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE & (~wxRESIZE_BORDER));
+	main_frame::MainFrame *frame = new main_frame::MainFrame(_("Open Yahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE & (~wxRESIZE_BORDER));
 	
 	//Center the frame and show it
 	frame->Centre(true);

@@ -32,18 +32,24 @@ path prefix and datadir path accordingly.
 
 #include "wx/wx.h"
 #include <wx/intl.h>
+#include <wx/log.h>
 #include "MainFrame.h"
-// #ifdef WIN32 
+// #ifdef WIN32
 // 	#include openyahtzee.rc
 // #endif
 
 
 // Declare the application class
-class MyApp : public wxApp 
+class MyApp : public wxApp
 {
 public:
+	MyApp() { m_lang = wxLANGUAGE_DEFAULT; }
 	// Called on application startup
 	virtual bool OnInit();
+
+protected:
+	wxLanguage m_lang;  // language specified by user
+	wxLocale m_locale;  // locale we'll be using
 };
 
 	// Implements MyApp& GetApp()
@@ -56,6 +62,18 @@ bool MyApp::OnInit()
 {
 	//load all image handlers
 	::wxInitAllImageHandlers();
+
+	// don't use wxLOCALE_LOAD_DEFAULT flag so that Init() doesn't return
+	// false just because it failed to load wxstd catalog
+	if (!m_locale.Init(m_lang, 0))
+	{
+		wxLogWarning(_("This language is not supported by the system."));
+	}
+
+	if (!m_locale.AddCatalog(wxT("openyahtzee"))) {
+		wxLogError(_("Couldn't find/load the 'openyahtzee' catalog."));
+	}
+
 
 	// Create the main application window
 	main_frame::MainFrame *frame = new main_frame::MainFrame(_("Open Yahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE & (~wxRESIZE_BORDER));

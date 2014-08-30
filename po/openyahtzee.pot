@@ -1,0 +1,194 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-06 00:10+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/MainFrame.cpp:145
+msgid "How to Play\tF1"
+msgstr ""
+
+#: src/MainFrame.cpp:146
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: src/MainFrame.cpp:147
+msgid "&Send Feedback"
+msgstr ""
+
+#: src/MainFrame.cpp:151
+msgid "&New Game\tF2"
+msgstr ""
+
+#: src/MainFrame.cpp:152
+msgid "&Undo\tCtrl+Z"
+msgstr ""
+
+#: src/MainFrame.cpp:153
+msgid "Show Highscores\tCtrl+H"
+msgstr ""
+
+#: src/MainFrame.cpp:155
+msgid "Settings"
+msgstr ""
+
+#: src/MainFrame.cpp:160
+msgid "&Game"
+msgstr ""
+
+#: src/MainFrame.cpp:161
+msgid "&Help"
+msgstr ""
+
+#: src/MainFrame.cpp:189 src/MainFrame.cpp:1115
+msgid "Upper Section"
+msgstr ""
+
+#: src/MainFrame.cpp:192 src/MainFrame.cpp:1116
+msgid "Lower Section"
+msgstr ""
+
+#: src/MainFrame.cpp:198
+msgid "Aces"
+msgstr ""
+
+#: src/MainFrame.cpp:201
+msgid "Twos"
+msgstr ""
+
+#: src/MainFrame.cpp:204
+msgid "Threes"
+msgstr ""
+
+#: src/MainFrame.cpp:207
+msgid "Fours"
+msgstr ""
+
+#: src/MainFrame.cpp:210
+msgid "Fives"
+msgstr ""
+
+#: src/MainFrame.cpp:213
+msgid "Sixes"
+msgstr ""
+
+#: src/MainFrame.cpp:216 src/MainFrame.cpp:1134
+msgid "Total score:"
+msgstr ""
+
+#: src/MainFrame.cpp:220 src/MainFrame.cpp:1136
+msgid "Bonus:"
+msgstr ""
+
+#: src/MainFrame.cpp:224 src/MainFrame.cpp:1138
+msgid "Total of upper section:"
+msgstr ""
+
+#: src/MainFrame.cpp:230
+msgid "3 of a kind"
+msgstr ""
+
+#: src/MainFrame.cpp:234
+msgid "4 of a kind"
+msgstr ""
+
+#: src/MainFrame.cpp:238
+msgid "Full House"
+msgstr ""
+
+#: src/MainFrame.cpp:243
+msgid "Sequence of 4"
+msgstr ""
+
+#: src/MainFrame.cpp:247
+msgid "Sequence of 5"
+msgstr ""
+
+#: src/MainFrame.cpp:250
+msgid "Yahtzee"
+msgstr ""
+
+#: src/MainFrame.cpp:253
+msgid "Chance"
+msgstr ""
+
+#: src/MainFrame.cpp:257 src/MainFrame.cpp:1157
+msgid "Yahtzee Bonus"
+msgstr ""
+
+#: src/MainFrame.cpp:261 src/MainFrame.cpp:1159
+msgid "Total of lower section:"
+msgstr ""
+
+#: src/MainFrame.cpp:263 src/MainFrame.cpp:1161
+msgid "Grand Total:"
+msgstr ""
+
+#: src/MainFrame.cpp:285 src/MainFrame.cpp:323 src/MainFrame.cpp:620
+#: src/MainFrame.cpp:1174 src/MainFrame.cpp:1177
+msgid "Roll!"
+msgstr ""
+
+#: src/MainFrame.cpp:288 src/MainFrame.cpp:290 src/MainFrame.cpp:292
+#: src/MainFrame.cpp:294 src/MainFrame.cpp:296 src/MainFrame.cpp:301
+#: src/MainFrame.cpp:306 src/MainFrame.cpp:311 src/MainFrame.cpp:316
+#: src/MainFrame.cpp:321
+msgid "Keep"
+msgstr ""
+
+#: src/MainFrame.cpp:401
+msgid "http://www.openyahtzee.org/wiki/HowToPlay"
+msgstr ""
+
+#: src/MainFrame.cpp:404
+msgid "http://www.openyahtzee.org/wiki/FAQ"
+msgstr ""
+
+#: src/MainFrame.cpp:468 src/MainFrame.cpp:614 src/MainFrame.cpp:1183
+#, c-format
+msgid "Roll! (%hi)"
+msgstr ""
+
+#: src/MainFrame.cpp:897
+msgid "Roll! (3)"
+msgstr ""
+
+#: src/MainFrame.cpp:984
+#, c-format
+msgid "Your final score is %li points!"
+msgstr ""
+
+#: src/MainFrame.cpp:985
+msgid "Game Ended"
+msgstr ""
+
+#: src/MainFrame.cpp:1009
+msgid ""
+"Your score made it to the high score table.\n"
+"Please enter your name below:"
+msgstr ""
+
+#: src/MainFrame.cpp:1013
+msgid "Please enter your name"
+msgstr ""
+
+#: src/MainFrame.cpp:1338
+msgid "First you need to roll, and after you roll you may score."
+msgstr ""
+
+#: src/MainFrame.cpp:1339
+msgid "Open Yahtzee"
+msgstr ""

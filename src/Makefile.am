@@ -26,7 +26,7 @@ openyahtzee_SOURCES = \
 	six.xpm
 
 # set the include path found by configure
-AM_CPPFLAGS = $(all_includes)
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" $(all_includes)
 
 # the library search path.
 
@@ -45,4 +45,4 @@ noinst_HEADERS = \
 	openyahtzee.rc
 
 AM_CXXFLAGS = @WX_CXXFLAGS@
-openyahtzee_LDADD = @WX_LIBS@
+openyahtzee_LDADD = @WX_LIBS@ @LIBINTL@

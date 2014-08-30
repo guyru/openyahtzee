@@ -22,6 +22,10 @@ AC_CHECK_FUNCS([sqrt])
 
 AM_OPTIONS_WXCONFIG
 
+# internationalization support
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION(0.18)
+
 #Detect wxWidgets
 MIN_WX_VERSION="2.8.0"
 AM_PATH_WXCONFIG($MIN_WX_VERSION, wxWin=1)
@@ -38,7 +42,7 @@ AC_MSG_ERROR([
 fi
 
 
-AC_CONFIG_FILES([Makefile
+AC_CONFIG_FILES([Makefile po/Makefile.in
                  man/Makefile
                  src/Makefile])
 AC_OUTPUT

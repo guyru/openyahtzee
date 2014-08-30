@@ -2,7 +2,7 @@
 # have all needed files, that a GNU package needs
 AUTOMAKE_OPTIONS = foreign 1.4
 
-SUBDIRS = src man
+SUBDIRS = src man po
 
 appicondir = $(datadir)/pixmaps
 dist_appicon_DATA = icons/openyahtzee.png
@@ -11,3 +11,7 @@ menudir = $(datadir)/applications
 dist_menu_DATA = openyahtzee.desktop
 
 AM_CXXFLAGS = @WX_CXXFLAGS@
+
+ACLOCAL_AMFLAGS = -I m4
+
+EXTRA_DIST = config.rpath m4/ChangeLog

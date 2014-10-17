@@ -1,0 +1,20 @@
+# Open Yahtzee README
+
+## Compiling from source
+To compile source from a distributed tarball, simply execute
+
+    :::console
+    $ ./configure
+    $ make
+    # make install
+
+If you are trying to compile the source directly from git, start by
+executing
+
+    :::console
+    $ autoreconf --install
+
+and then proceed just like in the tarball case.
+
+## Authors
+See the ``AUTHORS`` file that came with the program.

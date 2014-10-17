@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Open Yahtzee 1.9.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-06 00:10+0300\n"
-"PO-Revision-Date: 2014-08-06 21:54+0300\n"
+"Report-Msgid-Bugs-To: guyrutenberg@gmail.com\n"
+"POT-Creation-Date: 2014-08-30 23:44+0300\n"
+"PO-Revision-Date: 2014-10-17 18:22+0200\n"
 "Last-Translator: Guy Rutenberg <guyrutenberg@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
@@ -53,11 +53,13 @@ msgstr "משחק"
 msgid "&Help"
 msgstr "עזרה"
 
-#: src/MainFrame.cpp:189 src/MainFrame.cpp:1115
+#: src/MainFrame.cpp:189
+#: src/MainFrame.cpp:1115
 msgid "Upper Section"
 msgstr "חלק עליון"
 
-#: src/MainFrame.cpp:192 src/MainFrame.cpp:1116
+#: src/MainFrame.cpp:192
+#: src/MainFrame.cpp:1116
 msgid "Lower Section"
 msgstr "חלק תחתון"
 
@@ -85,15 +87,18 @@ msgstr "חמישיות"
 msgid "Sixes"
 msgstr "שישיות"
 
-#: src/MainFrame.cpp:216 src/MainFrame.cpp:1134
+#: src/MainFrame.cpp:216
+#: src/MainFrame.cpp:1134
 msgid "Total score:"
 msgstr "תוצאה כוללת:"
 
-#: src/MainFrame.cpp:220 src/MainFrame.cpp:1136
+#: src/MainFrame.cpp:220
+#: src/MainFrame.cpp:1136
 msgid "Bonus:"
 msgstr "בונוס:"
 
-#: src/MainFrame.cpp:224 src/MainFrame.cpp:1138
+#: src/MainFrame.cpp:224
+#: src/MainFrame.cpp:1138
 msgid "Total of upper section:"
 msgstr "תוצאה כוללת לחלק עליון:"
 
@@ -111,43 +116,55 @@ msgstr "בית מלא"
 
 #: src/MainFrame.cpp:243
 msgid "Sequence of 4"
-msgstr ""
+msgstr "סדרה של 4"
 
 #: src/MainFrame.cpp:247
 msgid "Sequence of 5"
-msgstr ""
+msgstr "סדרה של 5"
 
 #: src/MainFrame.cpp:250
 msgid "Yahtzee"
-msgstr ""
+msgstr "יאצי"
 
 #: src/MainFrame.cpp:253
 msgid "Chance"
-msgstr ""
+msgstr "צ'אנס"
 
-#: src/MainFrame.cpp:257 src/MainFrame.cpp:1157
+#: src/MainFrame.cpp:257
+#: src/MainFrame.cpp:1157
 msgid "Yahtzee Bonus"
-msgstr ""
+msgstr "בונוס יאצי"
 
-#: src/MainFrame.cpp:261 src/MainFrame.cpp:1159
+#: src/MainFrame.cpp:261
+#: src/MainFrame.cpp:1159
 msgid "Total of lower section:"
-msgstr ""
+msgstr "ניקוד כולל של החלק התחתון:"
 
-#: src/MainFrame.cpp:263 src/MainFrame.cpp:1161
+#: src/MainFrame.cpp:263
+#: src/MainFrame.cpp:1161
 msgid "Grand Total:"
-msgstr ""
+msgstr "ניקוד כולל:"
 
-#: src/MainFrame.cpp:285 src/MainFrame.cpp:323 src/MainFrame.cpp:620
-#: src/MainFrame.cpp:1174 src/MainFrame.cpp:1177
+#: src/MainFrame.cpp:285
+#: src/MainFrame.cpp:323
+#: src/MainFrame.cpp:620
+#: src/MainFrame.cpp:1174
+#: src/MainFrame.cpp:1177
 msgid "Roll!"
-msgstr ""
+msgstr "הטל!"
 
-#: src/MainFrame.cpp:288 src/MainFrame.cpp:290 src/MainFrame.cpp:292
-#: src/MainFrame.cpp:294 src/MainFrame.cpp:296 src/MainFrame.cpp:301
-#: src/MainFrame.cpp:306 src/MainFrame.cpp:311 src/MainFrame.cpp:316
+#: src/MainFrame.cpp:288
+#: src/MainFrame.cpp:290
+#: src/MainFrame.cpp:292
+#: src/MainFrame.cpp:294
+#: src/MainFrame.cpp:296
+#: src/MainFrame.cpp:301
+#: src/MainFrame.cpp:306
+#: src/MainFrame.cpp:311
+#: src/MainFrame.cpp:316
 #: src/MainFrame.cpp:321
 msgid "Keep"
-msgstr ""
+msgstr "החזק"
 
 #: src/MainFrame.cpp:401
 msgid "http://www.openyahtzee.org/wiki/HowToPlay"
@@ -157,38 +174,43 @@ msgstr ""
 msgid "http://www.openyahtzee.org/wiki/FAQ"
 msgstr ""
 
-#: src/MainFrame.cpp:468 src/MainFrame.cpp:614 src/MainFrame.cpp:1183
+#: src/MainFrame.cpp:468
+#: src/MainFrame.cpp:614
+#: src/MainFrame.cpp:1183
 #, c-format
 msgid "Roll! (%hi)"
-msgstr ""
+msgstr "הטל! (%hi)"
 
 #: src/MainFrame.cpp:897
 msgid "Roll! (3)"
-msgstr ""
+msgstr "הטל! (3)"
 
 #: src/MainFrame.cpp:984
 #, c-format
 msgid "Your final score is %li points!"
-msgstr ""
+msgstr "הניקוד הסופי הוא %li נקודות!"
 
 #: src/MainFrame.cpp:985
 msgid "Game Ended"
-msgstr ""
+msgstr "המשחק הסתיים"
 
 #: src/MainFrame.cpp:1009
 msgid ""
 "Your score made it to the high score table.\n"
 "Please enter your name below:"
 msgstr ""
+"התוצאה שלך נכנסה לטבלת השיאים.\n"
+"הכנס/י את שמך למטה:"
 
 #: src/MainFrame.cpp:1013
 msgid "Please enter your name"
-msgstr ""
+msgstr "הכנס/י את שמך"
 
 #: src/MainFrame.cpp:1338
 msgid "First you need to roll, and after you roll you may score."
-msgstr ""
+msgstr "קודם עליך להטיל את הקוביות, לאחר ההטלה תוכל לקבל ניקוד."
 
 #: src/MainFrame.cpp:1339
 msgid "Open Yahtzee"
-msgstr ""
+msgstr "אופן יאצי"
+

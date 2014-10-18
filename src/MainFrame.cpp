@@ -330,6 +330,7 @@ void MainFrame::AddControlsAndLayout()
 
 	AdjustFrameSize(topSizer);
 
+#if (wxMAJOR_VERSION == 2 && wxMINOR_VERSION == 8 && defined __WXGTK__)
 	if (!m_menuBarHeight) {
 		// This checks for the bug in Ubuntu with wxGTK-2.8 where the
 		// menu-bar only appears after OnInternalIdle() event has been
@@ -343,6 +344,7 @@ void MainFrame::AddControlsAndLayout()
 		this->SetSize(suggested_window_size);
 		this->SetSizeHints(suggested_window_size, suggested_window_size);
 	}
+#endif
 }
 
 void MainFrame::AdjustFrameSize(wxSizer *sizer)

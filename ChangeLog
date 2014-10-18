@@ -6,6 +6,8 @@ complete list of changes see the SVN changelog of the project.
 Open Yahtzee 1.9.2:
 -------------------
 - wxWidgets-3.0 compatability.
+- Bug fix: Menu-bar sizing issues in Ubuntu with wxGTK-2.8.
+- Bug fix: Improper size after changing layout.
 
 Open Yahtzee 1.9.1:
 -------------------

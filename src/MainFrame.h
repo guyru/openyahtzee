@@ -100,6 +100,13 @@ private:
 	void AddMenus();
 	void ConnectEventTable();
 	void AddControlsAndLayout();
+
+	/**
+	 * Adjust the frame size to the specified sizer and set proper
+	 * size hints to avoid resizing.
+	 */
+	void AdjustFrameSize(wxSizer* sizer);
+
 	/**
 	 * Check if a click on a score button is valid or should
 	 * be ignored.

@@ -329,10 +329,9 @@ void MainFrame::AddControlsAndLayout()
 	topSizer->Add(sectionsSizer);
 	topSizer->Add(diceSizer);	
 
-	panel->SetSizer(topSizer);
-	
-	topSizer->Fit(this);
-	topSizer->SetSizeHints(this);
+	AdjustFrameSize(topSizer);
+
+#if (wxMAJOR_VERSION == 2 && wxMINOR_VERSION == 8 && defined __WXGTK__)
 	if (!m_menuBarHeight) {
 		// This checks for the bug in Ubuntu with wxGTK-2.8 where the
 		// menu-bar only appears after OnInternalIdle() event has been
@@ -344,8 +343,19 @@ void MainFrame::AddControlsAndLayout()
 		suggested_window_size.SetHeight((GetMenuBar()->GetSize()).GetHeight() +
 			suggested_window_size.GetHeight());
 		this->SetSize(suggested_window_size);
-		this->SetSizeHints(suggested_window_size);
+		this->SetSizeHints(suggested_window_size, suggested_window_size);
 	}
+#endif
+}
+
+void MainFrame::AdjustFrameSize(wxSizer *sizer)
+{
+	auto panel = (wxPanel*)FindWindow(ID_PANEL);
+
+	panel->SetSizerAndFit(sizer);
+	wxSize frame_size = ClientToWindowSize(panel->GetSize());
+	this->SetSizeHints(frame_size, frame_size);
+	sizer->Fit(this);
 }
 
 /**
@@ -1110,10 +1120,10 @@ void MainFrame::Relayout()
 	wxFlexGridSizer *diceSizer;
 	bool roll_button_enabled;
 
-	lowersection->GetStaticBox()->Destroy();
-	uppersection->GetStaticBox()->Destroy();
 	sectionsSizer->Remove(lowersection);
+	lowersection = NULL;
 	sectionsSizer->Remove(uppersection);
+	uppersection = NULL;
 
 	if (m_config->get("horizontal-layout")=="True") {
 		topSizer = new wxBoxSizer( wxVERTICAL );
@@ -1235,13 +1245,7 @@ void MainFrame::Relayout()
 	topSizer->Add(sectionsSizer);
 	topSizer->Add(diceSizer);	
 	
-	topSizer->SetSizeHints(this);
-
-	topSizer->Layout();
-	FindWindow(ID_PANEL)->SetSizerAndFit(topSizer);
-	
-	topSizer->Fit(this);
-	
+	AdjustFrameSize(topSizer);
 }
 
 /**

@@ -333,6 +333,19 @@ void MainFrame::AddControlsAndLayout()
 	
 	topSizer->Fit(this);
 	topSizer->SetSizeHints(this);
+	if (!m_menuBarHeight) {
+		// This checks for the bug in Ubuntu with wxGTK-2.8 where the
+		// menu-bar only appears after OnInternalIdle() event has been
+		// called. This results in wrong size calculation for the
+		// window, so we reserve additional space for the menu bar so
+		// when it appears it won't push the bottom of the window
+		// outside the boundary.
+		wxSize suggested_window_size = ClientToWindowSize(topSizer->GetMinSize());
+		suggested_window_size.SetHeight((GetMenuBar()->GetSize()).GetHeight() +
+			suggested_window_size.GetHeight());
+		this->SetSize(suggested_window_size);
+		this->SetSizeHints(suggested_window_size);
+	}
 }
 
 /**

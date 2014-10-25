@@ -511,7 +511,7 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 		wxString tempstr;
 	
 		tempstr = ((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> GetValue();
-		tempstr.Printf(wxT("%li"), wxStrtol(tempstr, NULL, 10) - 100);
+		tempstr.Printf(wxT("%li"), strtol(tempstr.mb_str(), NULL, 10) - 100);
 		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
 	}
 
@@ -937,7 +937,7 @@ void MainFrame::YahtzeeBonus()
 		return;
 	if (m_score_dice.IsYahtzee()) {
 		tempstr = ((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> GetValue();
-		tempstr.Printf(wxT("%li"), wxStrtol(tempstr, NULL, 10) + 100);
+		tempstr.Printf(wxT("%li"), strtol(tempstr.mb_str(), NULL, 10) + 100);
 		((wxTextCtrl*) FindWindow(ID_YAHTZEEBONUSTEXT)) -> SetValue(tempstr);
 		m_yahtzeebonus = true;
 	}	
@@ -974,7 +974,7 @@ void MainFrame::EndofGame()
 
 	for (int i = ID_ACESTEXT; i<=ID_SIXESTEXT; i++){
 		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
-		upperscore += wxStrtol(tempstr, NULL, 10);
+		upperscore += strtol(tempstr.mb_str(), NULL, 10);
 	}
 	
 	tempstr.Printf(wxT("%li"), upperscore);
@@ -993,7 +993,7 @@ void MainFrame::EndofGame()
 	//calculate total on lower section
 	for (int i = ID_THREEOFAKINDTEXT; i<=ID_YAHTZEEBONUSTEXT; i++) {
 		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
-		lowerscore += wxStrtol(tempstr, NULL, 10);
+		lowerscore += strtol(tempstr.mb_str(), NULL, 10);
 	}
 	
 	tempstr.Printf(wxT("%li"), lowerscore);
@@ -1092,7 +1092,7 @@ void MainFrame::CalculateSubTotal()
 
 	for (int i = ID_ACESTEXT; i<=ID_SIXESTEXT; i++){
 		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
-		upperscore += wxStrtol(tempstr, NULL, 10);
+		upperscore += strtol(tempstr.mb_str(), NULL, 10);
 	}
 	
 	tempstr.Printf(wxT("%li"), upperscore);
@@ -1106,7 +1106,7 @@ void MainFrame::CalculateSubTotal()
 
 	for (int i = ID_THREEOFAKINDTEXT; i<=ID_YAHTZEEBONUSTEXT; i++) {
 		tempstr = ((wxTextCtrl*) FindWindow(i)) -> GetValue();
-		lowerscore += wxStrtol(tempstr, NULL, 10);
+		lowerscore += strtol(tempstr.mb_str(), NULL, 10);
 	}
 	
 	tempstr.Printf(wxT("%li"), lowerscore);

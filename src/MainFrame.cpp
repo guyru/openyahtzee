@@ -35,6 +35,7 @@
 #include "settings_dialog.h"
 #include "../config.h"
 #include <iostream>
+#include <functional>
 #include <sstream>
 #include <cstdlib>
 #include <random>

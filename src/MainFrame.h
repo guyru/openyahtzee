@@ -26,10 +26,11 @@
 
 #ifndef OPENYAHTZEE_MAIN_FRAME_INC
 #define OPENYAHTZEE_MAIN_FRAME_INC
-#include <memory>
-#include <boost/scoped_ptr.hpp>
 #include "ScoreDice.h"
 #include "configuration.h"
+#include <memory>
+#include <boost/scoped_ptr.hpp>
+#include <wx/wx.h>
 
 namespace main_frame {
 
@@ -44,7 +45,7 @@ class MainFrame : public wxFrame
 {
 public:
 	// Constructor
-	MainFrame(const wxString& title,  const wxSize& size, long style);
+	MainFrame(const wxString& title,  const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE ^ wxRESIZE_BORDER );
 	~MainFrame();
 
 	// Event handlers
@@ -115,6 +116,7 @@ private:
 
 	wxStaticBoxSizer *uppersection, *lowersection;
 	wxBoxSizer *sectionsSizer;
+	wxBoxSizer *diceSizer;
 
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dice[6];

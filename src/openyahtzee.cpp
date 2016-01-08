@@ -30,8 +30,8 @@ path prefix and datadir path accordingly.
  * If PORTABLE is defined, Open Yahtzee will be compiled for the Portable Edition. Add "-DPORTABLE" to the CXXFLAGS when compiling.
  */
 
-#include "wx/wx.h"
 #include "MainFrame.h"
+#include <wx/wx.h>
 // #ifdef WIN32 
 // 	#include openyahtzee.rc
 // #endif
@@ -57,7 +57,7 @@ bool MyApp::OnInit()
 	::wxInitAllImageHandlers();
 
 	// Create the main application window
-	main_frame::MainFrame *frame = new main_frame::MainFrame(wxT("Open Yahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE);
+	main_frame::MainFrame *frame = new main_frame::MainFrame(wxT("Open Yahtzee"));
 	
 	//Center the frame and show it
 	frame->Centre(true);

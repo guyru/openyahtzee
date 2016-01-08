@@ -645,7 +645,7 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 	out.Printf(wxT("%hi"),temp);
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -666,7 +666,7 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"),m_score_dice.ThreeOfAKind());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_THREEOFAKINDTEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -687,7 +687,7 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"),m_score_dice.FourOfAKind());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_FOUROFAKINDTEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -709,7 +709,7 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.FullHouse());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_FULLHOUSETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -731,7 +731,7 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.SmallSequence());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_SMALLSEQUENCETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -753,7 +753,7 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.LargeSequence());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_LARGESEQUENCETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 
 	
@@ -775,7 +775,7 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.Yahtzee());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_YAHTZEETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 
 	PostScore(event.GetId());
@@ -796,7 +796,7 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 	out.Printf(wxT("%hi"),m_score_dice.Chance());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_CHANCETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	PostScore(event.GetId());
 }
@@ -1129,7 +1129,8 @@ void MainFrameEvtHandler::OnScoreMouseEnter (wxMouseEvent& event)
 		break;
 	}
 	text_control->SetValue(out); 		
-	text_control->SetBackgroundColour(wxColour(239,239,239));
+	wxColour sys_gray = wxSystemSettings::GetColour(wxSYS_COLOUR_GRAYTEXT);
+	text_control->SetForegroundColour(sys_gray);
 	
 	event.Skip(); //allow default proccesing
 }
@@ -1149,9 +1150,10 @@ void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
 
 	auto id = ((wxWindow *)event.GetEventObject())->GetId();
 	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(id - ID_ACES + ID_ACESTEXT));
-	if (text_control->GetBackgroundColour()==wxColour(239,239,239)){
+	wxColour sys_gray = wxSystemSettings::GetColour(wxSYS_COLOUR_GRAYTEXT);
+	if (text_control->GetForegroundColour() == sys_gray){
 		text_control->Clear();
-		text_control->SetBackgroundColour(*wxWHITE);
+		text_control->SetForegroundColour(wxNullColour);
 	}
 
 	event.Skip(); //allow default proccesing

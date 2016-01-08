@@ -1,4 +1,4 @@
-AC_INIT([Open Yahtzee],[1.9.2],[guyrutenberg@gmail.com],[openyahtzee])
+AC_INIT([Open Yahtzee],[1.9.3],[guyrutenberg@gmail.com],[openyahtzee])
 
 AM_INIT_AUTOMAKE([-Wall -Werror])
 AC_CONFIG_SRCDIR([src/openyahtzee.cpp])
@@ -6,6 +6,7 @@ AC_CONFIG_HEADER([config.h])
 
 m4_include(macros/wxwin.m4)
 m4_include(macros/ax_check_compile_flag.m4)
+m4_include(macros/ax_boost_base.m4)
 
 # Checks for programs.
 AC_PROG_CXX
@@ -36,6 +37,8 @@ AC_MSG_ERROR([
 	equivalent variable and wxWidgets version is $MIN_WX_VERSION or above.
 ])
 fi
+
+AX_BOOST_BASE([1.32])
 
 
 AC_CONFIG_FILES([Makefile

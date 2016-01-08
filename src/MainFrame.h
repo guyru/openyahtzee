@@ -30,7 +30,6 @@
 #include <boost/scoped_ptr.hpp>
 #include "ScoreDice.h"
 #include "configuration.h"
-#include "statistics.h"
 
 namespace main_frame {
 
@@ -54,7 +53,6 @@ public:
 	void OnNewGame (wxCommandEvent& event);
 	void OnUndo (wxCommandEvent& event);
 	void OnShowHighscore (wxCommandEvent& event);
-	void OnStatistics (wxCommandEvent& event);
 	void OnSettings (wxCommandEvent& event);
 	void OnSendComment (wxCommandEvent& event);
 	void OnHelpMenuLink (wxCommandEvent& event);
@@ -84,7 +82,6 @@ public:
 	ScoreDice m_score_dice;
 
 	boost::scoped_ptr<configuration::Configuration> m_config;
-	boost::scoped_ptr<statistics::Statistics> m_stats;
 
 private:
 	void ClearDiceHash();
@@ -151,7 +148,6 @@ private:
 enum {
 	ID_PANEL,
 	ID_SHOWHIGHSCORE,
-	ID_STATISTICS,
 	ID_SETTINGS,
 	ID_THEMES,
 	ID_HOWTOPLAY,

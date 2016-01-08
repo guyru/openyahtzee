@@ -33,7 +33,6 @@
 #include "about.h"
 #include "configuration.h"
 #include "settings_dialog.h"
-#include "statistics_dialog.h"
 #include "../config.h"
 #include <iostream>
 #include <sstream>
@@ -97,7 +96,6 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	std::string config_file_str;
 	config_file_str = config_file.utf8_str();
 	m_config.reset(new configuration::Configuration(config_file_str));
-	m_stats.reset(new statistics::Statistics(m_config.get()));
 
 	m_evt_handler = new MainFrameEvtHandler(this);
 	
@@ -150,7 +148,6 @@ void MainFrame::AddMenus()
 	gameMenu->Append(wxID_NEW,wxT("&New Game\tF2"));
 	gameMenu->Append(wxID_UNDO,wxT("&Undo\tCtrl+Z"));
 	gameMenu->Append(ID_SHOWHIGHSCORE,wxT("Show Highscores\tCtrl+H"));
-	//gameMenu->Append(ID_STATISTICS,wxT("Statistics..."));
 	gameMenu->Append(ID_SETTINGS,wxT("Settings"));
 	gameMenu->Append(wxID_EXIT);
 	
@@ -371,7 +368,6 @@ void MainFrame::ConnectEventTable()
 	Connect(wxID_NEW, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
 	Connect(wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
-	Connect(ID_STATISTICS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnStatistics));
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
 	//END connecting the menu items' events
 
@@ -547,13 +543,6 @@ void MainFrame::OnShowHighscore(wxCommandEvent& event)
 	delete dialog;
 }
 
-void MainFrame::OnStatistics(wxCommandEvent &event)
-{
-	statistics_dialog::StatisticsDialog *dialog = new statistics_dialog::StatisticsDialog(this, m_stats.get());
-	dialog->ShowModal();
-	delete dialog;
-}
-
 /**
  * Shows the settings dialog. This event-handler is connected to Game->Settings
  * menu item.
@@ -593,11 +582,6 @@ void MainFrame::OnRollButton ()
 	static auto num_throws_rand = std::bind(std::uniform_int_distribution<int>(5,18),
 					        std::mt19937(seed * 0x101010101));
 	
-	// If this is the first roll of the game, notify the statistics
-	// object
-	if (m_numofplaysleft == 13 && m_rolls == 3)
-		m_stats->game_started();
-
 	// fill the dice array with the old values
 	int dice_throws[5];
 	for (int i = 0 ; i < 5; ++i) {
@@ -1005,8 +989,6 @@ void MainFrame::EndofGame()
 
 	tempstr.Printf(wxT("Your final score is %li points!"),lowerscore+upperscore);
 	wxMessageBox(tempstr, wxT("Game Ended"), wxOK | wxICON_INFORMATION, this);
-
-	m_stats->game_finished(lowerscore+upperscore);
 
 	//submit to high score
 	HighScoreHandler(lowerscore+upperscore);

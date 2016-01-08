@@ -1320,12 +1320,11 @@ void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
 		return;
 	}
 
-	for (int i = ID_ACESTEXT; i<=ID_CHANCETEXT; i++) {
-		text_control = (wxTextCtrl *)m_main_frame->FindWindow(i);
-		if (text_control->GetBackgroundColour()==wxColour(239,239,239)){
-			text_control->Clear();
-			text_control->SetBackgroundColour(*wxWHITE);
-		}
+	auto id = ((wxWindow *)event.GetEventObject())->GetId();
+	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(id - ID_ACES + ID_ACESTEXT));
+	if (text_control->GetBackgroundColour()==wxColour(239,239,239)){
+		text_control->Clear();
+		text_control->SetBackgroundColour(*wxWHITE);
 	}
 
 	event.Skip(); //allow default proccesing

@@ -39,8 +39,9 @@ noinst_HEADERS = \
 	statistics_dialog.h \
 	utility.h \
 	wxDynamicBitmap.h \
-	../openyahtzee.vcproj \
+	../openyahtzee.vcxproj \
 	../openyahtzee.sln \
+	../PropertySheet.props \
 	openyahtzee.ico \
 	openyahtzee.rc
 

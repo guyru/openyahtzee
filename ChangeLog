@@ -1,7 +1,13 @@
 OPEN YAHTZEE CHANGELOG
 ===========================
 This file lists the changes betweeen Open Yahtzee releases. For a 
-complete list of changes see the SVN changelog of the project.
+complete list of changes see the git log of the project.
+
+Open Yahtzee 1.9.3:
+-------------------
+- wxWidgets-3.0 compatability.
+- Windows compatability fixes.
+- GUI layout fixes for wxWidgets-3.0.
 
 Open Yahtzee 1.9.2:
 -------------------

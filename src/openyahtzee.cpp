@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2009 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2016 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,11 +30,9 @@ path prefix and datadir path accordingly.
  * If PORTABLE is defined, Open Yahtzee will be compiled for the Portable Edition. Add "-DPORTABLE" to the CXXFLAGS when compiling.
  */
 
-#include "wx/wx.h"
-#include <wx/intl.h>
-#include <wx/log.h>
 #include "MainFrame.h"
-// #ifdef WIN32
+#include <wx/wx.h>
+// #ifdef WIN32 
 // 	#include openyahtzee.rc
 // #endif
 
@@ -76,7 +74,7 @@ bool MyApp::OnInit()
 
 
 	// Create the main application window
-	main_frame::MainFrame *frame = new main_frame::MainFrame(_("Open Yahtzee"), wxDefaultSize, wxDEFAULT_FRAME_STYLE);
+	main_frame::MainFrame *frame = new main_frame::MainFrame(wxT("Open Yahtzee"));
 	
 	//Center the frame and show it
 	frame->Centre(true);

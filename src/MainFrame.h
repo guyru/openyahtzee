@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2009 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2016 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,11 +26,11 @@
 
 #ifndef OPENYAHTZEE_MAIN_FRAME_INC
 #define OPENYAHTZEE_MAIN_FRAME_INC
-#include <memory>
-#include <boost/scoped_ptr.hpp>
 #include "ScoreDice.h"
 #include "configuration.h"
-#include "statistics.h"
+#include <memory>
+#include <boost/scoped_ptr.hpp>
+#include <wx/wx.h>
 
 namespace main_frame {
 
@@ -45,7 +45,7 @@ class MainFrame : public wxFrame
 {
 public:
 	// Constructor
-	MainFrame(const wxString& title,  const wxSize& size, long style);
+	MainFrame(const wxString& title,  const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE ^ wxRESIZE_BORDER );
 	~MainFrame();
 
 	// Event handlers
@@ -54,7 +54,6 @@ public:
 	void OnNewGame (wxCommandEvent& event);
 	void OnUndo (wxCommandEvent& event);
 	void OnShowHighscore (wxCommandEvent& event);
-	void OnStatistics (wxCommandEvent& event);
 	void OnSettings (wxCommandEvent& event);
 	void OnSendComment (wxCommandEvent& event);
 	void OnHelpMenuLink (wxCommandEvent& event);
@@ -84,7 +83,6 @@ public:
 	ScoreDice m_score_dice;
 
 	boost::scoped_ptr<configuration::Configuration> m_config;
-	boost::scoped_ptr<statistics::Statistics> m_stats;
 
 private:
 	void ClearDiceHash();
@@ -118,6 +116,7 @@ private:
 
 	wxStaticBoxSizer *uppersection, *lowersection;
 	wxBoxSizer *sectionsSizer;
+	wxBoxSizer *diceSizer;
 
 	//pointers to hold bitmap data for the dices
 	wxBitmap *bitmap_dice[6];
@@ -151,7 +150,6 @@ private:
 enum {
 	ID_PANEL,
 	ID_SHOWHIGHSCORE,
-	ID_STATISTICS,
 	ID_SETTINGS,
 	ID_THEMES,
 	ID_HOWTOPLAY,

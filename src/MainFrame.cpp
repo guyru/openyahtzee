@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2008 by Guy Rutenberg   *
+ *   Copyright (C) 2006-2016 by Guy Rutenberg   *
  *   guyrutenberg@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,9 +33,9 @@
 #include "about.h"
 #include "configuration.h"
 #include "settings_dialog.h"
-#include "statistics_dialog.h"
 #include "../config.h"
 #include <iostream>
+#include <functional>
 #include <sstream>
 #include <cstdlib>
 #include <random>
@@ -58,23 +58,9 @@ namespace dice {
 
 #include "icon32.xpm"
 
-//default values - design
-#define SPACE_SIZE 1
-#define DICE_SPACE 3
-#ifdef WIN32
-	#define KEEP_SPACE 13
-	#define VERTICAL_ROLL_SIZEX 64
-	#define VERTICAL_ROLL_SIZEY 53
-#else
-	#define KEEP_SPACE 5
-	#define VERTICAL_ROLL_SIZEX 64
-	#define VERTICAL_ROLL_SIZEY 64
-#endif
-#define VER_DICE_SPACER 10
-
 using namespace main_frame;
 
-MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE)
+MainFrame::MainFrame(const wxString& title, const wxSize& size, long style)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
 {
 	//give the frame an icon
@@ -98,7 +84,6 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size = wxDefaultSize, 
 	std::string config_file_str;
 	config_file_str = config_file.utf8_str();
 	m_config.reset(new configuration::Configuration(config_file_str));
-	m_stats.reset(new statistics::Statistics(m_config.get()));
 
 	m_evt_handler = new MainFrameEvtHandler(this);
 	
@@ -151,7 +136,6 @@ void MainFrame::AddMenus()
 	gameMenu->Append(wxID_NEW, _("&New Game\tF2"));
 	gameMenu->Append(wxID_UNDO, _("&Undo\tCtrl+Z"));
 	gameMenu->Append(ID_SHOWHIGHSCORE, _("Show Highscores\tCtrl+H"));
-	//gameMenu->Append(ID_STATISTICS, _("Statistics..."));
 	gameMenu->Append(ID_SETTINGS, _("Settings"));
 	gameMenu->Append(wxID_EXIT);
 	
@@ -173,16 +157,15 @@ void MainFrame::AddControlsAndLayout()
    		wxDefaultPosition, wxDefaultSize);
 
 	wxBoxSizer *topSizer;
-	wxFlexGridSizer *diceSizer;
 
 	if (m_config->get("horizontal-layout")=="True") {
 		topSizer = new wxBoxSizer( wxVERTICAL );
 		sectionsSizer = new wxBoxSizer( wxHORIZONTAL );
-		diceSizer = new wxFlexGridSizer(2, 0, 0, 0);
+		diceSizer = new wxBoxSizer( wxHORIZONTAL );
 	} else {
 		topSizer = new wxBoxSizer( wxHORIZONTAL );
 		sectionsSizer = new wxBoxSizer( wxVERTICAL );
-		diceSizer = new wxFlexGridSizer(1, 0, 0);;
+		diceSizer = new wxBoxSizer( wxVERTICAL );
 	}
 
 	uppersection = new wxStaticBoxSizer( new wxStaticBox( 
@@ -193,6 +176,8 @@ void MainFrame::AddControlsAndLayout()
 	
 	wxFlexGridSizer* uppergrid = new wxFlexGridSizer(2, 0, 10);
 	wxFlexGridSizer* lowergrid = new wxFlexGridSizer(2, 0, 10);
+
+	const int SPACE_SIZE = 1;
 
 	//BEGIN layout for the upper section of the score board
 	uppergrid->Add(new wxButton(panel, ID_ACES, _("Aces")),
@@ -271,63 +256,20 @@ void MainFrame::AddControlsAndLayout()
 	sectionsSizer->Add(lowersection, 0, wxALL, 5);
 
 	//BEGIN layout for the dice section of the score board
-	if (m_config->get("horizontal-layout")=="True") {
-		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE1,
-			bitmap_dice[0]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE2, bitmap_dice[1]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE3, bitmap_dice[2]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE4, bitmap_dice[3]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxDynamicBitmap(panel,
-			ID_DICE5, bitmap_dice[4]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxButton(panel, ID_ROLL, _("Roll!"),
-			wxDefaultPosition, wxSize(64, 64)), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP,
-			_("Keep")), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP,
-			_("Keep")), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP,
-			_("Keep")), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP,
-			_("Keep")), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP,
-			_("Keep")), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-	} else {
-		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE1,
-			bitmap_dice[0]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE1KEEP,
-			_("Keep")), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE2,
-			bitmap_dice[1]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE2KEEP,
-			_("Keep")), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE3,
-			bitmap_dice[2]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE3KEEP,
-			_("Keep")), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE4,
-			bitmap_dice[3]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE4KEEP,
-			_("Keep")), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(new wxDynamicBitmap(panel, ID_DICE5, 
-			bitmap_dice[4]), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(new wxCheckBox(panel, ID_DICE5KEEP,
-			_("Keep")), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(new wxButton(panel, ID_ROLL, _("Roll!"),
-			wxDefaultPosition, wxSize(VERTICAL_ROLL_SIZEX,
-			VERTICAL_ROLL_SIZEY)), 0, wxALL, DICE_SPACE);
+	for (int i = 0; i < 5; i++) {
+		auto box_sizer = new wxBoxSizer(wxVERTICAL);
+		box_sizer->Add(new wxDynamicBitmap(panel, ID_DICE1 + i,
+			bitmap_dice[i]), 0, wxALIGN_CENTER);
+		box_sizer->Add(new wxCheckBox(panel, ID_DICE1KEEP + i,
+			wxT("Keep")), 0, wxALIGN_CENTER);
+		diceSizer->Add(box_sizer);
+		diceSizer->Add(10, 10);
 	}
-	//END layout for the dice section of the score board *******/
+	diceSizer->Add(new wxButton(panel, ID_ROLL, wxT("Roll!"),
+		wxDefaultPosition, wxSize(64,64)), 0, wxALL);
 	
 	topSizer->Add(sectionsSizer);
-	topSizer->Add(diceSizer);	
+	topSizer->Add(diceSizer, 0, wxALL, 5);	
 
 	AdjustFrameSize(topSizer);
 
@@ -353,8 +295,6 @@ void MainFrame::AdjustFrameSize(wxSizer *sizer)
 	auto panel = (wxPanel*)FindWindow(ID_PANEL);
 
 	panel->SetSizerAndFit(sizer);
-	wxSize frame_size = ClientToWindowSize(panel->GetSize());
-	this->SetSizeHints(frame_size, frame_size);
 	sizer->Fit(this);
 }
 
@@ -372,7 +312,6 @@ void MainFrame::ConnectEventTable()
 	Connect(wxID_NEW, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnNewGame));
 	Connect(wxID_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnUndo));
 	Connect(ID_SHOWHIGHSCORE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnShowHighscore));
-	Connect(ID_STATISTICS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnStatistics));
 	Connect(ID_SETTINGS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnSettings));
 	//END connecting the menu items' events
 
@@ -548,13 +487,6 @@ void MainFrame::OnShowHighscore(wxCommandEvent& event)
 	delete dialog;
 }
 
-void MainFrame::OnStatistics(wxCommandEvent &event)
-{
-	statistics_dialog::StatisticsDialog *dialog = new statistics_dialog::StatisticsDialog(this, m_stats.get());
-	dialog->ShowModal();
-	delete dialog;
-}
-
 /**
  * Shows the settings dialog. This event-handler is connected to Game->Settings
  * menu item.
@@ -594,11 +526,6 @@ void MainFrame::OnRollButton ()
 	static auto num_throws_rand = std::bind(std::uniform_int_distribution<int>(5, 18),
 					        std::mt19937(seed * 0x101010101));
 	
-	// If this is the first roll of the game, notify the statistics
-	// object
-	if (m_numofplaysleft == 13 && m_rolls == 3)
-		m_stats->game_started();
-
 	// fill the dice array with the old values
 	int dice_throws[5];
 	for (int i = 0 ; i < 5; ++i) {
@@ -719,7 +646,7 @@ void MainFrame::OnUpperButtons (wxCommandEvent& event)
 	out.Printf(wxT("%hi"), temp);
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(event.GetId() - ID_ACES + ID_ACESTEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -740,7 +667,7 @@ void MainFrame::On3ofakindButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.ThreeOfAKind());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_THREEOFAKINDTEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -761,7 +688,7 @@ void MainFrame::On4ofakindButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.FourOfAKind());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_FOUROFAKINDTEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -783,7 +710,7 @@ void MainFrame::OnFullHouseButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.FullHouse());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_FULLHOUSETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -805,7 +732,7 @@ void MainFrame::OnSmallSequenceButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.SmallSequence());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_SMALLSEQUENCETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	
 	PostScore(event.GetId());
@@ -827,7 +754,7 @@ void MainFrame::OnLargeSequenceButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.LargeSequence());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_LARGESEQUENCETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 
 	
@@ -849,7 +776,7 @@ void MainFrame::OnYahtzeeButton(wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.Yahtzee());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_YAHTZEETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 
 	PostScore(event.GetId());
@@ -870,7 +797,7 @@ void MainFrame::OnChanceButton (wxCommandEvent& event)
 	out.Printf(wxT("%hi"), m_score_dice.Chance());
 	wxTextCtrl *text_ctrl = dynamic_cast<wxTextCtrl*>(FindWindow(ID_CHANCETEXT));
 	text_ctrl->SetValue(out);
-	text_ctrl->SetBackgroundColour(*wxWHITE);
+	text_ctrl->SetForegroundColour(wxNullColour);
 	text_ctrl->Refresh();
 	PostScore(event.GetId());
 }
@@ -1007,8 +934,6 @@ void MainFrame::EndofGame()
 	tempstr.Printf(_("Your final score is %li points!"), lowerscore+upperscore);
 	wxMessageBox(tempstr, _("Game Ended"), wxOK | wxICON_INFORMATION, this);
 
-	m_stats->game_finished(lowerscore+upperscore);
-
 	//submit to high score
 	HighScoreHandler(lowerscore+upperscore);
 	
@@ -1114,138 +1039,24 @@ void MainFrame::CalculateSubTotal()
 }
 
 
+
 void MainFrame::Relayout()
 {
-	wxBoxSizer *topSizer;
-	wxFlexGridSizer *diceSizer;
-	bool roll_button_enabled;
-
-	sectionsSizer->Remove(lowersection);
-	lowersection = NULL;
-	sectionsSizer->Remove(uppersection);
-	uppersection = NULL;
+	auto topSizer = (wxBoxSizer*)FindWindow(ID_PANEL)->GetSizer();
 
 	if (m_config->get("horizontal-layout")=="True") {
-		topSizer = new wxBoxSizer( wxVERTICAL );
-		sectionsSizer = new wxBoxSizer( wxHORIZONTAL );
-		diceSizer = new wxFlexGridSizer(2, 0, 0, 0);
+		topSizer->SetOrientation(wxVERTICAL);
+		sectionsSizer->SetOrientation(wxHORIZONTAL);
+		diceSizer->SetOrientation(wxHORIZONTAL);
 	} else {
-		topSizer = new wxBoxSizer( wxHORIZONTAL );
-		sectionsSizer = new wxBoxSizer( wxVERTICAL );
-		diceSizer = new wxFlexGridSizer(1, 0, 0);;
+		topSizer->SetOrientation(wxHORIZONTAL);
+		sectionsSizer->SetOrientation(wxVERTICAL);
+		diceSizer->SetOrientation(wxVERTICAL);
 	}
 
-	uppersection = new wxStaticBoxSizer( new wxStaticBox( FindWindow(ID_PANEL), wxID_ANY, _("Upper Section") ), wxVERTICAL);
-	lowersection = new wxStaticBoxSizer( new wxStaticBox( FindWindow(ID_PANEL), wxID_ANY, _("Lower Section") ), wxVERTICAL);
-	
-	wxFlexGridSizer* uppergrid = new wxFlexGridSizer(2, 0, 10);
-	wxFlexGridSizer* lowergrid = new wxFlexGridSizer(2, 0, 10);
 
-	//BEGIN layout for the upper section of the score board
-	uppergrid->Add(FindWindow(ID_ACES), 0, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_ACESTEXT), 1, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_TWOS), 0, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_TWOSTEXT), 1, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_THREES), 0, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_THREESTEXT), 1, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_FOURS), 0, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_FOURSTEXT), 1, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_FIVES), 0, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_FIVESTEXT), 1, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_SIXES), 0, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_SIXESTEXT), 1, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindowByLabel(_("Total score:")), 0, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_UPPERSECTIONTOTAL), 1, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindowByLabel(_("Bonus:")), 0, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_BONUS), 1, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindowByLabel(_("Total of upper section:")), 0, wxALL, SPACE_SIZE);
-	uppergrid->Add(FindWindow(ID_UPPERTOTAL), 1, wxALL, SPACE_SIZE);
-	//END layout for the upper section of the score board
-
-	//BEGIN layout for the lower section of the score board
-	lowergrid->Add(FindWindow(ID_THREEOFAKIND), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_THREEOFAKINDTEXT), 1, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_FOUROFAKIND), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_FOUROFAKINDTEXT), 1, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_FULLHOUSE), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_FULLHOUSETEXT), 1, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_SMALLSEQUENCE), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_SMALLSEQUENCETEXT), 1, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_LARGESEQUENCE), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_LARGESEQUENCETEXT), 1, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_YAHTZEE), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_YAHTZEETEXT), 1, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_CHANCE), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_CHANCETEXT), 1, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindowByLabel(_("Yahtzee Bonus")), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_YAHTZEEBONUSTEXT), 1, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindowByLabel(_("Total of lower section:")), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_LOWERTOTAL), 1, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindowByLabel(_("Grand Total:")), 0, wxALL, SPACE_SIZE);
-	lowergrid->Add(FindWindow(ID_GRANDTOTAL), 1, wxALL, SPACE_SIZE);
-	//END layout for the lower section of the score board
-
-	uppersection->Add(uppergrid);
-	lowersection->Add(lowergrid);
-	sectionsSizer->Add(uppersection, 0, wxALL, 5);
-	sectionsSizer->Add(lowersection, 0, wxALL, 5);
-
-	//Change the roll button size if we need to
-	roll_button_enabled = FindWindow(ID_ROLL)->IsEnabled();
-	if (m_config->get("horizontal-layout")=="True") {
-		FindWindow(ID_ROLL)->Destroy();
-		new wxButton(FindWindow(ID_PANEL), ID_ROLL, _("Roll!"), wxDefaultPosition, wxSize(64, 64));
-	} else {
-		FindWindow(ID_ROLL)->Destroy();
-		new wxButton(FindWindow(ID_PANEL), ID_ROLL, _("Roll!"), wxDefaultPosition, wxSize(VERTICAL_ROLL_SIZEX, VERTICAL_ROLL_SIZEY));
-	}
-	FindWindow(ID_ROLL)->Enable(roll_button_enabled);
-
-	// if there are rolls left we should display the count of them
-	if (roll_button_enabled) {
-		wxString caption = wxString::Format(_("Roll! (%hi)"), m_rolls);
-		FindWindow(ID_ROLL)->SetLabel(caption);
-	}
-
-	
-	//BEGIN layout for the dice section of the score board
-	if (m_config->get("horizontal-layout")=="True") {
-		diceSizer->Add(FindWindow(ID_DICE1), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE2), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE3), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE4), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE5), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_ROLL), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE1KEEP), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE2KEEP), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE3KEEP), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE4KEEP), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE5KEEP), 0, wxBOTTOM | wxLEFT, KEEP_SPACE);
-	} else {
-		diceSizer->Add(FindWindow(ID_DICE1), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE1KEEP), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(FindWindow(ID_DICE2), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE2KEEP), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(FindWindow(ID_DICE3), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE3KEEP), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(FindWindow(ID_DICE4), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE4KEEP), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(FindWindow(ID_DICE5), 0, wxALL, DICE_SPACE);
-		diceSizer->Add(FindWindow(ID_DICE5KEEP), 0, wxLEFT, KEEP_SPACE);
-		diceSizer->AddSpacer(VER_DICE_SPACER);
-		diceSizer->Add(FindWindow(ID_ROLL), 0, wxALL, DICE_SPACE);
-	}
-	//END layout for the dice section of the score board *******/
-
-	
-	topSizer->Add(sectionsSizer);
-	topSizer->Add(diceSizer);	
-	
 	AdjustFrameSize(topSizer);
+	std::cerr << diceSizer->GetSize().GetWidth() << std::endl;
 }
 
 /**
@@ -1320,7 +1131,8 @@ void MainFrameEvtHandler::OnScoreMouseEnter (wxMouseEvent& event)
 		break;
 	}
 	text_control->SetValue(out); 		
-	text_control->SetBackgroundColour(wxColour(239, 239, 239));
+	wxColour sys_gray = wxSystemSettings::GetColour(wxSYS_COLOUR_GRAYTEXT);
+	text_control->SetForegroundColour(sys_gray);
 	
 	event.Skip(); //allow default proccesing
 }
@@ -1338,12 +1150,12 @@ void MainFrameEvtHandler::OnScoreMouseLeave (wxMouseEvent& event)
 		return;
 	}
 
-	for (int i = ID_ACESTEXT; i<=ID_CHANCETEXT; i++) {
-		text_control = (wxTextCtrl *)m_main_frame->FindWindow(i);
-		if (text_control->GetBackgroundColour()==wxColour(239, 239, 239)){
-			text_control->Clear();
-			text_control->SetBackgroundColour(*wxWHITE);
-		}
+	auto id = ((wxWindow *)event.GetEventObject())->GetId();
+	text_control = ((wxTextCtrl*)m_main_frame->FindWindow(id - ID_ACES + ID_ACESTEXT));
+	wxColour sys_gray = wxSystemSettings::GetColour(wxSYS_COLOUR_GRAYTEXT);
+	if (text_control->GetForegroundColour() == sys_gray){
+		text_control->Clear();
+		text_control->SetForegroundColour(wxNullColour);
 	}
 
 	event.Skip(); //allow default proccesing

@@ -65,7 +65,7 @@ SimplePiePlot::SimplePiePlot(wxWindow* parent, wxWindowID id,
 void SimplePiePlot::OnPaint(wxPaintEvent& event)
 {
 	wxPaintDC pdc(this);
-	auto_ptr<wxGraphicsContext> dc(wxGraphicsContext::Create(pdc));
+	unique_ptr<wxGraphicsContext> dc(wxGraphicsContext::Create(pdc));
 	wxBrush color_brush;
 
 	if (m_labels.size() == 0) {

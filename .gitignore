@@ -1,6 +1,7 @@
+build/
+build-*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
 *.o
-.deps
-Makefile
-*.in
 tags
-autom4te.cache

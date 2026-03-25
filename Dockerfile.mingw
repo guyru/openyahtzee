@@ -1,0 +1,23 @@
+FROM debian:stable-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cmake make \
+    g++-mingw-w64-x86-64-posix \
+    wget ca-certificates bzip2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Cross-compile wxWidgets 3.2 for Windows (static)
+ARG WXVERSION=3.2.6
+RUN wget -q https://github.com/wxWidgets/wxWidgets/releases/download/v${WXVERSION}/wxWidgets-${WXVERSION}.tar.bz2 \
+    && tar xf wxWidgets-${WXVERSION}.tar.bz2 \
+    && cd wxWidgets-${WXVERSION} \
+    && ./configure --host=x86_64-w64-mingw32 \
+        --prefix=/usr/x86_64-w64-mingw32 \
+        --disable-shared \
+        --enable-unicode \
+        --with-msw \
+    && make -j$(nproc) \
+    && make install \
+    && cd / && rm -rf wxWidgets-${WXVERSION}*
+
+WORKDIR /src

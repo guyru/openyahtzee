@@ -21,14 +21,11 @@
 #include <string>
 #include <sstream>
 #include <cstdlib>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
 #include "statistics.h"
 #include "utility.h"
 
 using namespace std;
 using namespace statistics;
-using namespace boost;
 
 Statistics::Statistics(configuration::Configuration *backend)
 {
@@ -52,7 +49,13 @@ void Statistics::load_data()
 	_games_finished = atoi(tmp.c_str());
 
 	tmp = backend->get("statistics_score_distribution");
-	split(tmp_vec, tmp, is_any_of(","));
+	{
+		istringstream iss(tmp);
+		string token;
+		while (getline(iss, token, ',')) {
+			tmp_vec.push_back(token);
+		}
+	}
 	if (tmp_vec.size() != score_distributions_slots)
 		throw BadConfiguration();
 

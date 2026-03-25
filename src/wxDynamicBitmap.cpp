@@ -58,7 +58,7 @@ void wxDynamicBitmap::SetBitmap( wxBitmap *bitmap)
 void wxDynamicBitmap::PaintBitmap(wxDC& dc)
 {
 	wxColour backgroundColour = GetBackgroundColour();
-	if (!backgroundColour.Ok())
+	if (!backgroundColour.IsOk())
 		backgroundColour = wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE);
 	dc.SetBrush(wxBrush(backgroundColour));
 	dc.SetPen(wxPen(backgroundColour, 1));

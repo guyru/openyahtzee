@@ -21,14 +21,11 @@
 #include <cstdlib> // used in the back-compatibility code
 #include <sstream>
 #include <iostream>
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
+#include <vector>
 #include "configuration.h"
-#include "../config.h"
 
 using namespace std;
 using namespace configuration;
-using namespace boost;
 
 
 Configuration::Configuration(string file)
@@ -71,60 +68,64 @@ void Configuration::load(string file)
 	lines_iterator conf_line = conf_lines.begin();
 	while (conf_line != conf_lines.end()) {
 		if (*conf_line == "[settings]") {
-			conf_line = parseSettings(make_iterator_range(conf_line, conf_lines.end()));
+			conf_line = parseSettings(conf_line, conf_lines.end());
 		} else if (*conf_line == "[highscores]") {
-			conf_line = 
-				parseHighscores(make_iterator_range(conf_line, conf_lines.end()));
+			conf_line = parseHighscores(conf_line, conf_lines.end());
 		} else {
 			++conf_line;
 		}
 	}
 }
 
-Configuration::lines_iterator Configuration::parseSettings(iterator_range<Configuration::lines_iterator> range)
+Configuration::lines_iterator Configuration::parseSettings(lines_iterator begin, lines_iterator end)
 {
 	loadDefaultSettings();
-	auto start = range.begin();
-	while (++start != range.end()) {
+	auto start = begin;
+	while (++start != end) {
 		// check if we reached the start of a new section
-		if (algorithm::starts_with(*start, "[") &&
-			algorithm::ends_with(*start, "]"))
+		if (!start->empty() && start->front() == '[' && start->back() == ']')
 			break;
 		size_t pos = start->find('=');
 		if (pos == std::string::npos)
 			continue;
 
-		m_settings[start->substr(0, pos)] = 
+		m_settings[start->substr(0, pos)] =
 			start->substr(pos + 1);
 	}
 	return start;
 }
 
-Configuration::lines_iterator Configuration::parseHighscores(iterator_range<Configuration::lines_iterator> range)
+Configuration::lines_iterator Configuration::parseHighscores(lines_iterator begin, lines_iterator end)
 {
-
 	HighscoreItem temp_item;
-	auto start = range.begin();
+	auto start = begin;
 
-	while (++start != range.end()) {
+	while (++start != end) {
 		// check if we reached the start of a new section
-		if (algorithm::starts_with(*start, "[") &&
-			algorithm::ends_with(*start, "]"))
+		if (!start->empty() && start->front() == '[' && start->back() == ']')
 			break;
 		vector<string> line_parts;
-		boost::split(line_parts, *start, boost::is_any_of(" "));
+		istringstream iss(*start);
+		string token;
+		while (iss >> token) {
+			line_parts.push_back(token);
+		}
 		if (line_parts.size() < 4) {
 			// The line has missing parts, ignore it
-			cerr << boost::format("%s:%s Couldn't parse: %s") % __FILE__ % __LINE__ % *start << endl;
+			cerr << __FILE__ << ":" << __LINE__ << " Couldn't parse: " << *start << endl;
 			continue;
 		}
 		auto line_parts_itr = line_parts.begin();
 		temp_item.score = atoi((line_parts_itr++)->c_str());
 		temp_item.date = *line_parts_itr + " " + *(line_parts_itr+1);
 		line_parts_itr += 2;
-		temp_item.name = algorithm::join(make_iterator_range(line_parts_itr,
-		                                                     line_parts.end()),
-		                                 " ");
+		// join remaining parts with spaces
+		ostringstream name_stream;
+		for (auto it = line_parts_itr; it != line_parts.end(); ++it) {
+			if (it != line_parts_itr) name_stream << " ";
+			name_stream << *it;
+		}
+		temp_item.name = name_stream.str();
 
 		m_highscores.push_back(temp_item);
 	}

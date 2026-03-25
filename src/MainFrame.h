@@ -29,7 +29,6 @@
 #include "ScoreDice.h"
 #include "configuration.h"
 #include <memory>
-#include <boost/scoped_ptr.hpp>
 #include <wx/wx.h>
 
 namespace main_frame {
@@ -82,7 +81,7 @@ public:
 
 	ScoreDice m_score_dice;
 
-	boost::scoped_ptr<configuration::Configuration> m_config;
+	std::unique_ptr<configuration::Configuration> m_config;
 
 private:
 	void ClearDiceHash();

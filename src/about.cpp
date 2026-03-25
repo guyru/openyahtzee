@@ -23,7 +23,6 @@
 #include <wx/hyperlink.h>
 #include <wx/intl.h>
 #include "icon64.xpm"
-#include "../config.h"
 
 using namespace about;
 AboutDialog::AboutDialog(wxWindow* parent):
@@ -40,8 +39,8 @@ void AboutDialog::addControlsAndLayout()
 	title_sizer->Add(logo, 0, wxALL|wxALIGN_CENTER_VERTICAL, 10);
 
 	wxStaticText* app_label = new wxStaticText(this, wxID_ANY, _("Open Yahtzee " VERSION));
-	app_label->SetFont(wxFont(14, wxDEFAULT, wxNORMAL, wxBOLD, false));
-	title_sizer->Add(app_label, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxADJUST_MINSIZE, 10);
+	app_label->SetFont(wxFont(14, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+	title_sizer->Add(app_label, 0, wxALL|wxALIGN_CENTER_VERTICAL, 10);
 
 	wxNotebook* notebook_main = new wxNotebook(this, wxID_ANY);
 	notebookAboutTab(notebook_main);

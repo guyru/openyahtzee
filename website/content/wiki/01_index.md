@@ -10,7 +10,7 @@ Yahtzee. Open Yahtzee is built to be OS portable, that means you can run
 it on many kinds of different operating systems and platforms. The
 portability is mainly achieved via wxWidgets which also gives Open
 Yahtzee a native look on each platform. Open Yahtzee is being developed
-by [Guy Rutenberg](http://www.guyrutenberg.com).
+by [Guy Rutenberg](https://www.guyrutenberg.com).
 
 ## Download ![download counter](https://img.shields.io/sourceforge/dt/openyahtzee.svg)
 You can download Open Yahtzee for Windows, Linux and the source code in
@@ -27,19 +27,19 @@ playing Open Yahtzee. If you have any questions, please check the
 [FAQ]({filename}faq.md) page.
 
 If you have any question not answered by the [FAQ]({filename}faq.md), please [contact
-me](http://www.guyrutenberg.com/contact-me). Please use the [SourceForge
+me](https://www.guyrutenberg.com/contact-me). Please use the [SourceForge
 bug tracker](https://sourceforge.net/p/openyahtzee/bugs/) to report any
 bugs you find or feature requests.
 
 ## News
 #### 09 January 2016
-[Open Yahtzee](http://www.openyahtzee.org) 1.9.3 has been released. You can get
+[Open Yahtzee](https://www.openyahtzee.org) 1.9.3 has been released. You can get
 the new version from the [Download]({filename}download.md) page. This is a
 bugfix release for both Windows and Linux. The new Windows build, forgoes the
 installer in favour of a simple zip containing the game. Just extract to play. 
 
 #### 18 October 2014
-[Open Yahtzee](http://www.openyahtzee.org) 1.9.2 has been released. You
+[Open Yahtzee](https://www.openyahtzee.org) 1.9.2 has been released. You
 can get the new version from the [Download]({filename}download.md) page. This is a bugfix
 release that fixes some layout bugs in Ubuntu and introduces
 wxWidgets-3.0 compatibility.
@@ -50,7 +50,7 @@ result the git repository URL has changed, and bug tracking is back in
 SourceForge.
 
 #### 24 February 2012
-[Open Yahtzee](http://www.openyahtzee.org) 1.9.1 has been released. You
+[Open Yahtzee](https://www.openyahtzee.org) 1.9.1 has been released. You
 can get the new version from the [Download]({filename}download.md) page. This new version is
 a bugfix release which is relevant to some Linux users. The new version
 is available as source tarball and binary debs.
@@ -64,36 +64,36 @@ improvements of the Open Yahtzee 1.9, and a much reduced size, just
 620KB!.
 
 #### 20 April 2009
-[Open Yahtzee](http://www.openyahtzee.org) 1.9 has been released. You
+[Open Yahtzee](https://www.openyahtzee.org) 1.9 has been released. You
 can get the new version from the [Download]({filename}download.md) page. The new version
 contains some UI tweaks and improvements that will enhance the
 game-play. In the inside the code has been re-factored in order to be
 smaller and more efficient.
 
 #### 7 December 2008
-[Open Yahtzee](http://www.openyahtzee.org) has reached a new download
+[Open Yahtzee](https://www.openyahtzee.org) has reached a new download
 milestone: 60,000 downloads.
 
 #### 28 August 2008
-The new [Open Yahtzee website](http://www.openyahtzee.org) has been
+The new [Open Yahtzee website](https://www.openyahtzee.org) has been
 launched. I hope it will make it easier to find the information you seek
 about Open Yahtzee.
 
 #### 04 February 2008 
 Open Yahtzee 1.8.1 was released today. You can read the full release
 announcement
-[here](http://sourceforge.net/forum/forum.php?forum_id=756456). To
+[here](https://sourceforge.net/forum/forum.php?forum_id=756456). To
 download the new release go to the [Download]({filename}download.md) page.
 
 #### 20 November 2007
-Open Yahtzee 1.8 PE was released today. You can the full release
+Open Yahtzee 1.8 PE was released today. You can read the full release
 announcement
-[here](http://sourceforge.net/forum/forum.php?forum_id=756456).
+[here](https://sourceforge.net/forum/forum.php?forum_id=756456).
 
 #### 11 August 2007
 Open Yahtzee 1.8 was released today. You can read more about the release
 and the new features in:
-[http://sourceforge.net/forum/forum.php?forum_id=724736](http://sourceforge.net/forum/forum.php?forum_id=724736)
+[https://sourceforge.net/forum/forum.php?forum_id=724736](https://sourceforge.net/forum/forum.php?forum_id=724736)
 
 [News Archive]({filename}news_archive.md)
 
@@ -107,9 +107,9 @@ and the new features in:
 
 ## Links
 
- * [InfiniteTTT](http://www.guyrutenberg.com/infinitettt) - Another game by me, which is a variation of tic-tac-toe played on an unbounded (infinite) board.
- * [http://www.guyrutenberg.com](http://www.guyrutenberg.com) - My blog.
+ * [InfiniteTTT](https://www.guyrutenberg.com/infinitettt) - Another game by me, which is a variation of tic-tac-toe played on an unbounded (infinite) board.
+ * [https://www.guyrutenberg.com](https://www.guyrutenberg.com) - My blog.
 
 
 ## Support the Development of Open Yahtzee
- * Would you like to support the development of [Open Yahtzee](http://www.openyahtzee.org)? [Contact me](http://www.guyrutenberg.com/contact-me) for details.
+ * Would you like to support the development of [Open Yahtzee](https://www.openyahtzee.org)? [Contact me](https://www.guyrutenberg.com/contact-me) for details.

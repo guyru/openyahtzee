@@ -40,7 +40,7 @@ private:
 	void notebookLicenseTab(wxNotebook *notebook);
 };
 
-static const wxString OY_URL = wxT("http://www.openyahtzee.org/");
+static const wxString OY_URL = wxT("https://www.openyahtzee.org/");
 
 }
 

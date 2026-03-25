@@ -343,10 +343,10 @@ void MainFrame::OnHelpMenuLink (wxCommandEvent& event)
 	wxString link;
 	switch (event.GetId()) {
 	case ID_HOWTOPLAY:
-		link = _("http://www.openyahtzee.org/wiki/HowToPlay");
+		link = _("https://www.openyahtzee.org/wiki/HowToPlay");
 		break;
 	case ID_FAQ:
-		link = _("http://www.openyahtzee.org/wiki/FAQ");
+		link = _("https://www.openyahtzee.org/wiki/FAQ");
 		break;
 	}
 	
@@ -361,7 +361,7 @@ void MainFrame::OnHelpMenuLink (wxCommandEvent& event)
  */
 void MainFrame::OnSendComment (wxCommandEvent& event)
 {
-	wxString link = wxT("http://www.guyrutenberg.com/contact-me");
+	wxString link = wxT("https://www.guyrutenberg.com/contact-me");
 	
 	wxLaunchDefaultBrowser(link);
 }

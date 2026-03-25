@@ -1,9 +1,9 @@
 Title: FAQ
 Slug: FAQ
 
-I collected here some frequently asked questions. If you still got an
+I collected here some frequently asked questions. If you still have an
 unanswered question, please
-[ask](http://www.guyrutenberg.com/contact-me)
+[ask](https://www.guyrutenberg.com/contact-me)
 
 ## Gameplay
 
@@ -27,28 +27,16 @@ the Upper Section. The bonus is worth 35 points.
 
 ### What are the requirements to compile Open Yahtzee?
 
-Dependencies for Open Yahtzee 1.9 are:
+Dependencies for Open Yahtzee are:
 
- * gcc (>= 4.6) 
- * wxWidgets >= 2.8
- * Boost >= 1.32
+ * A C++17 compiler
+ * CMake >= 3.16
+ * wxWidgets >= 3.2
 
-### I compiled Open Yahtzee against wxWidgets-2.6.4 and some parts of the game seems broken. Why?
-
-wxWidgets-2.6.4 introduces couple of new bugs, which unfortunately break
-some of the functionality (mainly the items in the About dialog and
-changing the layout to horizontal). My Advice it to upgrade to
-wxWidgets-2.8 branch, or downgrade back to wxWidgets-2.6.3 and recompile
-the game.
-
-### Compling in Windows
-
-To compile Open Yahtzee in Windows, adjust the paths of `WXWIN` and
-`BOOST_ROOT` in `PropertySheet.props` and use the provided Visual Studio
-Solution file (`openyahtzee.sln`).
+See the README for detailed build instructions, including containerized builds.
 
 ## Misc
-### Where does Open Yahtzee stores it's configuration and data?
+### Where does Open Yahtzee stores its configuration and data?
 It depends on your operating system:
 
  * Windows XP: `C:\Documents and Settings\USERNAME\Application Data\.openyahtzee`

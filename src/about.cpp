@@ -26,7 +26,7 @@
 
 using namespace about;
 AboutDialog::AboutDialog(wxWindow* parent):
-    wxDialog(parent, wxID_ANY, _("About " PACKAGE_NAME), wxDefaultPosition, wxSize(-1, 300), wxDEFAULT_DIALOG_STYLE & (~wxCLOSE_BOX))
+    wxDialog(parent, wxID_ANY, _("About " PACKAGE_NAME), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE & (~wxCLOSE_BOX))
 {
 	addControlsAndLayout();
 	SetEscapeId(wxID_CLOSE);
@@ -48,13 +48,21 @@ void AboutDialog::addControlsAndLayout()
 	notebookThanksTab(notebook_main);
 	notebookLicenseTab(notebook_main);
 
+	// Ensure notebook is wide enough to show all tabs without scrolling
+	int tabsWidth = 0;
+	for (size_t i = 0; i < notebook_main->GetPageCount(); i++) {
+		tabsWidth += notebook_main->GetTextExtent(notebook_main->GetPageText(i)).GetWidth();
+	}
+	tabsWidth += notebook_main->FromDIP(40) * notebook_main->GetPageCount();
+	notebook_main->SetMinSize(wxSize(tabsWidth, -1));
+
 	wxBoxSizer* top_sizer = new wxBoxSizer(wxVERTICAL);
     	top_sizer->Add(title_sizer);
     	top_sizer->Add(notebook_main, 1, wxEXPAND, 0);
     	top_sizer->Add(new wxButton(this, wxID_CLOSE), 0, wxALL|wxALIGN_RIGHT, 10);
 
 	SetSizer(top_sizer);
-	Layout();
+	Fit();
 }
 
 void AboutDialog::notebookAboutTab(wxNotebook *notebook)
@@ -65,7 +73,7 @@ void AboutDialog::notebookAboutTab(wxNotebook *notebook)
 	wxStaticText* label_desc = new wxStaticText(panel, wxID_ANY, _("A full-featured wxWidgets version of\nthe classic dice game Yahtzee."));
 	sizer->Add(label_desc, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);
 
-	wxStaticText* label_copyright = new wxStaticText(panel, wxID_ANY, _("\xA9 2006-2012 Guy Rutenberg"));
+	wxStaticText* label_copyright = new wxStaticText(panel, wxID_ANY, wxString::FromUTF8("© ") + _("2006-2026 Guy Rutenberg"));
 	sizer->Add(label_copyright, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);
 
 	sizer->Add(new wxHyperlinkCtrl(panel, wxID_ANY, OY_URL, OY_URL), 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 10);

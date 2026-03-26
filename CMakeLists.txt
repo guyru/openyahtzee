@@ -15,6 +15,9 @@ include(${wxWidgets_USE_FILE})
 
 add_subdirectory(src)
 
+enable_testing()
+add_subdirectory(tests)
+
 # Install targets (Linux/Unix only)
 if(NOT WIN32)
     install(FILES icons/openyahtzee.png DESTINATION ${CMAKE_INSTALL_DATADIR}/pixmaps)

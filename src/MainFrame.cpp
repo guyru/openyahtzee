@@ -34,11 +34,9 @@
 #include "configuration.h"
 #include "settings_dialog.h"
 #include <iostream>
-#include <functional>
 #include <sstream>
 #include <cstdlib>
 #include <random>
-#include <chrono>
 #include <wx/version.h>
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
@@ -503,11 +501,9 @@ void MainFrame::OnRollButton ()
 {
 	short int dice[5];	//holds the dices score
 
-	static std::mt19937::result_type seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-	static auto dice_rand = std::bind(std::uniform_int_distribution<int>(1, 6),
-				          std::mt19937(seed));
-	static auto num_throws_rand = std::bind(std::uniform_int_distribution<int>(5, 18),
-					        std::mt19937(seed * 0x101010101));
+	static std::mt19937 rng(std::random_device{}());
+	static std::uniform_int_distribution<int> dice_dist(1, 6);
+	static std::uniform_int_distribution<int> throws_dist(5, 18);
 	
 	// fill the dice array with the old values
 	int dice_throws[5];
@@ -519,7 +515,7 @@ void MainFrame::OnRollButton ()
 		} else {
 			dice_throws[i] = 1;
 			if (m_config->get("dice-animation") == "True") {
-				dice_throws[i] = num_throws_rand();
+				dice_throws[i] = throws_dist(rng);
 			}
 		}
 	}
@@ -528,13 +524,14 @@ void MainFrame::OnRollButton ()
 		for (int i=0 ; i<5; i++){
 			if(dice_throws[i]){
 				dice_throws[i]--;
-				dice[i] = dice_rand();
+				dice[i] = dice_dist(rng);
 				((wxDynamicBitmap*) FindWindow(i + 
 					ID_DICE1)) -> SetBitmap(
 					bitmap_dice[dice[i]-1]);
 			}
 		}
 		if (m_config->get("dice-animation")=="True") {
+			wxYield();
 			wxMilliSleep(100);
 		}
 	}

@@ -1,0 +1,11 @@
+openyahtzee (1.10-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Modernize build system: migrate to CMake, drop Boost, target C++17.
+  * Require wxWidgets 3.2.
+  * Fix dice animation on Linux and improve RNG.
+  * Fix the about dialog display.
+  * Fix Windows executable icon.
+  * Add unit tests.
+
+ -- Guy Rutenberg <guyrutenberg@gmail.com>  Sat, 28 Mar 2026 12:00:00 +0300

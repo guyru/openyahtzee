@@ -57,6 +57,34 @@ cmake --install build    # optional
 - `-DPORTABLE=ON` — Portable edition: stores configuration alongside the executable instead of in the user's home directory.
 - `-DCMAKE_INSTALL_PREFIX=<path>` — Set installation prefix (default: `/usr/local`).
 
+## Packaging
+
+### Windows zip
+
+After cross-compiling (see above), create the release zip with CPack:
+
+```bash
+cd build-win && cpack
+```
+
+This produces `openyahtzee-<version>.zip` containing the executable, README, AUTHORS, and COPYING.
+
+### Debian package
+
+Build dependencies: `cmake`, `g++`, `libwxgtk3.2-dev`, `gettext`, `debhelper`.
+
+```bash
+dpkg-buildpackage -us -uc -b    # binary-only, unsigned
+```
+
+This produces `openyahtzee_<version>_amd64.deb` in the parent directory.
+
+To build a source package as well:
+
+```bash
+dpkg-buildpackage -us -uc        # source + binary, unsigned
+```
+
 ## Authors
 
 See the `AUTHORS` file.
@@ -64,7 +92,7 @@ See the `AUTHORS` file.
 ## License
 
 Open Yahtzee - A free implementation of the classic dice game Yahtzee
-Copyright (C) 2006-2016 Guy Rutenberg
+Copyright (C) 2006-2026 Guy Rutenberg
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

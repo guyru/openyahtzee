@@ -3,6 +3,15 @@ OPEN YAHTZEE CHANGELOG
 This file lists the changes betweeen Open Yahtzee releases. For a 
 complete list of changes see the git log of the project.
 
+Open Yahtzee 1.10:
+------------------
+- Modernize build system: migrate to CMake, drop Boost, target C++17.
+- Require wxWidgets 3.2.
+- Fix dice animation on Linux and improve RNG.
+- Fix the about dialog display.
+- Fix Windows executable icon.
+- Add unit tests.
+
 Open Yahtzee 1.9.3:
 -------------------
 - wxWidgets-3.0 compatability.

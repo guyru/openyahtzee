@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(openyahtzee VERSION 1.9.3 LANGUAGES CXX)
+project(openyahtzee VERSION 1.10 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -36,4 +36,18 @@ if(GETTEXT_FOUND)
                 DESTINATION ${CMAKE_INSTALL_LOCALEDIR}/${LANG}/LC_MESSAGES
                 RENAME openyahtzee.mo)
     endforeach()
+endif()
+
+# Windows zip package via CPack
+if(WIN32)
+    install(FILES ${CMAKE_SOURCE_DIR}/AUTHORS DESTINATION . RENAME AUTHORS.txt)
+    install(FILES ${CMAKE_SOURCE_DIR}/COPYING DESTINATION . RENAME COPYING.txt)
+    install(FILES ${CMAKE_SOURCE_DIR}/README.md DESTINATION .)
+
+    set(CPACK_GENERATOR "ZIP")
+    set(CPACK_PACKAGE_NAME "openyahtzee")
+    set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+    set(CPACK_PACKAGE_FILE_NAME "openyahtzee-${PROJECT_VERSION}")
+    set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY ON)
+    include(CPack)
 endif()

@@ -24,7 +24,7 @@
 
 #include "statistics_dialog.h"
 
-#include "icon32.xpm"
+#include "app_icon.h"
 
 using namespace std;
 using namespace statistics_dialog;
@@ -34,7 +34,7 @@ StatisticsDialog::StatisticsDialog(wxWindow* parent, statistics::Statistics* sta
 {
 	m_stats = stats;
 
-	SetIcon(wxIcon(icon32_xpm));
+	SetIcon(GetAppIcon(32));
 
 	CreateControls();
 	LoadData();

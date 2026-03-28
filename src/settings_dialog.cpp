@@ -20,7 +20,7 @@
 
 #include <wx/intl.h>
 #include "settings_dialog.h"
-#include "icon32.xpm"
+#include "app_icon.h"
 
 using namespace settings_dialog;
 
@@ -28,7 +28,7 @@ SettingsDialog::SettingsDialog(wxWindow* parent, configuration::Configuration* c
     wxDialog(parent, wxID_ANY, _("Settings Dialog"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE)
 {
 
-	SetIcon(wxIcon(icon32_xpm));
+	SetIcon(GetAppIcon(32));
 
 	m_config = config;
 

@@ -3,7 +3,7 @@ FROM debian:stable-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     cmake make \
     g++-mingw-w64-x86-64-posix \
-    wget ca-certificates bzip2 \
+    wget ca-certificates bzip2 imagemagick \
     && rm -rf /var/lib/apt/lists/*
 
 # Cross-compile wxWidgets 3.2 for Windows (static)

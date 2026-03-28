@@ -1,3 +1,17 @@
+# Generate C header from PNG icon
+set(ICON_PNG "${CMAKE_SOURCE_DIR}/icons/openyahtzee.png")
+set(ICON_HEADER "${CMAKE_CURRENT_BINARY_DIR}/openyahtzee_png.h")
+add_custom_command(
+    OUTPUT "${ICON_HEADER}"
+    COMMAND ${CMAKE_COMMAND}
+        -DINPUT_FILE=${ICON_PNG}
+        -DOUTPUT_FILE=${ICON_HEADER}
+        -DVAR_NAME=openyahtzee_png
+        -P ${CMAKE_SOURCE_DIR}/cmake/bin2h.cmake
+    DEPENDS "${ICON_PNG}" "${CMAKE_SOURCE_DIR}/cmake/bin2h.cmake"
+    COMMENT "Embedding openyahtzee.png as C header"
+)
+
 add_executable(openyahtzee
     about.cpp
     configuration.cpp
@@ -10,7 +24,10 @@ add_executable(openyahtzee
     statistics.cpp
     statistics_dialog.cpp
     wxDynamicBitmap.cpp
+    "${ICON_HEADER}"
 )
+
+target_include_directories(openyahtzee PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
 target_compile_definitions(openyahtzee PRIVATE
     VERSION="${PROJECT_VERSION}"
@@ -30,7 +47,16 @@ endif()
 target_link_libraries(openyahtzee PRIVATE ${wxWidgets_LIBRARIES})
 
 if(WIN32)
-    target_sources(openyahtzee PRIVATE openyahtzee.rc)
+    find_program(MAGICK convert REQUIRED)
+    set(ICON_ICO "${CMAKE_CURRENT_BINARY_DIR}/openyahtzee.ico")
+    add_custom_command(
+        OUTPUT "${ICON_ICO}"
+        COMMAND ${MAGICK} "${ICON_PNG}" -define icon:auto-resize=256,48,32,16 "${ICON_ICO}"
+        DEPENDS "${ICON_PNG}"
+        COMMENT "Generating openyahtzee.ico from PNG"
+    )
+    configure_file(openyahtzee.rc "${CMAKE_CURRENT_BINARY_DIR}/openyahtzee.rc" COPYONLY)
+    target_sources(openyahtzee PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/openyahtzee.rc" "${ICON_ICO}")
     target_link_options(openyahtzee PRIVATE -static)
 endif()
 

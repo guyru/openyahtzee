@@ -53,7 +53,7 @@ namespace dice {
 #include "six.xpm"
 } // namespace dice
 
-#include "icon32.xpm"
+#include "app_icon.h"
 
 using namespace main_frame;
 
@@ -61,7 +61,7 @@ MainFrame::MainFrame(const wxString& title, const wxSize& size, long style)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size, style)
 {
 	//give the frame an icon
-	SetIcon(wxIcon(icon32_xpm));
+	SetIcon(GetAppIcon(32));
 
 	#ifndef PORTABLE
 		wxString config_file = wxStandardPaths::Get().GetUserConfigDir() + wxT("/.openyahtzee");

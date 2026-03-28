@@ -22,7 +22,7 @@
 #include "about.h"
 #include <wx/hyperlink.h>
 #include <wx/intl.h>
-#include "icon64.xpm"
+#include "app_icon.h"
 
 using namespace about;
 AboutDialog::AboutDialog(wxWindow* parent):
@@ -35,7 +35,7 @@ AboutDialog::AboutDialog(wxWindow* parent):
 void AboutDialog::addControlsAndLayout()
 {
 	wxBoxSizer* title_sizer = new wxBoxSizer(wxHORIZONTAL);
-	wxStaticBitmap* logo = new wxStaticBitmap(this, wxID_ANY, wxBitmap(icon64_xpm));
+	wxStaticBitmap* logo = new wxStaticBitmap(this, wxID_ANY, GetAppBitmap(64));
 	title_sizer->Add(logo, 0, wxALL|wxALIGN_CENTER_VERTICAL, 10);
 
 	wxStaticText* app_label = new wxStaticText(this, wxID_ANY, _("Open Yahtzee " VERSION));

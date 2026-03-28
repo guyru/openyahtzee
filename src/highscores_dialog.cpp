@@ -24,7 +24,7 @@
 
 #include "highscores_dialog.h"
 
-#include "icon32.xpm"
+#include "app_icon.h"
 
 using namespace std;
 using namespace highscores_dialog;
@@ -37,7 +37,7 @@ HighscoresDialog::HighscoresDialog(wxWindow* parent, configuration::Configuratio
 	this->highlight_rank = highlight_rank;
 	m_config = config;
 
-	SetIcon(wxIcon(icon32_xpm));
+	SetIcon(GetAppIcon(32));
 
 	createControls();
 	loadData();

@@ -1,0 +1,39 @@
+FROM debian:stable-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # wxWidgets build deps
+    libgtk-3-dev libsm-dev libxtst-dev libnotify-dev \
+    libjpeg-dev libpng-dev libtiff-dev libexpat1-dev zlib1g-dev \
+    pkgconf \
+    # OpenYahtzee build tools
+    cmake g++ gettext make \
+    # Debian packaging tools
+    dpkg-dev debhelper fakeroot \
+    # Download tools
+    wget ca-certificates bzip2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Build wxWidgets 3.2 from source (static only)
+ARG WXVERSION=3.2.6
+RUN wget -q https://github.com/wxWidgets/wxWidgets/releases/download/v${WXVERSION}/wxWidgets-${WXVERSION}.tar.bz2 \
+    && tar xf wxWidgets-${WXVERSION}.tar.bz2 \
+    && cd wxWidgets-${WXVERSION} \
+    && ./configure \
+        --prefix=/usr/local \
+        --disable-shared \
+        --enable-unicode \
+        --with-gtk=3 \
+        --with-libjpeg=sys \
+        --with-libpng=sys \
+        --with-libtiff=sys \
+        --with-zlib=sys \
+        --with-expat=sys \
+        --disable-webview \
+        --disable-mediactrl \
+        --disable-richtext \
+        --without-opengl \
+    && make -j$(nproc) \
+    && make install \
+    && cd / && rm -rf wxWidgets-${WXVERSION}*
+
+WORKDIR /src

@@ -137,7 +137,7 @@ The `-d` flag skips the Build-Depends check since `libwxgtk3.2-dev` is replaced 
 
 The single source of truth for the version number is `CMakeLists.txt` line 2 (`project(... VERSION x.y ...)`). This flows automatically to the about dialog via the `VERSION` compile definition. Other files that contain version info and need manual updates on release:
 
-- `ChangeLog` — release notes
+- `CHANGELOG.md` — release notes
 - `debian/changelog` — Debian package changelog
 - `website/content/wiki/download.md` — download links and checksums
 - `website/content/wiki/01_index.md` — release announcement
@@ -145,3 +145,15 @@ The single source of truth for the version number is `CMakeLists.txt` line 2 (`p
 ## i18n
 
 Translations use GNU gettext. Translation files are in `po/`. Currently has Hebrew (`he.po`). The translatable strings catalog is `po/openyahtzee.pot`, and `po/POTFILES.in` lists source files with translatable strings.
+
+To update the `.pot` template after changing translatable strings:
+
+```bash
+xgettext --keyword=_ --keyword=N_ -o po/openyahtzee.pot $(cat po/POTFILES.in)
+```
+
+To update an existing translation:
+
+```bash
+msgmerge --update po/he.po po/openyahtzee.pot
+```

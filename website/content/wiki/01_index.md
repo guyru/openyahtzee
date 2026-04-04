@@ -12,7 +12,7 @@ portability is mainly achieved via wxWidgets which also gives Open
 Yahtzee a native look on each platform. Open Yahtzee is being developed
 by [Guy Rutenberg](https://www.guyrutenberg.com).
 
-## Download ![download counter](https://img.shields.io/sourceforge/dt/openyahtzee.svg)
+## Download
 You can download Open Yahtzee for Windows, Linux and the source code in
 the [Download]({filename}download.md) page. There is also a portable
 version available which doesn't require installation.
@@ -27,11 +27,20 @@ playing Open Yahtzee. If you have any questions, please check the
 [FAQ]({filename}faq.md) page.
 
 If you have any question not answered by the [FAQ]({filename}faq.md), please [contact
-me](https://www.guyrutenberg.com/contact-me). Please use the [SourceForge
-bug tracker](https://sourceforge.net/p/openyahtzee/bugs/) to report any
+me](https://www.guyrutenberg.com/contact-me). Please use the [GitHub
+issue tracker](https://github.com/guyru/openyahtzee/issues) to report any
 bugs you find or feature requests.
 
 ## News
+#### 04 April 2026
+[Open Yahtzee](https://www.openyahtzee.org) 1.10 has been released. You can get the
+new version from the [Download]({filename}download.md) page. This is a maintenance
+release that modernizes the build system (migrated to CMake, C++17, wxWidgets 3.2),
+fixes dice animation on Linux, improves the random number generator, and fixes the
+about dialog and Windows icon. Ready-to-run packages are available: a Windows zip
+(no installation needed) and a portable Linux DEB with statically linked wxWidgets
+that works across Debian/Ubuntu versions.
+
 #### 09 January 2016
 [Open Yahtzee](https://www.openyahtzee.org) 1.9.3 has been released. You can get
 the new version from the [Download]({filename}download.md) page. This is a

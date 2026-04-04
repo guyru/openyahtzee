@@ -3,10 +3,8 @@ Title: Download
 Open Yahtzee is a cross platform game, and works on Windows and Linux. Please
 choose below the download that is suitable for your platform.
 
-![download counter](https://img.shields.io/sourceforge/dt/openyahtzee.svg)
-
 ## Windows
-[openyahtzee-1.9.3.zip](https://downloads.sourceforge.net/openyahtzee/openyahtzee-1.9.3.zip)
+[openyahtzee-1.10.zip](https://github.com/guyru/openyahtzee/releases/download/v1.10/openyahtzee-1.10.zip)
 
 Open Yahtzee does not need installation. Just download the zip file above and extract it.
 
@@ -19,53 +17,32 @@ Open Yahtzee packages are available in the official repositories of popular dist
  * [Gentoo](https://packages.gentoo.org/packages/games-board/openyahtzee)
 
 If your distro doesn't ship an updated version of Open Yahtzee, you can always
-compile from [source](#source). 
+compile from [source](#source) or use the portable DEB below.
 
-Help creating updated binary packages for the different distros will be highly
-appreciated.
+### Portable DEB (amd64)
 
-For some of the Linux distributions, the packages are for an older version of
-Open Yahtzee. Updated versions of the binary packages will be released as soon
-as they are ready. If you can help prepare packages for the different platforms
-it will be highly appreciated.
+A portable `.deb` package with statically linked wxWidgets is available for
+64-bit Debian/Ubuntu systems. It works across multiple Debian/Ubuntu versions
+without requiring a specific wxWidgets shared library version.
 
-### RPM
-RPMs are available for both 32bit and 64bit systems.
-
- * 32bit: [OpenYahtzee-1.8.1-1.i386.rpm](https://downloads.sourceforge.net/openyahtzee/OpenYahtzee-1.8.1-1.i386.rpm)
- * 64bit: [openyahtzee-1.8.1-1.x86_64.rpm](https://downloads.sourceforge.net/openyahtzee/openyahtzee-1.8.1-1.x86_64.rpm)
-
-### DEB
-DEBs are also available in 32bit and 64bit versions.
-
- * 32bit: [openyahtzee_1.9.1_i386.deb](https://downloads.sourceforge.net/openyahtzee/openyahtzee_1.9.1_i386.deb)
- * 64bit: [openyahtzee_1.9.1_amd64.deb](https://downloads.sourceforge.net/openyahtzee/openyahtzee_1.9.1_amd64.deb)
-They were prepared for Ubuntu 11.10, but may work on other debian based distros.
-Source package:
-
- * [openyahtzee_1.9.1.debian.tar.gz](https://downloads.sourceforge.net/openyahtzee/openyahtzee_1.9.1.debian.tar.gz)
- * [openyahtzee_1.9.1.dsc](https://downloads.sourceforge.net/openyahtzee/openyahtzee_1.9.1.dsc)
-
-### Slackware
-Slackware packages are only available for 32bit environments.
-
-[openyahtzee-1.8.1-i486-1.tgz](https://downloads.sourceforge.net/openyahtzee/openyahtzee-1.8.1-i486-1.tgz)
+ * [openyahtzee_1.10-1_amd64.deb](https://github.com/guyru/openyahtzee/releases/download/v1.10/openyahtzee_1.10-1_amd64.deb)
 
 ## Source Code <a id="source"></a>
 Source code can be downloaded from
-[openyahtzee-1.9.3.tar.xz](https://downloads.sourceforge.net/openyahtzee/openyahtzee-1.9.3.tar.xz).
+[openyahtzee-1.10.tar.xz](https://github.com/guyru/openyahtzee/releases/download/v1.10/openyahtzee-1.10.tar.xz).
 
 The development code is available in the [git repository](https://github.com/guyru/openyahtzee). See the README for build instructions.
 
 ## Older Versions
-Older versions of Open Yahtzee can be downloaded from the [download page](https://sourceforge.net/project/showfiles.php?group_id=175453) in Source Forge.
+Older versions of Open Yahtzee can be downloaded from the [download page](https://sourceforge.net/project/showfiles.php?group_id=175453) on SourceForge.
 
 ## Checksums
 
 `SHA-256` checksums for the downloads:
-```
-a6a02a5cd61d7094c6280b5b701de5a1b8769056cb2305fbd083970f0187762b  openyahtzee-1.9.3.tar.xz
-5257cf7606b0bd70c2844c0c87e1d6112e482982078faa9f9a496b5d99c917fa  openyahtzee-1.9.3.zip
+```text
+083463c8bc4438a2df7bc5af166add37dc1da3f7eb00447de7e051cbc194f16e  openyahtzee-1.10.tar.xz
+3407a7a349c4f158477430c52c51cdb5b9cea441d34853e58d6aff54f56dee38  openyahtzee-1.10.zip
+a42e6c1eb4222ead44538bd1dec5ec010015ac68bec8bf734fdb6e8f13ba575d  openyahtzee_1.10-1_amd64.deb
 ```
 
 ## Development is Supported by

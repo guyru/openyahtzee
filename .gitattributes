@@ -1,0 +1,4 @@
+website/        export-ignore
+.github/        export-ignore
+AGENTS.md       export-ignore
+CLAUDE.md       export-ignore

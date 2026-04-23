@@ -68,9 +68,11 @@ bool MyApp::OnInit()
 		wxLogWarning(_("This language is not supported by the system."));
 	}
 
-	if (!m_locale.AddCatalog(wxT("openyahtzee"))) {
-		wxLogError(_("Couldn't find/load the 'openyahtzee' catalog."));
-	}
+#ifdef LOCALEDIR
+	m_locale.AddCatalogLookupPathPrefix(wxT(LOCALEDIR));
+#endif
+	if (!m_locale.AddCatalog(wxT("openyahtzee")))
+		fprintf(stderr, "openyahtzee: no catalog found for locale, using built-in strings\n");
 
 
 	// Create the main application window

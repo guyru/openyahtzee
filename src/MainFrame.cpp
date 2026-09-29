@@ -404,8 +404,7 @@ void MainFrame::OnUndo(wxCommandEvent& event)
 	m_rolls = m_rollsundo;
 
 	//after the user scored the button was enabled, check if it should be disabled
-	if (m_rolls <= 0) //we don't have remaining rolls 
-		((wxButton*) FindWindow(ID_ROLL)) -> Enable(false);
+	UpdateRollButton();
 	
 	// change the displayed roll counter
 	wxString caption = wxString::Format(_("Roll! (%hi)"), m_rolls);
@@ -501,6 +500,9 @@ void MainFrame::OnRollButton ()
 {
 	short int dice[5];	//holds the dices score
 
+	if (!IsAnyDiceFree())
+		return;
+
 	static std::mt19937 rng(std::random_device{}());
 	static std::uniform_int_distribution<int> dice_dist(1, 6);
 	static std::uniform_int_distribution<int> throws_dist(5, 18);
@@ -545,12 +547,10 @@ void MainFrame::OnRollButton ()
 	FindWindow(ID_ROLL)->SetLabel(caption);
 
 	#ifndef DEBUG
-	if (m_rolls <= 0) {
-		((wxButton*) FindWindow(ID_ROLL)) -> Enable(false);
+	if (m_rolls <= 0)
 		FindWindow(ID_ROLL)->SetLabel(_("Roll!"));
-	}
-
 	#endif
+	UpdateRollButton();
 	
 	//enable the keep checkboxes
 	for (int i=0; i<5; i++)
@@ -807,12 +807,37 @@ void MainFrame::OnKeepClick (wxCommandEvent& event)
 {
 	wxCheckBox *temp = (wxCheckBox*) FindWindow(event.GetId());
 	((wxDynamicBitmap*) FindWindow(event.GetId()-ID_DICE1KEEP + ID_DICE1))->SetGrayScale(temp->GetValue());
+	UpdateRollButton();
 }
 
 
 //********************************************
 //******	General Functions	******
 //********************************************
+
+/**
+ * Check whether at least one die is not kept, i.e. rolling would change something.
+ */
+bool MainFrame::IsAnyDiceFree()
+{
+	for (int i=0; i<5; i++)
+		if (!((wxCheckBox*) FindWindow(i + ID_DICE1KEEP))->IsChecked())
+			return true;
+	return false;
+}
+
+/**
+ * Enable the roll button only if there are rolls left and at least one die
+ * is not kept.
+ */
+void MainFrame::UpdateRollButton()
+{
+	bool enable = IsAnyDiceFree();
+	#ifndef DEBUG
+	enable = enable && m_rolls > 0;
+	#endif
+	FindWindow(ID_ROLL)->Enable(enable);
+}
 
 /**
  * This function handles everything related to reseting the dice rolls after scoring.

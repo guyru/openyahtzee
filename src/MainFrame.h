@@ -86,6 +86,8 @@ public:
 private:
 	void ClearDiceHash();
 	void ResetRolls();
+	bool IsAnyDiceFree();
+	void UpdateRollButton();
 	void YahtzeeBonus();
 	bool YahtzeeJoker();
 	void EndofGame();

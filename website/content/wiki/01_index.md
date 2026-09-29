@@ -3,7 +3,7 @@ URL:
 save_as: index.html
 
 <center>
-	<img src="{filename}/images/openyahtzee_logo.gif">
+	<img src="{filename}/images/openyahtzee_logo.svg" alt="Open Yahtzee" width="599" height="175">
 </center>
 Open Yahtzee is an open-source (free) version of the classic dice game
 Yahtzee. Open Yahtzee is built to be OS portable, that means you can run

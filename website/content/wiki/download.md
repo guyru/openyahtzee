@@ -40,7 +40,7 @@ Older versions of Open Yahtzee can be downloaded from the [download page](https:
 
 `SHA-256` checksums for the downloads:
 ```text
-083463c8bc4438a2df7bc5af166add37dc1da3f7eb00447de7e051cbc194f16e  openyahtzee-1.10.tar.xz
+fbb38b35b6a03747b5dc985dab1ead4395742c2a3521d1643a208f4d05bffd6b  openyahtzee-1.10.tar.xz
 3407a7a349c4f158477430c52c51cdb5b9cea441d34853e58d6aff54f56dee38  openyahtzee-1.10.zip
 a42e6c1eb4222ead44538bd1dec5ec010015ac68bec8bf734fdb6e8f13ba575d  openyahtzee_1.10-1_amd64.deb
 ```

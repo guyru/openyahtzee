@@ -1,5 +1,14 @@
-# Generate C header from PNG icon
-set(ICON_PNG "${CMAKE_SOURCE_DIR}/icons/openyahtzee.png")
+# Rasterize the SVG icon and embed the resulting PNG as a C header
+find_program(RSVG_CONVERT rsvg-convert REQUIRED)
+set(ICON_SVG "${CMAKE_SOURCE_DIR}/icons/openyahtzee.svg")
+set(ICON_PNG "${CMAKE_CURRENT_BINARY_DIR}/openyahtzee.png")
+add_custom_command(
+    OUTPUT "${ICON_PNG}"
+    COMMAND ${RSVG_CONVERT} -w 256 -h 256 -o "${ICON_PNG}" "${ICON_SVG}"
+    DEPENDS "${ICON_SVG}"
+    COMMENT "Rendering openyahtzee.png from SVG"
+)
+
 set(ICON_HEADER "${CMAKE_CURRENT_BINARY_DIR}/openyahtzee_png.h")
 add_custom_command(
     OUTPUT "${ICON_HEADER}"

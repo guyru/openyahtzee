@@ -20,7 +20,7 @@ add_subdirectory(tests)
 
 # Install targets (Linux/Unix only)
 if(NOT WIN32)
-    install(FILES icons/openyahtzee.png DESTINATION ${CMAKE_INSTALL_DATADIR}/pixmaps)
+    install(FILES icons/openyahtzee.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
     install(FILES openyahtzee.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
     install(FILES man/openyahtzee.6 DESTINATION ${CMAKE_INSTALL_MANDIR}/man6)
 endif()

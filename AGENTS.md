@@ -48,9 +48,9 @@ Output: `build-win/src/openyahtzee.exe` (statically linked, no DLL dependencies)
 
 ### Dependencies
 
-- **Linux** (`Dockerfile`): CMake, g++, wxWidgets 3.2 dev, gettext
-- **Windows cross-compile** (`Dockerfile.mingw`): CMake, mingw-w64 (posix threading), wxWidgets 3.2 (built from source with `--disable-shared`)
-- **Portable deb** (`Dockerfile.deb`): CMake, g++, wxWidgets 3.2 (built from source with `--disable-shared`), GTK3 dev, dpkg-dev, debhelper
+- **Linux** (`Dockerfile`): CMake, g++, wxWidgets 3.2 dev, gettext, rsvg-convert (librsvg2-bin)
+- **Windows cross-compile** (`Dockerfile.mingw`): CMake, mingw-w64 (posix threading), ImageMagick, rsvg-convert, wxWidgets 3.2 (built from source with `--disable-shared`)
+- **Portable deb** (`Dockerfile.deb`): CMake, g++, wxWidgets 3.2 (built from source with `--disable-shared`), GTK3 dev, rsvg-convert, dpkg-dev, debhelper
 - Cross-compilation toolchain file: `cmake/mingw-w64-x86_64.cmake`
 
 ### Website
@@ -76,6 +76,8 @@ The application is a single-window wxWidgets app. Key classes:
 - **`wxDynamicBitmap`** (`src/wxDynamicBitmap.{h,cpp}`) — Custom wxWidgets control that displays bitmaps with immediate drawing (unlike wxStaticBitmap) and supports grayscale conversion.
 
 Dice face images are embedded as XPM files (`one.xpm` through `six.xpm`).
+
+The app icon source is `icons/openyahtzee.svg`. The build rasterizes it with `rsvg-convert` (wxWidgets' NanoSVG cannot render its blur filters) and embeds the PNG; on Windows the `.ico` is generated from that PNG.
 
 ## Packaging
 

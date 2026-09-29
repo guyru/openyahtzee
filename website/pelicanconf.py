@@ -45,7 +45,7 @@ DEFAULT_PAGINATION = False
 #RELATIVE_URLS = True
 
 #SITELOGO = 'images/openyahtzee_logo_cropped.png'
-SITELOGO = 'images/openyahtzee.png'
+SITELOGO = 'images/openyahtzee.svg'
 SITELOGO_SIZE = '60px';
 #HIDE_SITENAME = True
 

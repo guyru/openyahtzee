@@ -2,6 +2,11 @@
 
 All notable changes to Open Yahtzee are documented in this file.
 
+## [Unreleased]
+
+- Replace the raster app icon with an SVG; raster icons are rendered from it at build time (new build dependency: `rsvg-convert`).
+- Install the icon to `share/icons/hicolor/scalable/apps` instead of `share/pixmaps`.
+
 ## [1.10]
 
 - Modernize build system: migrate to CMake, drop Boost, target C++17.

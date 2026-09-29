@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg-dev libpng-dev libtiff-dev libexpat1-dev zlib1g-dev \
     pkgconf \
     # OpenYahtzee build tools
-    cmake g++ gettext make \
+    cmake g++ gettext make librsvg2-bin \
     # Debian packaging tools
     dpkg-dev debhelper fakeroot \
     # Download tools
